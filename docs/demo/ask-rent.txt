@@ -1,0 +1,12 @@
+$ canada-ask --table 18100004 "By how much did the rent index in Ontario change from September 2025 to September 2026, in percent?"
+
+Ontario's rent index (CPI, Rent component) rose 2.0% from September 2025 (161.2) to September 2026 (164.4).
+
+  Rent index change, Ontario: 2 percent (2025-09 to 2026-09)
+  Rent index Ontario: 161.2 index (2025-09)
+  Rent index Ontario: 164.4 index (2026-09)
+Source: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401
+[5 turns, 19.8s, API-equivalent $0.0094; billed to subscription]
+
+Recorded 2026-10-27 on Claude Sonnet 5.5 via `claude -p` (ADR 0009). Expected value verified
+against StatCan table 18-10-0004-01: 161.2 -> 164.4 = +2.0%.

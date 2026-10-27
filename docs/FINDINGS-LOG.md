@@ -41,3 +41,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** keyword search scored **recall@5 0.13**: 8 of 15 questions never found their table in the top 50. My first guess (long tables) was wrong; normalisation flags didn't help. The real cause was census-tract tables repeating place names hundreds of times. Counting member words once per table (stripped positions, `ts_rank`) lifted recall to **0.33** and MRR from 0.05 to 0.22.
 - **Broke:** my hypothesis, twice (normalisation, then weights alone). Measuring each variant before changing the schema kept the wrong fixes out of the code.
 - **Would change:** look at failing questions' actual top hits first; the diagnosis took one query and saved two dead ends. The remaining misses are vocabulary mismatches ("jobless" vs "unemployment"), which is the case for embeddings.
+
+## feat/ask-slice
+- **Surprised:** `claude -p` hung for 180 s with no output when run from Python, because it reads stdin and the subprocess inherited an open one. `stdin=DEVNULL` fixed it. Also, the first answer said "+1.99%", which is correct but not how StatCan publishes it (+2.0%); one line in the system prompt fixed that.
+- **Broke:** two MCP error tests. The SDK prefixes anticipated `ToolError`s with "Error executing tool <name>:". Our code survives inside the message, so the tests now match the code and assert the error is not an `UnexpectedToolError`.
+- **Would change:** decide the billing model before the spec. ADR 0009 moved the agent from the API to the subscription, and with it the CI eval gate became a local run that CI verifies by hash.
