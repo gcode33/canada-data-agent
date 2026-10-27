@@ -26,3 +26,13 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** WDS reports problems as HTTP 200. A missing table is `status: FAILED` with a text message; an invalid coordinate is `status: SUCCESS`, `responseStatusCode: 2`, `vectorId: 0`; an empty range is `SUCCESS` with `[]`. Error handling has to read the body, not the status code.
 - **Broke:** a test fixture (`161.2 + 1/10` gives `161.29999999999998`), and a live test of the table URL, which failed twice in ~28 s runs then passed in 1.6 s. The StatCan *website* stalls intermittently, so the live test now retries.
 - **Would change:** build float fixtures from literal, already-rounded values, as WDS sends them.
+
+## test/retrieval-set
+- **Surprised:** two table titles were cut off in the search output; the `@live` check confirmed the completions matched StatCan exactly. That check is cheap insurance.
+- **Broke:** nothing.
+- **Would change:** n/a.
+
+## feat/scope-and-cards
+- **Surprised:** WDS frequency code 21 means "Occasional Daily", and the quarterly population table uses it. The scalar-factor map from step 1.2 was **missing codes 4, 5, 7 and 8** (tens of thousands … hundreds of millions); fixed from `getCodeSets`.
+- **Broke:** a card test failed because the fixture's member tree was too shallow to push "Rent" off the card. Reshaping it to the real tree (19 / 10 / 27 members at depths 0 / 1 / 2) fixed it.
+- **Would change:** take code tables (frequency, scalar) from `getCodeSets` from the start, not from memory. Live run: 584 tables carded in 2.5 min with 1 recovered retry; the rerun took 3.8 s, all unchanged.
