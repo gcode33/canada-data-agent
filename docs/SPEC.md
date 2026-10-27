@@ -193,6 +193,9 @@ checked_on_statcan_site: true
 - **Mix:** lookup 12, comparison 10, multi-step 6, unanswerable 6, injection 6. Ambiguous cases move to v1.1.
 - **At least ⅓ of questions are paraphrased** from StatCan's *The Daily* headlines rather than table titles. Low word overlap with the card title is reported as a warning.
 - **Tuning happens on dev only. The test split never runs on a PR.**
+- **Amendment A1 (proposed 2026-10-27, pending George's approval with PLAN v1.0):**
+  - A separate **retrieval set of 15 questions** (dev-only, expected tables only) is committed **before any search code exists**. Retrieval choices (full-text, RRF, rerank) are decided on it.
+  - The system prompt and tool descriptions may not be changed in response to eval results until all 40 golden cases are committed.
 
 ### 10.3 Graders (deterministic)
 - **Retrieval:** recall@5 and MRR of `expected.tables`, both inside the agent run and as an offline retrieval eval.
