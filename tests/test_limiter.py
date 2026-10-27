@@ -1,3 +1,6 @@
+import threading
+import time
+
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
@@ -52,3 +55,15 @@ def test_an_idle_caller_is_not_delayed():
 def test_back_to_back_calls_wait_one_interval_each():
     times = grant_times(10, [0, 0, 0])
     assert [round(t - 1000.0, 9) for t in times] == [0.0, 0.1, 0.2]
+
+
+def test_concurrent_callers_cannot_share_a_token():
+    bucket = TokenBucket(50)  # real clock: one grant per 20 ms
+    threads = [threading.Thread(target=bucket.acquire) for _ in range(8)]
+    start = time.monotonic()
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    # The first grant is free; the other 7 must each wait a full interval.
+    assert time.monotonic() - start >= 7 * 0.020 - 0.002

@@ -25,10 +25,6 @@ BACKOFF_BASE_S = 0.5
 log = logging.getLogger(__name__)
 
 
-class DisallowedHostError(Exception):
-    """A request (or a redirect) tried to leave the StatCan host."""
-
-
 class WdsError(Exception):
     def __init__(self, code: ErrorCode, detail: str, untrusted: str = "") -> None:
         super().__init__(f"{code}: {detail}")
@@ -37,15 +33,47 @@ class WdsError(Exception):
         self.untrusted = untrusted  # upstream text, cleaned; never trusted as instructions
 
 
+class DisallowedHostError(WdsError):
+    """A request (or a redirect) tried to leave the StatCan host. Never retried."""
+
+    def __init__(self, url: httpx.URL) -> None:
+        super().__init__(ErrorCode.UPSTREAM_UNAVAILABLE, f"refusing to contact {url.host!r}")
+
+
 class _Retry(Exception):
-    def __init__(self, code: ErrorCode, detail: str, body: str = "") -> None:
-        self.code, self.detail, self.body = code, detail, body
+    def __init__(
+        self, code: ErrorCode, detail: str, body: str = "", retry_after: float = 0.0
+    ) -> None:
+        self.code, self.detail, self.body, self.retry_after = code, detail, body, retry_after
 
 
 def _enforce_host(request: httpx.Request) -> None:
     # An event hook runs on every request httpx sends, including each redirect hop.
-    if request.url.scheme != "https" or request.url.host != ALLOWED_HOST:
-        raise DisallowedHostError(f"refusing to contact {request.url.host!r}")
+    url = request.url
+    if url.scheme != "https" or url.host != ALLOWED_HOST or url.port not in (None, 443):
+        raise DisallowedHostError(url)
+
+
+def _retry_after(response: httpx.Response) -> float:
+    try:
+        return min(max(float(response.headers.get("retry-after", 0)), 0.0), 30.0)
+    except ValueError:  # the HTTP-date form; fall back to our own backoff
+        return 0.0
+
+
+def _cacheable(body: Any) -> bool:
+    """WDS reports many failures inside an HTTP 200 body (FINDINGS-LOG, feat/get-series):
+    status FAILED, or SUCCESS with responseStatusCode != 0. Those must never be cached."""
+    if not isinstance(body, list):
+        return True
+    for item in body:
+        if isinstance(item, dict) and "status" in item:
+            if item["status"] != "SUCCESS":
+                return False
+            obj = item.get("object")
+            if isinstance(obj, dict) and obj.get("responseStatusCode", 0) != 0:
+                return False
+    return True
 
 
 class WdsClient:
@@ -87,7 +115,8 @@ class WdsClient:
         last: _Retry | None = None
         for attempt in range(self.max_attempts):
             if attempt:
-                self._sleep(BACKOFF_BASE_S * 2 ** (attempt - 1) * (0.5 + self._rng()))
+                backoff = BACKOFF_BASE_S * 2 ** (attempt - 1) * (0.5 + self._rng())
+                self._sleep(max(backoff, last.retry_after if last else 0.0))
             self.limiter.acquire()
             try:
                 result = self._once(verb, method, payload)
@@ -103,7 +132,8 @@ class WdsClient:
                     },
                 )
                 continue
-            self.cache.put(key, method, result, kind)  # only successes reach this line
+            if _cacheable(result):
+                self.cache.put(key, method, result, kind)
             return result
 
         assert last is not None
@@ -123,7 +153,7 @@ class WdsClient:
                 )
             else:
                 response = self.http.get(method, params=payload)
-        except httpx.TransportError as exc:  # connection resets, timeouts, DNS
+        except httpx.RequestError as exc:  # resets, timeouts, DNS, redirect loops, bad encoding
             raise _Retry(ErrorCode.UPSTREAM_UNAVAILABLE, type(exc).__name__) from exc
 
         status = response.status_code
@@ -138,7 +168,9 @@ class WdsClient:
                 ErrorCode.NOT_FOUND, f"{method} returned 404", untrusted_text(response.text)
             )
         if status == 429:
-            raise _Retry(ErrorCode.RATE_LIMITED, "429 from WDS", response.text)
+            raise _Retry(
+                ErrorCode.RATE_LIMITED, "429 from WDS", response.text, _retry_after(response)
+            )
         if status >= 500:
             raise _Retry(ErrorCode.UPSTREAM_UNAVAILABLE, f"HTTP {status}", response.text)
         if status >= 400:

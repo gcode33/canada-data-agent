@@ -8,7 +8,7 @@ import pytest
 from canada_agent.config import Settings
 from canada_agent.costs import Usage, load_prices, usd_cost
 from canada_agent.errors import ErrorCode
-from canada_agent.logs import configure_logging, trace_id
+from canada_agent.logs import configure_logging, redact, trace_id
 
 SECRET = "sk-ant-api03-THIS_MUST_NEVER_BE_LOGGED"  # noqa: S105 - fake key the tests hunt for
 
@@ -49,6 +49,16 @@ def test_keys_inside_messages_and_nested_values_are_redacted():
     out = stream.getvalue()
     assert SECRET not in out
     assert "[REDACTED]" in out
+
+
+@pytest.mark.parametrize("key", ["token", "access_token", "x-auth-token", "Cookie"])
+def test_token_like_keys_are_redacted(key):
+    assert redact({key: "v"}) == {key: "[REDACTED]"}
+
+
+def test_token_counts_are_not_redacted():
+    usage = {"input_tokens": 12, "output_tokens": 34, "max_tokens": 1024}
+    assert redact({"usage": usage}) == {"usage": usage}
 
 
 def test_settings_never_show_secrets(monkeypatch):

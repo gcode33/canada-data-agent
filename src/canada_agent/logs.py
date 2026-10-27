@@ -12,7 +12,11 @@ from typing import IO, Any
 _trace_id: contextvars.ContextVar[str | None] = contextvars.ContextVar("trace_id", default=None)
 
 REDACTED = "[REDACTED]"
-SECRET_KEYS = re.compile(r"authorization|api[-_]?key|token|secret|password", re.IGNORECASE)
+# "token" only as a whole key or suffix (access_token, x-auth-token): usage counts such as
+# input_tokens must survive, because SPEC §10 requires them in the logs.
+SECRET_KEYS = re.compile(
+    r"authorization|api[-_]?key|secret|password|cookie|(^|[-_])token$", re.IGNORECASE
+)
 SECRET_VALUES = re.compile(r"sk-ant-[A-Za-z0-9_\-]+|pa-[A-Za-z0-9_\-]{20,}|Bearer\s+\S+")
 
 # Attributes every LogRecord has; anything else came from `extra=` and is logged.

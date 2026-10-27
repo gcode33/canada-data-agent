@@ -48,3 +48,18 @@ def test_question_of_only_stop_words_returns_nothing(conn):
 
 def test_respects_the_limit(conn):
     assert len(search_fts(conn, "Ontario", limit=1)) == 1
+
+
+def test_words_the_stemmer_would_cut_twice_still_match(conn):
+    # 'decreasing' is stored as 'decreas'; stemming the query again gave 'decrea' (no match).
+    conn.execute(
+        "INSERT INTO table_card (product_id, title, subject_codes, frequency, card_text, tsv,"
+        " metadata_hash) VALUES (99000001, 'x', '{}', 6, 'x',"
+        " to_tsvector('english', 'Decreasing universal series'), 'h')"
+    )
+    assert search_fts(conn, "decreasing") == [99000001]
+    assert search_fts(conn, "universal") == [99000001]
+
+
+def test_quotes_and_operators_in_the_question_are_data(conn):
+    assert search_fts(conn, "rent's & | ! (Ontario) <-> :*")[0] == 18100004
