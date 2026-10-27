@@ -1,0 +1,24 @@
+# USD per 1M tokens. Update the date and source whenever a price changes.
+# Source: Anthropic model pricing (platform.claude.com), as listed in the claude-api
+# reference cached 2026-10-06; checked 2026-10-27. Cache reads bill at 0.1x input and
+# cache writes at 1.25x input (5-minute TTL).
+checked_on = "2026-10-27"
+source = "https://platform.claude.com/docs/en/about-claude/pricing"
+cache_read_multiplier = "0.1"
+cache_write_multiplier = "1.25"
+
+[models.claude-sonnet-5-5]
+input = "2.00"
+output = "10.00"
+
+[models.claude-opus-5-5]
+input = "4.00"
+output = "20.00"
+
+# Haiku 5.5 has a long-prompt tier: prompts over 100K input tokens bill at the higher rates.
+[models.claude-haiku-5-5]
+input = "0.10"
+output = "0.50"
+long_prompt_threshold = 100000
+long_input = "0.50"
+long_output = "2.50"
