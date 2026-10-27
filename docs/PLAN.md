@@ -1,6 +1,6 @@
 # Build plan: Canada Data Agent & Eval Lab v1.0
 
-Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.1, approved by George 2026-10-27.**
+Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.2, approved by George 2026-10-27** (v1.2 adds D4).
 
 > **George's decisions at approval (these override anything below that conflicts):**
 > - **D1: Claude builds everything.** All code, tests, golden cases, PR descriptions and ADRs. Wherever §2 or a step says "George writes", read "Claude writes, then teaches the concept". Explain-backs are **not merge gates**; they become optional quizzes in the teaching track.
@@ -9,6 +9,7 @@ Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.1, approved by Ge
 > - **A1 approved:** the 15-question retrieval set.
 > - **A7 approved:** SPEC §2's ownership rule is replaced by the teaching track.
 > - **Golden-set independence:** because the builder now also writes the expected answers, every golden value is **recomputed from StatCan's full-table CSV download** by a separate script (`evals/verify_golden.py`) that shares no code with the WDS client. `checked_on_statcan_site` becomes `verified_against_csv`.
+> - **D4: No API billing; the agent runs on George's Claude subscription via `claude -p`** (ADR 0009). No model runs in GitHub CI: the eval gate (5.2) runs locally as `make gate`, and CI verifies the hash-stamped `evals/gate-result.json`. Wherever below says "Haiku 5.5 in CI", "the key" or USD spend, read: the local run, and `api_equivalent_usd`.
 > - **Calendar:** the weekly-hours budget (§4) no longer limits the build. Phases run as fast as the build and the API keys allow, and the dated gates become "no later than" dates. The 125% rule and `HOURS.md` are dropped.
 >
 > The text below is the reviewed v1.0 plan, kept for its structure and as the record of the review. It went through two adversarial rounds (tech lead, spec auditor, schedule sceptic, learning coach); all four round-2 verdicts were "ready with changes", and those changes are applied here. The transcripts are in `docs/reviews/2026-10-27-plan-review.md`, and the response log is in §R.
@@ -221,7 +222,7 @@ Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.1, approved by Ge
 The amendment drafts A2–A6 are written in Phase 0 (`docs/amendments/`), so they're ready to approve when needed.
 
 ## 7. ADR register
-0001 spikes and the agent↔MCP adapter (0.3) · 0002 migrations without an ORM (0.1) · 0003 exact scan, no HNSW (2.2) · 0004 rerank decision (2.5) · 0005 stdio-only MCP (3.1) · 0006 snapshot vs cassettes (4.2) · 0007 grader design (4.4) · 0008 gate statistics (5.2). George writes each Decision and "Why not X".
+0001 spikes and the agent↔MCP adapter (0.3) · 0002 migrations without an ORM (0.1) · 0003 exact scan, no HNSW (2.2) · 0004 rerank decision (2.5) · 0005 stdio-only MCP (3.1) · 0006 snapshot vs cassettes (4.2) · 0007 grader design (4.4) · 0008 gate statistics (5.2) · **0009 the agent runs on the subscription via `claude -p` (1.3, D4)**. George writes each Decision and "Why not X".
 
 ## 8. Out of scope
 SPEC §5 v1.1: the Open Canada/FX tools, LLM judge, weekly drift job, month-to-date guard, `compute` tool, more cases, Dependabot, image digests.
