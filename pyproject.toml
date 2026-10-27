@@ -11,6 +11,7 @@ dependencies = [
     "mcp>=2.3",
     "psycopg[binary]>=3.2",
     "pydantic-settings>=2.6",
+    "pyyaml>=6.0",
 ]
 
 [dependency-groups]
@@ -23,6 +24,7 @@ dev = [
 
 [project.scripts]
 canada-migrate = "canada_agent.db.migrate:main"
+canada-lint-evals = "canada_agent.evals.lint:main"
 
 [build-system]
 requires = ["hatchling"]

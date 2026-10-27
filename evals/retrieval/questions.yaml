@@ -1,0 +1,102 @@
+# Retrieval set (SPEC §10.2, amendment A1). Dev-only: used to choose full-text / RRF / rerank.
+# Committed BEFORE any search code exists, so retrieval choices can't have shaped the questions.
+#
+# expected_tables: the first id is the "strict" answer; any listed id counts for "lenient" recall.
+# phrasing: daily = reworded from a sentence in StatCan's The Daily (source given); own = everyday wording.
+# primary_title: the first table's title, checked against the live cube list by a @live test and
+# used by the linter to warn when a question just repeats the title's words.
+
+- id: r01
+  question: How fast did prices for rent rise year over year in September 2026?
+  expected_tables: [18100004]
+  primary_title: Consumer Price Index, monthly, not seasonally adjusted
+  phrasing: daily
+  source: https://www150.statcan.gc.ca/n1/daily-quotidien/261019/dq261019a-eng.htm
+
+- id: r02
+  question: What was annual inflation excluding gasoline in September 2026?
+  expected_tables: [18100004]
+  primary_title: Consumer Price Index, monthly, not seasonally adjusted
+  phrasing: daily
+  source: https://www150.statcan.gc.ca/n1/daily-quotidien/261019/dq261019a-eng.htm
+
+- id: r03
+  question: How much did prices for food bought at stores go up over the past year?
+  expected_tables: [18100004]
+  primary_title: Consumer Price Index, monthly, not seasonally adjusted
+  phrasing: daily
+  source: https://www150.statcan.gc.ca/n1/daily-quotidien/261019/dq261019a-eng.htm
+
+- id: r04
+  question: What was Ontario's jobless rate in September 2026?
+  expected_tables: [14100287, 14100017]
+  primary_title: Labour force characteristics, monthly, seasonally adjusted and trend-cycle
+  phrasing: daily
+  source: https://www150.statcan.gc.ca/n1/daily-quotidien/261009/dq261009a-eng.htm
+
+- id: r05
+  question: How many jobs did the economy shed in September 2026?
+  expected_tables: [14100287]
+  primary_title: Labour force characteristics, monthly, seasonally adjusted and trend-cycle
+  phrasing: daily
+  source: https://www150.statcan.gc.ca/n1/daily-quotidien/261009/dq261009a-eng.htm
+
+- id: r06
+  question: How much does a litre of regular gas cost in Toronto?
+  expected_tables: [18100001]
+  primary_title: Monthly average retail prices for gasoline and fuel oil, by geography
+  phrasing: own
+
+- id: r07
+  question: Are prices for newly built homes going up or down in Calgary?
+  expected_tables: [18100205]
+  primary_title: New housing price index, monthly
+  phrasing: own
+
+- id: r08
+  question: How many people live in British Columbia right now?
+  expected_tables: [17100009]
+  primary_title: Population estimates, quarterly
+  phrasing: own
+
+- id: r09
+  question: How many people moved from Ontario to Alberta last year?
+  expected_tables: [17100022, 17100045]
+  primary_title: Estimates of interprovincial migrants by province or territory of origin and destination, annual
+  phrasing: own
+
+- id: r10
+  question: What was the value of residential building permits issued in Quebec?
+  expected_tables: [34100292]
+  primary_title: Building permits, by type of structure and type of work
+  phrasing: own
+
+- id: r11
+  question: How many unfilled positions were employers trying to fill in Manitoba?
+  expected_tables: [14100371, 14100432]
+  primary_title: Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, unadjusted for seasonality
+  phrasing: own
+
+- id: r12
+  question: What do workers in Nova Scotia earn per week on average?
+  expected_tables: [14100223]
+  primary_title: Employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted
+  phrasing: own
+
+- id: r13
+  question: What share of seniors were living in poverty in 2024?
+  expected_tables: [11100135]
+  primary_title: Low income statistics by age, gender and economic family type
+  phrasing: own
+
+- id: r14
+  question: What does a two-bedroom apartment rent for in Halifax?
+  expected_tables: [34100133]
+  primary_title: Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over
+  phrasing: own
+
+- id: r15
+  question: How much have prices for raw materials like crude oil changed this year?
+  expected_tables: [18100268]
+  primary_title: Raw materials price index, monthly
+  phrasing: own
