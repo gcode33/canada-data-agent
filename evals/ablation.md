@@ -16,6 +16,8 @@ Measured on the 15-question retrieval set (`evals/retrieval/questions.yaml`), wh
 - **Diagnosis:** for "How many people live in British Columbia right now?", the top hits were census-tract and census-subdivision tables. They list thousands of places, so "British Columbia" appears in them hundreds of times. Counting every occurrence let sheer repetition win.
 - **Fix:** strip positions from member names, so each word counts **once per table**, and rank by `ts_rank`. Title words keep their weight. Recall@5 went from 0.13 to 0.33 and MRR from 0.05 to 0.22.
 
+**Re-measured 2026-10-27 after the code-review fix to double stemming** (`docs/reviews/2026-10-27-phase0-2-code-review.md`, finding 1): row 2 is unchanged at 0.33 / 0.22. None of the 15 questions used a word the second stemming pass broke.
+
 ## What full-text can't fix
 Most remaining misses are **vocabulary mismatches**: the question's key word isn't in the expected table at all.
 

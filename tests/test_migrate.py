@@ -1,3 +1,4 @@
+import threading
 from pathlib import Path
 
 import psycopg
@@ -70,3 +71,30 @@ def test_rejects_duplicate_versions(tmp_path):
     (tmp_path / "0001_b.sql").write_text("SELECT 1;")
     with pytest.raises(MigrationError, match="duplicate"):
         discover(tmp_path)
+
+
+def test_concurrent_runs_apply_each_migration_once(fresh_db_url, tmp_path):
+    # pg_sleep widens the race: without the lock both runs would try to apply 0001.
+    (tmp_path / "0001_slow.sql").write_text("SELECT pg_sleep(0.3); CREATE TABLE t (id int);")
+    results: list = []
+
+    def run():
+        try:
+            results.append(len(apply_migrations(fresh_db_url, tmp_path)))
+        except MigrationError as exc:
+            results.append(exc)
+
+    threads = [threading.Thread(target=run) for _ in range(2)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert sorted(results) == [0, 1]
+
+
+def test_ledger_rows_without_a_file_only_warn(fresh_db_url, tmp_path, capsys):
+    (tmp_path / "0001_a.sql").write_text("CREATE TABLE a (id int);")
+    apply_migrations(fresh_db_url, tmp_path)
+    (tmp_path / "0001_a.sql").unlink()
+    assert apply_migrations(fresh_db_url, tmp_path) == []
+    assert "no file here: [1]" in capsys.readouterr().err

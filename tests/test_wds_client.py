@@ -151,6 +151,64 @@ def test_errors_are_never_cached():
     assert len(script.requests) == 2
 
 
+@pytest.mark.parametrize(
+    "body",
+    [
+        [{"status": "FAILED", "object": "Cube not available"}],
+        [{"status": "SUCCESS", "object": {"responseStatusCode": 2, "vectorId": 0}}],
+    ],
+)
+def test_failures_inside_a_200_body_are_returned_but_never_cached(body):
+    script = Script(httpx.Response(200, json=body), ok())
+    client, _ = make_client(script)
+    assert call(client) == body  # the backend turns these into error codes
+    assert call(client) == OK_BODY  # and the next call asks WDS again
+    assert len(script.requests) == 2
+
+
+def test_lists_without_status_fields_are_cached():
+    cubes = [{"productId": 18100004}, {"productId": 14100287}]
+    script = Script(httpx.Response(200, json=cubes))
+    client, _ = make_client(script)
+    client.get("getAllCubesListLite", {}, kind="metadata")
+    client.get("getAllCubesListLite", {}, kind="metadata")
+    assert len(script.requests) == 1
+
+
+def test_off_host_redirect_is_a_wds_error_and_not_retried():
+    script = Script(httpx.Response(302, headers={"location": "https://evil.example.com/x"}))
+    client, _ = make_client(script)
+    with pytest.raises(WdsError) as err:
+        call(client)
+    assert err.value.code is ErrorCode.UPSTREAM_UNAVAILABLE
+    assert len(script.requests) == 1
+
+
+def test_redirect_to_another_port_on_the_same_host_is_refused():
+    loc = f"https://{ALLOWED_HOST}:8443/x"
+    script = Script(httpx.Response(302, headers={"location": loc}))
+    client, _ = make_client(script)
+    with pytest.raises(DisallowedHostError):
+        call(client)
+    assert len(script.requests) == 1
+
+
+def test_redirect_loop_becomes_a_wds_error_not_a_raw_httpx_exception():
+    loop = httpx.Response(302, headers={"location": f"https://{ALLOWED_HOST}/loop"})
+    script = Script(*(loop,) * 100)
+    client, _ = make_client(script)
+    with pytest.raises(WdsError) as err:
+        call(client)
+    assert err.value.code is ErrorCode.UPSTREAM_UNAVAILABLE
+
+
+def test_429_waits_at_least_the_retry_after_header():
+    script = Script(httpx.Response(429, headers={"retry-after": "7"}), ok())
+    client, sleeps = make_client(script)
+    assert call(client) == OK_BODY
+    assert sleeps == [7.0]
+
+
 def test_request_body_is_canonical_json():
     script = Script(ok())
     client, _ = make_client(script)

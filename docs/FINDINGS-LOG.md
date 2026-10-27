@@ -41,3 +41,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** keyword search scored **recall@5 0.13**: 8 of 15 questions never found their table in the top 50. My first guess (long tables) was wrong; normalisation flags didn't help. The real cause was census-tract tables repeating place names hundreds of times. Counting member words once per table (stripped positions, `ts_rank`) lifted recall to **0.33** and MRR from 0.05 to 0.22.
 - **Broke:** my hypothesis, twice (normalisation, then weights alone). Measuring each variant before changing the schema kept the wrong fixes out of the code.
 - **Would change:** look at failing questions' actual top hits first; the diagnosis took one query and saved two dead ends. The remaining misses are vocabulary mismatches ("jobless" vs "unemployment"), which is the case for embeddings.
+
+## fix/phase0-2-review
+- **Surprised:** Porter stemming isn't idempotent. Stemming an already-stemmed word again changes it ("decreas" → "decrea"), so the full-text query silently missed words. The retrieval numbers didn't move, which shows how a 15-question set can hide a real bug.
+- **Broke:** nothing new, but the review found 12 issues in merged code, 2 of them high. The worst pattern: WDS failures arriving as HTTP 200 were treated as successes by the cache. That was the exact lesson of feat/get-series, applied in the backend but not in the cache.
+- **Would change:** review each phase before it merges (now the rule), and when a fact is learned, such as "errors come as 200", search the code for every place it applies.
