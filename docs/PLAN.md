@@ -1,6 +1,17 @@
 # Build plan: Canada Data Agent & Eval Lab v1.0
 
-Implements `SPEC.md` v1.0 + amendment A1 (below). Status: **final draft v1.0, 2026-10-27, awaiting George's approval.** It went through two adversarial rounds (tech lead, spec auditor, schedule sceptic, learning coach); all four round-2 verdicts were "ready with changes", and those changes are applied here. The transcripts are in `docs/reviews/2026-10-27-plan-review.md`, and the response log is in §R.
+Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.1, approved by George 2026-10-27.**
+
+> **George's decisions at approval (these override anything below that conflicts):**
+> - **D1: Claude builds everything.** All code, tests, golden cases, PR descriptions and ADRs. Wherever §2 or a step says "George writes", read "Claude writes, then teaches the concept". Explain-backs are **not merge gates**; they become optional quizzes in the teaching track.
+> - **D2: This project only.** The payments project is paused; nothing else runs alongside.
+> - **D3: Approved in full.** Claude proceeds phase to phase. Each tag ends with a short teaching session (lesson + check-yourself) instead of a stop for permission.
+> - **A1 approved:** the 15-question retrieval set.
+> - **A7 approved:** SPEC §2's ownership rule is replaced by the teaching track.
+> - **Golden-set independence:** because the builder now also writes the expected answers, every golden value is **recomputed from StatCan's full-table CSV download** by a separate script (`evals/verify_golden.py`) that shares no code with the WDS client. `checked_on_statcan_site` becomes `verified_against_csv`.
+> - **Calendar:** the weekly-hours budget (§4) no longer limits the build. Phases run as fast as the build and the API keys allow, and the dated gates become "no later than" dates. The 125% rule and `HOURS.md` are dropped.
+>
+> The text below is the reviewed v1.0 plan, kept for its structure and as the record of the review. It went through two adversarial rounds (tech lead, spec auditor, schedule sceptic, learning coach); all four round-2 verdicts were "ready with changes", and those changes are applied here. The transcripts are in `docs/reviews/2026-10-27-plan-review.md`, and the response log is in §R.
 
 ## 1. Ground rules
 - **One step = one branch = one PR** off `main`: test-first, Conventional Commit title, squash merge.

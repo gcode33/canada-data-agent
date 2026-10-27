@@ -28,7 +28,7 @@ Each claim has evidence a reviewer can check in ten minutes (the README has a cl
 
 Target postings: Cohere Integrations (tools, evals, tool descriptions), BMO and Softchoice AI (RAG), Magnet SDET (pytest, CI), Deloitte AppSec (LLM risks).
 
-**Ownership rule:** George hand-writes RRF fusion, the rate limiter, the coordinate builder and the graders. Each design decision gets an ADR in `docs/decisions/`. PRs stay small, and George writes each description. He must be able to whiteboard every file.
+**Ownership (amendment A7, approved by George 2026-10-27):** Claude builds the whole project. George learns it through a teaching track: a vault lesson per concept, check-yourself questions at each tag, and three mock interviews. He must be able to explain and whiteboard every design decision. Each design decision gets an ADR in `docs/decisions/`, and PRs stay small. Because the builder also writes the golden answers, every expected value is independently recomputed from StatCan's full-table CSV (`evals/verify_golden.py`).
 
 ## 3. Non-goals (v1.0)
 - No chat UI or hosted site; a CLI plus the MCP server, with a GIF in the README.
@@ -193,7 +193,7 @@ checked_on_statcan_site: true
 - **Mix:** lookup 12, comparison 10, multi-step 6, unanswerable 6, injection 6. Ambiguous cases move to v1.1.
 - **At least ⅓ of questions are paraphrased** from StatCan's *The Daily* headlines rather than table titles. Low word overlap with the card title is reported as a warning.
 - **Tuning happens on dev only. The test split never runs on a PR.**
-- **Amendment A1 (proposed 2026-10-27, pending George's approval with PLAN v1.0):**
+- **Amendment A1 (approved by George 2026-10-27):**
   - A separate **retrieval set of 15 questions** (dev-only, expected tables only) is committed **before any search code exists**. Retrieval choices (full-text, RRF, rerank) are decided on it.
   - The system prompt and tool descriptions may not be changed in response to eval results until all 40 golden cases are committed.
 
