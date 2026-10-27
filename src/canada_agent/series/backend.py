@@ -34,6 +34,9 @@ class TableMetadata:
     title: str
     frequency_code: int
     dimensions: list[Dimension]
+    start_date: str = ""  # e.g. "1914-01-01"
+    end_date: str = ""
+    footnotes: list[str] = field(default_factory=list)  # third-party text: untrusted
 
 
 @dataclass(frozen=True)
@@ -113,6 +116,9 @@ class LiveBackend:
                 )
                 for d in obj.get("dimension", [])
             ],
+            start_date=obj.get("cubeStartDate") or "",
+            end_date=obj.get("cubeEndDate") or "",
+            footnotes=[f.get("footnotesEn", "") for f in obj.get("footnote") or []],
         )
 
     def series_data(self, product_id: int, coordinate: str, start: str, end: str) -> SeriesData:

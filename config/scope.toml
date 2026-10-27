@@ -1,0 +1,10 @@
+# Subjects indexed in v1 (SPEC §7.1), by 2-digit StatCan subject-code prefix.
+# A table is in scope when ANY of its subject codes starts with one of these prefixes.
+# Names from WDS getCodeSets, checked 2026-10-27; active-table counts that day in brackets.
+[subjects]
+"11" = "Income, pensions, spending and wealth"  # 125
+"14" = "Labour"                                 # 214
+"17" = "Population and demography"              # 45
+"18" = "Prices and price indexes"               # 67
+"34" = "Construction"                           # 94
+"46" = "Housing"                                # 39

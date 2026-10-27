@@ -17,12 +17,17 @@ MAX_MEMBERS_PER_DIMENSION = 50
 MAX_POINTS = 120
 NAME_LIMIT = 120
 PERIOD = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+# From WDS getCodeSets "scalar" (checked 2026-10-27).
 SCALAR_FACTORS = {
     0: "units",
     1: "tens",
     2: "hundreds",
     3: "thousands",
+    4: "tens of thousands",
+    5: "hundreds of thousands",
     6: "millions",
+    7: "tens of millions",
+    8: "hundreds of millions",
     9: "billions",
 }
 
