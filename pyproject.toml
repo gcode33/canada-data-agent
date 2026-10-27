@@ -1,0 +1,43 @@
+[project]
+name = "canada-data-agent"
+version = "0.0.0"
+description = "AI agent over live Statistics Canada data, with cited answers and an eval suite that gates every PR"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "psycopg[binary]>=3.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "hypothesis>=6.100",
+    "ruff>=0.8",
+]
+
+[project.scripts]
+canada-migrate = "canada_agent.db.migrate:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/canada_agent"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "SIM"]
+ignore = ["S101"]  # assert is how pytest works
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "db: needs a PostgreSQL server (DATABASE_URL)",
+    "live: calls real external APIs; run with `make live`, never in CI",
+]
+addopts = "-m 'not live'"
