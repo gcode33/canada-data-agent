@@ -1,6 +1,6 @@
 # Spec: Canada Data Agent & Eval Lab
 
-Status: **v0.2, 2026-10-26: revised after a two-round adversarial review.** The four critics were an eval scientist, a security red-teamer, a data/reliability engineer and a hiring-manager scope critic. What changed and why is in §16. The decisions are in §15. Waiting for George's approval.
+Status: **v1.0, approved by George 2026-10-26.** It's v0.2 unchanged: v0.2 was revised after a two-round adversarial review by four critics (an eval scientist, a security red-teamer, a data/reliability engineer and a hiring-manager scope critic). What changed and why is in §16. The decisions are in §15. The build order is in `docs/PLAN.md`.
 
 ## 1. In plain words
 
