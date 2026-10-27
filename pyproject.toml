@@ -26,6 +26,7 @@ dev = [
 canada-migrate = "canada_agent.db.migrate:main"
 canada-lint-evals = "canada_agent.evals.lint:main"
 canada-build-cards = "canada_agent.index.build:main"
+canada-eval-retrieval = "canada_agent.evals.retrieval:main"
 
 [build-system]
 requires = ["hatchling"]

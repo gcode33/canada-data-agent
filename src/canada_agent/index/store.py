@@ -40,7 +40,10 @@ def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
             """
             INSERT INTO table_card (product_id, title, subject_codes, frequency, start_date,
                                     end_date, card_text, tsv, embedding, metadata_hash)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, to_tsvector('english', %s), NULL, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s,
+                    setweight(to_tsvector('english', %s), 'A')
+                    || setweight(strip(to_tsvector('english', %s)), 'D'),
+                    NULL, %s)
             ON CONFLICT (product_id) DO UPDATE SET
                 title = EXCLUDED.title, subject_codes = EXCLUDED.subject_codes,
                 frequency = EXCLUDED.frequency, start_date = EXCLUDED.start_date,
@@ -51,7 +54,7 @@ def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
             (
                 m.product_id, m.title, row.subject_codes, m.frequency_code,
                 m.start_date[:10] or None, m.end_date[:10] or None,
-                row.card_text, row.fts, row.hash,
+                row.card_text, m.title, row.fts, row.hash,
             ),
         )  # fmt: skip
         conn.execute("DELETE FROM member WHERE product_id = %s", (m.product_id,))

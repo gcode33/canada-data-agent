@@ -89,6 +89,13 @@ def fts_text(meta: TableMetadata) -> str:
     return " | ".join(seen)[:FTS_CHAR_LIMIT]
 
 
+# Bump when the way `tsv` is built changes, so existing rows are rebuilt.
+# v2: title weighted 'A' with positions; member names 'D' with positions stripped, so a word
+# counts once per table however many members repeat it (see evals/ablation.md).
+FTS_VERSION = "2"
+
+
 def metadata_hash(card_text: str, fts: str, model: str) -> str:
-    """Changes whenever the card, the full-text source or the embedding model changes."""
-    return hashlib.sha256("\x1f".join((card_text, fts, model)).encode()).hexdigest()
+    """Changes whenever the card, the full-text source or build, or the model changes."""
+    parts = (card_text, fts, model, FTS_VERSION)
+    return hashlib.sha256("\x1f".join(parts).encode()).hexdigest()
