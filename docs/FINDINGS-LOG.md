@@ -36,3 +36,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** WDS frequency code 21 means "Occasional Daily", and the quarterly population table uses it. The scalar-factor map from step 1.2 was **missing codes 4, 5, 7 and 8** (tens of thousands … hundreds of millions); fixed from `getCodeSets`.
 - **Broke:** a card test failed because the fixture's member tree was too shallow to push "Rent" off the card. Reshaping it to the real tree (19 / 10 / 27 members at depths 0 / 1 / 2) fixed it.
 - **Would change:** take code tables (frequency, scalar) from `getCodeSets` from the start, not from memory. Live run: 584 tables carded in 2.5 min with 1 recovered retry; the rerun took 3.8 s, all unchanged.
+
+## feat/retrieval-eval
+- **Surprised:** keyword search scored **recall@5 0.13**: 8 of 15 questions never found their table in the top 50. My first guess (long tables) was wrong; normalisation flags didn't help. The real cause was census-tract tables repeating place names hundreds of times. Counting member words once per table (stripped positions, `ts_rank`) lifted recall to **0.33** and MRR from 0.05 to 0.22.
+- **Broke:** my hypothesis, twice (normalisation, then weights alone). Measuring each variant before changing the schema kept the wrong fixes out of the code.
+- **Would change:** look at failing questions' actual top hits first; the diagnosis took one query and saved two dead ends. The remaining misses are vocabulary mismatches ("jobless" vs "unemployment"), which is the case for embeddings.
