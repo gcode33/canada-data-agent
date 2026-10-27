@@ -1,0 +1,94 @@
+interactions:
+- request:
+    body: '[{"productId": 18100004, "coordinate": "14.81.0.0.0.0.0.0.0.0", "latestN":
+      13}]'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '79'
+      content-type:
+      - application/json
+      host:
+      - www150.statcan.gc.ca
+      user-agent:
+      - python-httpx/0.28.1
+    method: POST
+    uri: https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAEA4quViouSSwpLVayUgoOdXZ2DQ5W0lHKT8pKTS5RsqpWKkotLsjPK04NBityzk9J
+        VbIy0FEqKMpPKU0u8UxRsjK0MDQAAhMdpeT8/KKUzLzEEqAaJUMTPQtDPQNUCDS6DGhwfhFIo4mh
+        maWhpakJTMwlsSQxID8zD2hvNMjitIDUIqBBRgZGproGlroGhkDdEFEjoDCcE5RYroRVFVACqrAs
+        MacU6CZDM0M9Ix2llNTkzNzEnGKggI5ScXJiTmKRWyLIAXDfFVfmJuXnILiofi9OTS4tyiyp9Ekt
+        S0UoKkrNSU0sTg3JzAXyIc4xNNA1MgwxsLAyBnk8rSi1sDQ1L7kSosWsVgfdk4YGyM6Huh3CAfpF
+        CasqoARUIdyTxnqG9PSkoa6hOSmeNER2PtTtEA7QL0pYVQEloAqRPGlOT08a6RqakuJJI2TnQ90O
+        4QD9ooRVFVACqhDJkyZ086QZ0C26hpZEexKsHsn5ULdDOEC/KGFVBZSAKoR70lDPgp6eNCIluYLV
+        Izkf6nYIB+gXJayqgBJQhUieNKOnJ411Dc1I8aQxsvOhbodwgH5RwqoKKAFVCPekMR1LV6BzTHSN
+        DEjxpAmy86Fuh3CAflHCqgooAVWI5EljenrSlMQ8aYrsfKjbIRygX5SwqgJKQBUieZKuBY+ZrpER
+        KZ40Q3Y+1O0QDtAvSlhVASWgCuGeNKGvJ81JTK7myM6Huh3CAfpFCasqoARUIdyTRnRsDACdY0Fi
+        6WqB7Hyo2yEcoF+UsKoCSkAVwj1pQt88aalraEKKJ1FapVC3QzhAvyhhVQWUgCpE8iQ9kyuwlYmv
+        4ImtrY0FBAAA///ILwoNOwwAAA==
+    headers:
+      access-control-allow-headers:
+      - DNT,X-Custom-Header,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      access-control-allow-methods:
+      - GET, POST, OPTIONS
+      access-control-allow-origin:
+      - '*'
+      access-control-expose-headers:
+      - DNT,X-Custom-Header,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      cache-control:
+      - max-age=1800
+      - public
+      connection:
+      - keep-alive
+      content-encoding:
+      - gzip
+      content-security-policy:
+      - 'default-src ''self'' ''unsafe-inline'' *.statcan.gc.ca *.statcan.ca *.stc.ca  *.demdex.net
+        *.omtrdc.net *.everesttech.net blob:; style-src ''self'' ''unsafe-inline''
+        *.statcan.gc.ca *.statcan.ca https://fonts.googleapis.com blob:; script-src
+        ''self'' ''unsafe-inline'' ''unsafe-eval'' *.statcan.gc.ca *.statcan.ca *.googletagmanager.com
+        *.adobedtm.com *.jsdelivr.net *.mathjax.org cdnjs.cloudflare.com blob:; connect-src
+        ''self'' *.statcan.gc.ca *.statcan.ca *.stc.ca  *.demdex.net *.omtrdc.net
+        https://api.mapbox.com/ https://events.mapbox.com/; img-src ''self'' *.statcan.gc.ca
+        *.statcan.ca *.stc.ca  *.demdex.net *.omtrdc.net *.everesttech.net *.jsdelivr.net
+        data: blob:; font-src ''self'' *.statcan.gc.ca *.statcan.ca https://fonts.gstatic.com;
+        worker-src ''self'' ''unsafe-inline'' ''unsafe-eval'' *.statcan.gc.ca *.statcan.ca
+        blob:; frame-src ''self'' ''unsafe-inline'' *.statcan.gc.ca *.statcan.ca *.stc.ca
+        https://dv-vd.shinyapps.io *.demdex.net blob:;'
+      content-type:
+      - application/json
+      date:
+      - Tue, 27 Oct 2026 04:43:52 GMT
+      expires:
+      - Tue, 27 Oct 2026 05:13:52 GMT
+      pragma:
+      - no-cache
+      server:
+      - nginx/1.24.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      - accept-encoding
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      - SAMEORIGIN
+      x-xss-protection:
+      - 1; mode=block
+    status:
+      code: 200
+      message: ''
+version: 1
