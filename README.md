@@ -19,7 +19,8 @@ Source: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401
 |---|---|---|
 | Full-text (Postgres `ts_rank`) | 0.33 | 0.22 |
 | Vector (Voyage `voyage-4`, exact cosine) | 0.67 | 0.49 |
-| **Hybrid (weighted RRF)** | **0.73** | 0.41 |
+| Hybrid (weighted RRF) | 0.73 | 0.41 |
+| **Hybrid + Voyage `rerank-2.5`** | **0.80** | **0.63** |
 
 Measured on a 15-question retrieval set committed before any search code. Every variant tried, including the failures, is in [`evals/ablation.md`](evals/ablation.md).
 

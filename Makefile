@@ -6,7 +6,7 @@ SHELL := /bin/bash
 
 INDEX_DUMP := data/index.sql.zst
 DATABASE_URL ?= postgresql://canada:canada@localhost:5432/canada
-INDEX_TABLES := --table=table_card --table=member --table=query_embedding
+INDEX_TABLES := --table=table_card --table=member --table=query_embedding --table=rerank_cache
 
 up:  ## start Postgres, apply migrations, and seed the index if a dump exists
 	docker compose up -d --wait
@@ -39,6 +39,7 @@ index:  ## cards from live StatCan metadata, then embed what's missing (needs VO
 
 record:  ## embed the retrieval questions once, so evals and CI replay them with no key
 	uv run canada-eval-retrieval --method vector --record > /dev/null
+	uv run canada-eval-retrieval --method hybrid-rerank --record > /dev/null
 
 dump:  ## write the index (cards, members, recorded queries) to $(INDEX_DUMP)
 	@mkdir -p data
@@ -47,6 +48,6 @@ dump:  ## write the index (cards, members, recorded queries) to $(INDEX_DUMP)
 	@ls -lh $(INDEX_DUMP)
 
 seed:  ## load $(INDEX_DUMP) into a migrated database; no Voyage key or StatCan call needed
-	psql "$(DATABASE_URL)" -q -v ON_ERROR_STOP=1 -c "TRUNCATE table_card, query_embedding CASCADE"
+	psql "$(DATABASE_URL)" -q -v ON_ERROR_STOP=1 -c "TRUNCATE table_card, query_embedding, rerank_cache CASCADE"
 	zstd -dc $(INDEX_DUMP) | psql "$(DATABASE_URL)" -q -v ON_ERROR_STOP=1 > /dev/null
 	@psql "$(DATABASE_URL)" -tA -c "SELECT count(*) || ' cards, ' || count(embedding) || ' embedded' FROM table_card"

@@ -108,3 +108,32 @@ def test_batches_respect_the_token_budget_and_input_cap():
 
 def test_an_oversized_single_card_still_gets_its_own_batch():
     assert [len(b) for b in batches([(1, "x" * 3000), (2, "y")], max_tokens=10)] == [1, 1]
+
+
+def test_rerank_returns_input_indices_in_relevance_order():
+    out = {
+        "object": "list",
+        "data": [
+            {"index": 2, "relevance_score": 0.9},
+            {"index": 0, "relevance_score": 0.5},
+            {"index": 1, "relevance_score": 0.1},
+        ],
+        "usage": {"total_tokens": 99},
+    }
+    client, seen, _ = make(httpx.Response(200, json=out))
+    result = client.rerank("rent?", ["a", "b", "c"])
+    assert json.loads(seen[0].content) == {
+        "query": "rent?",
+        "documents": ["a", "b", "c"],
+        "model": "rerank-2.5",
+    }
+    assert seen[0].url.path == "/v1/rerank"
+    assert result.order == [2, 0, 1]
+    assert result.total_tokens == 99
+
+
+def test_rerank_that_drops_or_repeats_a_document_is_an_error():
+    out = {"data": [{"index": 0, "relevance_score": 1.0}], "usage": {"total_tokens": 1}}
+    client, _, _ = make(httpx.Response(200, json=out))
+    with pytest.raises(EmbedError, match="exactly once"):
+        client.rerank("q", ["a", "b"])
