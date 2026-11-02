@@ -86,3 +86,12 @@ def test_unrecorded_question_offline_is_none_not_a_crash(conn):
 def test_question_hash_ignores_case_and_spacing_only():
     assert question_hash("Rent  in Ontario") == question_hash("rent in ontario")
     assert question_hash("rent in ontario") != question_hash("rent in quebec")
+
+
+def test_cards_from_another_model_are_re_embedded_and_never_searched(conn):
+    embed_missing(conn, FakeVoyage(), max_tokens=10_000, log=lambda *a, **k: None)
+    conn.execute("UPDATE table_card SET embedding_model = 'old-model' WHERE product_id = 22")
+    assert 22 not in search_vector(conn, vector_literal(unit(ord("b"))))  # no cross-model cosine
+    again = embed_missing(conn, FakeVoyage(), max_tokens=10_000, log=lambda *a, **k: None)
+    assert again["embedded"] == 1
+    assert search_vector(conn, vector_literal(unit(ord("b"))))[0] == 22

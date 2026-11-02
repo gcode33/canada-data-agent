@@ -137,3 +137,10 @@ def test_rerank_that_drops_or_repeats_a_document_is_an_error():
     client, _, _ = make(httpx.Response(200, json=out))
     with pytest.raises(EmbedError, match="exactly once"):
         client.rerank("q", ["a", "b"])
+
+
+def test_a_redirect_is_reported_as_such_not_as_a_parse_error():
+    client, seen, _ = make(httpx.Response(307, headers={"location": "https://api.voyageai.com/x"}))
+    with pytest.raises(EmbedError, match="unexpected redirect: HTTP 307"):
+        client.embed(["a"], "document")
+    assert len(seen) == 1

@@ -65,6 +65,10 @@ def main() -> None:
     )
     parser.add_argument("--k", type=int, default=5)
     parser.add_argument("--record", action="store_true", help="embed unrecorded questions")
+    # Floors on the strict scores: CI fails if a change makes search worse, not only if a
+    # question is unrecorded (Phase 2 review, finding 2).
+    parser.add_argument("--min-recall", type=float, default=0.0)
+    parser.add_argument("--min-mrr", type=float, default=0.0)
     args = parser.parse_args()
 
     settings = Settings()
@@ -107,6 +111,16 @@ def main() -> None:
     print(json.dumps(report["per_question"], indent=1))
     if unrecorded:
         sys.exit(1)  # in CI: a question was added without `make record`
+    drops = [
+        f"{name} {got:.3f} < floor {floor:.3f}"
+        for name, got, floor in (
+            ("recall@k", report["recall_at_k_strict"], args.min_recall),
+            ("MRR", report["mrr_strict"], args.min_mrr),
+        )
+        if got < floor - 1e-9
+    ]
+    if drops:
+        sys.exit(f"retrieval got worse ({args.method}): " + "; ".join(drops))
 
 
 if __name__ == "__main__":

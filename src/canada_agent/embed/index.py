@@ -1,8 +1,9 @@
 """`canada-embed`: embed every table card that has no embedding yet.
 
-Resumable by design: a card's embedding is cleared only when its content hash changes
-(`upsert_card`), and each batch commits on its own. A rerun, or a run after a rate limit
-or crash, embeds exactly what's missing, so the second run embeds 0 (PLAN 2.2).
+Resumable by design. A card is (re-)embedded when it has no embedding or one made by
+another model; `upsert_card` clears the embedding only when the card's content changes;
+each batch commits on its own. A rerun, or a run after a rate limit or crash, embeds
+exactly what's missing, so the second run embeds 0 (PLAN 2.2).
 """
 
 import argparse
@@ -13,7 +14,7 @@ from collections.abc import Iterator
 import psycopg
 
 from canada_agent.config import Settings
-from canada_agent.embed.voyage import MAX_INPUTS, EmbedError, VoyageClient
+from canada_agent.embed.voyage import MAX_INPUTS, MODEL, EmbedError, VoyageClient
 
 
 def vector_literal(values: list[float]) -> str:
@@ -46,7 +47,9 @@ def embed_missing(
     conn: psycopg.Connection, client: VoyageClient, max_tokens: int, log=print
 ) -> dict[str, int]:
     rows = conn.execute(
-        "SELECT product_id, card_text FROM table_card WHERE embedding IS NULL ORDER BY product_id"
+        "SELECT product_id, card_text FROM table_card"
+        " WHERE embedding IS NULL OR embedding_model IS DISTINCT FROM %s ORDER BY product_id",
+        (MODEL,),
     ).fetchall()
     done = tokens = n_batches = 0
     for batch in batches(rows, max_tokens):
@@ -54,8 +57,9 @@ def embed_missing(
         with conn.transaction():
             for (pid, _), vec in zip(batch, result.vectors, strict=True):
                 conn.execute(
-                    "UPDATE table_card SET embedding = %s::vector WHERE product_id = %s",
-                    (vector_literal(vec), pid),
+                    "UPDATE table_card SET embedding = %s::vector, embedding_model = %s"
+                    " WHERE product_id = %s",
+                    (vector_literal(vec), MODEL, pid),
                 )
         done += len(batch)
         tokens += result.total_tokens

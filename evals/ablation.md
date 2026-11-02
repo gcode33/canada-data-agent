@@ -58,7 +58,7 @@ Cells are recall@5 / MRR (strict).
 
 ## Rerank (row 5)
 - One configuration, not tuned on these questions: `rerank-2.5` over the hybrid top 20.
-- **recall@5 0.73 → 0.80 and MRR 0.41 → 0.63.** The reranker fixes hybrid's weakness, finding the table but ranking it 3rd–5th, and is best on both metrics.
+- **recall@5 0.73 → 0.80 (one more question in the top 5, so treat the recall gain as small) and MRR 0.41 → 0.63** (the larger, steadier gain: right tables move to rank 1–2). The reranker fixes hybrid's weakness, finding the table but ranking it 3rd–5th, and is best on both metrics.
 - PLAN named `rerank-3`, which doesn't exist; `rerank-2.5` is Voyage's current recommended model.
 - Recorded in `rerank_cache` and replayed with no key; the CI eval reproduces this row.
 

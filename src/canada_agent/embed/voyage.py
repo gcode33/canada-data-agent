@@ -131,6 +131,9 @@ class VoyageClient:
             if response.status_code >= 500:
                 wait, last = _retry_after(response), f"HTTP {response.status_code}"
                 continue
+            if 300 <= response.status_code < 400:
+                # Redirects aren't followed (the key must not travel); say so plainly.
+                raise EmbedError(f"unexpected redirect: HTTP {response.status_code}")
             if response.status_code >= 400:
                 # 401 bad key, 400 too many tokens, ...: retrying won't help. The body is
                 # Voyage's error message, which never contains the key.

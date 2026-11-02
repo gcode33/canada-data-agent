@@ -66,3 +66,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** nothing. Keying the cache on the exact candidate list means a search change can't replay a stale order; the test proves it.
 - **Would change:** n/a. Recording expensive model calls once and replaying them is now the pattern for everything slow: embeddings, reranks, and next, agent transcripts (4.3).
 
+## Phase 2 review (fixes on feat/rerank)
+- **Surprised:** every cache we added keys on *inputs we chose*, and the reviewer found the input we forgot: card text for reranks, and model for card vectors. A cache key must cover everything the cached answer depends on.
+- **Broke:** nothing in production, but CI would have stayed green through a 2× drop in retrieval quality. Evals that can't fail aren't gates; score floors fix that.
+- **Would change:** for every new cache, list "what does this result depend on?" and test that changing each one invalidates it.
+
