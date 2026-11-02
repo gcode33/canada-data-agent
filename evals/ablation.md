@@ -6,7 +6,7 @@ Measured on the 15-question retrieval set (`evals/retrieval/questions.yaml`), wh
 |---|---|---|---|---|---|---|
 | 1 | Full-text, ORed terms, `ts_rank_cd` over title + all members | 0.13 | 0.13 | 0.05 | 0.05 | 2026-10-27 |
 | 2 | **Full-text v2:** title weighted A, member names D with positions stripped, `ts_rank` | **0.33** | **0.33** | **0.22** | **0.22** | 2026-10-27 |
-| 3 | Vector only (Voyage `voyage-4`) | pending | | | | needs `VOYAGE_API_KEY` |
+| 3 | **Vector only:** Voyage `voyage-4` (1024-d), exact cosine scan (ADR 0003) | **0.67** | **0.67** | **0.49** | **0.49** | 2026-11-01 |
 | 4 | Hybrid: RRF of 2 + 3 | pending | | | | |
 | 5 | Hybrid + `rerank-3` | pending | | | | |
 
@@ -29,4 +29,10 @@ Most remaining misses are **vocabulary mismatches**: the question's key word isn
 | "moved" (r09) | "migrants" |
 | "unfilled positions" (r11) | "job vacancies" |
 
-That's the gap embeddings are meant to close; rows 3–4 will measure whether they do.
+That's the gap embeddings are meant to close, and row 3 shows they mostly do.
+
+## What vectors fixed, and what they didn't (row 3)
+- **Fixed 4 of the 5 vocabulary gaps:** "gas" (r06), "people live" (r08), "moved" (r09) → rank 1, and "unfilled positions" (r11) → rank 2.
+- **Still missed:** "jobless rate" (r04) is at rank 16. r01, r03, r05 and r12 also fall outside the top 5.
+- **The two methods are complementary.** Full-text finds r01 and r03, which vector misses; vector finds 8 that full-text misses. Their top-5 hits together cover 12 of 15 questions, which is the case for hybrid RRF (row 4).
+- Queries are recorded once (`make record`) and replayed from `query_embedding`, so CI reproduces this row with no key.

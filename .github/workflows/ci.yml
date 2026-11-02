@@ -33,6 +33,11 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run canada-lint-evals
       - run: uv run pytest
+      # Retrieval eval from the committed index: no Voyage key, no StatCan call (PLAN 2.2/2.3)
+      - run: uv run canada-migrate
+      - run: make seed
+      - run: uv run canada-eval-retrieval --method fts
+      - run: uv run canada-eval-retrieval --method vector
       - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
