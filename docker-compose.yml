@@ -1,3 +1,6 @@
+# Fixed project name: every git worktree shares the one database container.
+name: ai-eval-lab
+
 services:
   db:
     image: pgvector/pgvector:pg17

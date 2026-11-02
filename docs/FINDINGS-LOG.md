@@ -50,3 +50,9 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** Porter stemming isn't idempotent. Stemming an already-stemmed word again changes it ("decreas" → "decrea"), so the full-text query silently missed words. The retrieval numbers didn't move, which shows how a 15-question set can hide a real bug.
 - **Broke:** nothing new, but the review found 12 issues in merged code, 2 of them high. The worst pattern: WDS failures arriving as HTTP 200 were treated as successes by the cache. That was the exact lesson of feat/get-series, applied in the backend but not in the cache.
 - **Would change:** review each phase before it merges (now the rule), and when a fact is learned, such as "errors come as 200", search the code for every place it applies.
+
+## feat/embeddings-index
+- **Surprised:** with no payment method, Voyage throttles to about 10K tokens a minute. Embedding 584 cards (about 180K tokens) took about 40 min instead of seconds, so the indexer had to be resumable: it embeds only `embedding IS NULL` rows and commits per batch. Vector search doubled recall@5 (0.33 → 0.67).
+- **Broke:** (1) the first run died at 90/584 on "429 after 6 attempts", because exponential backoff (2–32 s) doesn't outlast a one-minute window. A 429 without `Retry-After` now waits 60 s. (2) `make dump` wrote a 13-byte file: Compose named the project after the worktree folder and found no `db`, and the pipe into zstd hid the error. Fixed with a fixed `name:` in compose and `pipefail` in the Makefile.
+- **Would change:** check a provider's rate limits for *your* tier before designing a batch job. And never pipe a producer in make without pipefail.
+

@@ -2,19 +2,24 @@
 
 Strict = the first listed table; lenient = any listed table. MRR is the mean of 1/rank of
 the first hit (0 when absent), which rewards ranking the right table near the top.
-`canada-eval-retrieval --method fts` prints a Markdown ablation row and per-question ranks.
+`canada-eval-retrieval --method fts|vector` prints a Markdown ablation row and per-question
+ranks. `--record` embeds unrecorded questions live (needs VOYAGE_API_KEY) and stores them,
+so later runs, including CI, replay them with no key; that's `make record`.
 """
 
 import argparse
 import json
+import sys
 from collections.abc import Callable
 from typing import Any
 
 import psycopg
 
 from canada_agent.config import Settings
+from canada_agent.embed.voyage import VoyageClient
 from canada_agent.evals.lint import RETRIEVAL, load
 from canada_agent.search.fts import search_fts
+from canada_agent.search.vector import query_vector, search_vector
 
 Searcher = Callable[[str], list[int]]
 
@@ -53,14 +58,35 @@ def score(questions: list[dict[str, Any]], search: Callable[[str], list[int]], k
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--method", choices=["fts"], default="fts")
+    parser.add_argument("--method", choices=["fts", "vector"], default="fts")
     parser.add_argument("--k", type=int, default=5)
+    parser.add_argument("--record", action="store_true", help="embed unrecorded questions")
     args = parser.parse_args()
 
+    settings = Settings()
     questions = load(RETRIEVAL)
     by_id = {q["id"]: q["question"] for q in questions}
-    with psycopg.connect(Settings().database_url) as conn:
-        report = score(questions, lambda qid: search_fts(conn, by_id[qid]), k=args.k)
+    client = VoyageClient(settings.voyage_api_key.get_secret_value()) if args.record else None
+    unrecorded: list[str] = []
+
+    with psycopg.connect(settings.database_url, autocommit=True) as conn:
+
+        def search(qid: str) -> list[int]:
+            if args.method == "fts":
+                return search_fts(conn, by_id[qid])
+            vector = query_vector(conn, by_id[qid], client)
+            if vector is None:
+                unrecorded.append(qid)  # scored as a miss, never silently skipped
+                return []
+            return search_vector(conn, vector)
+
+        report = score(questions, search, k=args.k)
+    if unrecorded:
+        print(
+            f"warning: {len(unrecorded)} unrecorded questions scored as misses: {unrecorded}"
+            " (run `make record`)",
+            file=sys.stderr,
+        )
 
     k = report["k"]
     print(
@@ -69,6 +95,8 @@ def main() -> None:
         f"{report['mrr_lenient']:.2f} |   <- recall@{k} strict, lenient; MRR strict, lenient"
     )
     print(json.dumps(report["per_question"], indent=1))
+    if unrecorded:
+        sys.exit(1)  # in CI: a question was added without `make record`
 
 
 if __name__ == "__main__":
