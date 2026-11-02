@@ -70,12 +70,17 @@ def build_card(meta: TableMetadata, subject_names: list[str]) -> str:
     note = untrusted_text(meta.footnotes[0], FOOTNOTE_LIMIT) if meta.footnotes else ""
     footer = [f"Note: {note}"] if note else []
 
-    lines = header + [_dimension_line(d) for d in meta.dimensions] + footer
-    card = "\n".join(lines)
-    while len(card) > CARD_CHAR_LIMIT and len(lines) > len(header) + len(footer):
+    dims = [_dimension_line(d) for d in meta.dimensions]
+
+    def assemble(more: bool) -> str:
+        # The marker belongs with the dimensions, before the note, so it is never cut off.
+        return "\n".join(header + dims + (["- … more dimensions"] if more else []) + footer)
+
+    card = assemble(more=False)
+    while len(card) > CARD_CHAR_LIMIT and dims:
         # Drop the last dimension line until it fits; the counts on earlier lines remain.
-        lines.pop(len(lines) - len(footer) - 1)
-        card = "\n".join(lines + ["- … more dimensions"])
+        dims.pop()
+        card = assemble(more=True)
     return card[:CARD_CHAR_LIMIT]
 
 

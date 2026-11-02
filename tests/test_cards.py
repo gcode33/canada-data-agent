@@ -85,3 +85,18 @@ def test_hash_changes_when_content_changes_and_not_otherwise():
     assert a == metadata_hash("card", "fts", "voyage-4")
     assert a != metadata_hash("card!", "fts", "voyage-4")
     assert a != metadata_hash("card", "fts", "voyage-4-lite")
+
+
+def test_more_dimensions_marker_sits_before_the_note_and_the_note_ends_the_card():
+    meta = cpi()
+    many = [
+        Dimension(10 + i, f"Dimension {i}", [Member(j, f"Member {i}-{j}", None) for j in range(15)])
+        for i in range(12)
+    ]
+    big = TableMetadata(
+        meta.product_id, meta.title, 6, meta.dimensions + many, footnotes=["Short note."]
+    )
+    card = build_card(big, subject_names=[])
+    assert len(card) <= CARD_CHAR_LIMIT
+    assert card.index("- … more dimensions") < card.index("Note: Short note.")
+    assert card.endswith("Note: Short note.")

@@ -69,3 +69,17 @@ def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
                 ],
             )
     return True
+
+
+def prune_cards(conn: psycopg.Connection, keep: set[int]) -> list[int]:
+    """Delete tables that left scope (archived or re-filed); their members cascade.
+
+    Refuses an empty `keep`, so a broken scope file can't wipe the whole index.
+    """
+    if not keep:
+        raise ValueError("refusing to prune with an empty scope")
+    rows = conn.execute(
+        "DELETE FROM table_card WHERE NOT (product_id = ANY(%s)) RETURNING product_id",
+        (sorted(keep),),
+    ).fetchall()
+    return sorted(r[0] for r in rows)

@@ -46,3 +46,7 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Surprised:** `claude -p` hung for 180 s with no output when run from Python, because it reads stdin and the subprocess inherited an open one. `stdin=DEVNULL` fixed it. Also, the first answer said "+1.99%", which is correct but not how StatCan publishes it (+2.0%); one line in the system prompt fixed that.
 - **Broke:** two MCP error tests. The SDK prefixes anticipated `ToolError`s with "Error executing tool <name>:". Our code survives inside the message, so the tests now match the code and assert the error is not an `UnexpectedToolError`.
 - **Would change:** decide the billing model before the spec. ADR 0009 moved the agent from the API to the subscription, and with it the CI eval gate became a local run that CI verifies by hash.
+## fix/phase0-2-review
+- **Surprised:** Porter stemming isn't idempotent. Stemming an already-stemmed word again changes it ("decreas" → "decrea"), so the full-text query silently missed words. The retrieval numbers didn't move, which shows how a 15-question set can hide a real bug.
+- **Broke:** nothing new, but the review found 12 issues in merged code, 2 of them high. The worst pattern: WDS failures arriving as HTTP 200 were treated as successes by the cache. That was the exact lesson of feat/get-series, applied in the backend but not in the cache.
+- **Would change:** review each phase before it merges (now the rule), and when a fact is learned, such as "errors come as 200", search the code for every place it applies.

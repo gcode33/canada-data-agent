@@ -56,6 +56,9 @@ def discover(directory: Path) -> list[Migration]:
     return [migrations[v] for v in sorted(migrations)]
 
 
+ADVISORY_LOCK_ID = 727_001  # any constant unique to this app's migrations
+
+
 def apply_migrations(database_url: str, directory: Path) -> list[Migration]:
     """Apply every pending migration in order. Returns the ones applied this run."""
     pending = discover(directory)
@@ -64,8 +67,15 @@ def apply_migrations(database_url: str, directory: Path) -> list[Migration]:
     # Without it the first SELECT opens an implicit transaction, every block becomes a
     # savepoint inside it, and one failure rolls back migrations that already "applied".
     with psycopg.connect(database_url, autocommit=True) as conn:
+        # Two runs at once (e.g. two containers starting) would both apply the same file.
+        # A session-level advisory lock queues the second run; it then reads the ledger
+        # the first one wrote. The lock is released when the connection closes.
+        conn.execute("SELECT pg_advisory_lock(%s)", (ADVISORY_LOCK_ID,))
         conn.execute(LEDGER)
         done = {v: c for v, c in conn.execute("SELECT version, checksum FROM schema_migrations")}
+        if orphans := sorted(set(done) - {m.version for m in pending}):
+            # Usually a branch older than the database; worth knowing, not worth failing on.
+            print(f"warning: applied migrations with no file here: {orphans}", file=sys.stderr)
         for migration in pending:
             if migration.version in done:
                 if done[migration.version] != migration.checksum:

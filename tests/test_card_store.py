@@ -5,7 +5,7 @@ import pytest
 from test_cards import cpi
 
 from canada_agent.db.migrate import apply_migrations
-from canada_agent.index.store import CardRow, upsert_card
+from canada_agent.index.store import CardRow, prune_cards, upsert_card
 
 pytestmark = pytest.mark.db
 MIGRATIONS = Path(__file__).resolve().parents[1] / "migrations"
@@ -52,3 +52,19 @@ def test_members_are_replaced_not_duplicated(db):
         upsert_card(conn, row("b"))
         count = conn.execute("SELECT count(*) FROM member WHERE product_id = 18100004").fetchone()
     assert count == (sum(len(d.members) for d in cpi().dimensions),)
+
+
+def test_tables_that_left_scope_are_pruned_with_their_members(db):
+    with psycopg.connect(db) as conn:
+        upsert_card(conn, row())
+        assert prune_cards(conn, {18100004}) == []  # still in scope: kept
+        assert prune_cards(conn, {99999999}) == [18100004]
+        left = conn.execute(
+            "SELECT (SELECT count(*) FROM table_card), (SELECT count(*) FROM member)"
+        )
+        assert left.fetchone() == (0, 0)
+
+
+def test_prune_refuses_an_empty_scope(db):
+    with psycopg.connect(db) as conn, pytest.raises(ValueError, match="empty scope"):
+        prune_cards(conn, set())

@@ -14,7 +14,7 @@ import psycopg
 from canada_agent.config import Settings
 from canada_agent.index.cards import build_card
 from canada_agent.index.scope import load_scope, select, subject_names
-from canada_agent.index.store import CardRow, upsert_card
+from canada_agent.index.store import CardRow, prune_cards, upsert_card
 from canada_agent.logs import configure_logging
 from canada_agent.series.backend import LiveBackend
 from canada_agent.wds.cache import PostgresCache
@@ -60,6 +60,11 @@ def main() -> None:
             outcome["written" if upsert_card(conn, row) else "unchanged"] += 1
             if i % 50 == 0:
                 print(f"  {i}/{len(selected)} tables", file=sys.stderr)
+        # Without this, a table that left scope would stay searchable forever.
+        pruned = prune_cards(conn, {c["productId"] for c in selected})
+        outcome["pruned"] = len(pruned)
+        if pruned:
+            log.info("pruned", extra={"product_ids": pruned})
 
     summary = {"selected": len(selected), **outcome, "failed_ids": failed}
     print(json.dumps(summary, indent=2))

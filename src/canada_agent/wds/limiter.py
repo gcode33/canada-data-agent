@@ -3,9 +3,12 @@
 WDS allows 25 requests/second per IP; we stay at or under 10. A bucket that holds a single
 token means grants are always at least 1/rate seconds apart, so any one-second window holds
 at most `rate` requests. A bigger bucket would allow bursts that break that guarantee.
+Thread-safe: the lock is held while waiting, so concurrent callers queue up one
+interval apart instead of all seeing the same full token.
 The clock and sleep are injectable so tests run on a fake clock: exact and instant.
 """
 
+import threading
 import time
 from collections.abc import Callable
 
@@ -25,6 +28,7 @@ class TokenBucket:
         self._sleep = sleep
         self._tokens = 1.0
         self._last = clock()
+        self._lock = threading.Lock()
 
     def _refill(self) -> None:
         now = self._clock()
@@ -33,8 +37,9 @@ class TokenBucket:
 
     def acquire(self) -> None:
         """Block until a request may be sent, then spend the token."""
-        self._refill()
-        if self._tokens < 1.0:
-            self._sleep((1.0 - self._tokens) * self.interval)
+        with self._lock:
             self._refill()
-        self._tokens = max(0.0, self._tokens - 1.0)
+            if self._tokens < 1.0:
+                self._sleep((1.0 - self._tokens) * self.interval)
+                self._refill()
+            self._tokens = max(0.0, self._tokens - 1.0)

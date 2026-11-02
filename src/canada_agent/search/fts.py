@@ -15,7 +15,9 @@ import psycopg
 
 QUERY = """
 WITH q AS (
-    SELECT to_tsquery('english', string_agg(DISTINCT lexeme, ' | ')) AS query
+    -- 'simple' + quoting: the lexemes are already stemmed; 'english' would stem them again
+    -- (decreasing -> decreas -> decrea) and they would never match the stored vector.
+    SELECT to_tsquery('simple', string_agg(DISTINCT quote_literal(lexeme), ' | ')) AS query
     FROM unnest(to_tsvector('english', %(question)s))
 )
 SELECT product_id

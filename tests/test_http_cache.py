@@ -37,3 +37,9 @@ def test_put_overwrites(cache):
     cache.put("k", "u", {"v": 1}, kind="data", now=0.0)
     cache.put("k", "u", {"v": 2}, kind="data", now=10.0)
     assert cache.get("k", now=20.0) == {"v": 2}
+
+
+def test_unreachable_database_is_a_miss_not_a_crash():
+    down = PostgresCache("postgresql://nobody@127.0.0.1:1/none?connect_timeout=1")
+    assert down.get("k") is None
+    down.put("k", "url", {"a": 1}, "data")  # skipped, logged, no exception
