@@ -1,0 +1,33 @@
+Yes, but borrow the ideas, not the gateway itself. Not for v1.0: right now you have one MCP server (canada-mcp, stdio) and one agent, and a gateway in front of a single server adds complexity and does nothing. It does make sense in v1.1, when your spec adds Open Canada (search_datasets) and Bank of Canada (get_fx_rate), because that's the "many backends" problem Uber solved.
+
+What already matches Uber (good for interviews):
+
+┌───────────────────────────┬────────────────────────────────────────────┐
+│           Uber            │                 Your repo                  │
+├───────────────────────────┼────────────────────────────────────────────┤
+│ Owner approval: every     │ config/scope.toml: only 584 approved       │
+│ tool starts disabled      │ tables are in scope                        │
+├───────────────────────────┼────────────────────────────────────────────┤
+│ The registry catalogs     │ Table cards in Postgres, index/cards.py    │
+│ every tool                │                                            │
+├───────────────────────────┼────────────────────────────────────────────┤
+│ Runtime discovery to      │ Hybrid search + rerank: the agent finds 5  │
+│ avoid context bloat       │ tables instead of loading 584              │
+├───────────────────────────┼────────────────────────────────────────────┤
+│ Governance at the         │ Host allowlist, rate limiter,              │
+│ boundary              des                  │
+├───────────────────────────┼───────────────────────────────────────────rimming responses    cap                  │
+└───────────────────────────┴───────────────────────────────────────────
+Uber ideas worth adding, smallest first:                                Expose search as an M has 2 tools and theagent needs --table 18100004 from you. A search_tables(question) toolbuilt on search/hybri own table. That's Uber's runtime discovery, and it's likely the third tool your Phase 3.1 planexpects.
+2. AutoCrawler-style card generation. Build each table's card from StatCmetadata, with an LLM a human reviewing thediff before it lands. Your retrieval eval then proves whether the    generated cards impro eval story.
+3. A tool-description diff gate. Phase 3.1 already plans a description  snapshot test. Make i changes withoutapproval. That's Uber's "Tool Diff, then Approve" step, enforced by yPR gate.
+4. Response projection. Return only the fields the agent needs from WDS (value, period, unit,ds. Then measure thetoken and USD savings in your cost logs.
+
+v1.1, when the multi-source gateway pays off:
+- Add a small source regatCan, Open Canada andBank of Canada, with host allowlist, rate limit, enabled flag and owner.
+- Keep one MCP server thind the same guardrails.That's a gateway in miniature, and you get Uber's design on your CV without
+  the scale.
+- Make search_tables search across all sources.
+- Extend the eval to ask right source.
+
+I'd start with #1: it's able crutch. Want me tostart a session on it in the repo? I'd need to know where your working copy lives; I only cloned a r
