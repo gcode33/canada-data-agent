@@ -68,3 +68,17 @@ def test_tables_that_left_scope_are_pruned_with_their_members(db):
 def test_prune_refuses_an_empty_scope(db):
     with psycopg.connect(db) as conn, pytest.raises(ValueError, match="empty scope"):
         prune_cards(conn, set())
+
+
+def test_changed_card_text_drops_recorded_reranks_that_read_it(db):
+    with psycopg.connect(db) as conn:
+        upsert_card(conn, row("v1"))
+        conn.execute(
+            "INSERT INTO rerank_cache (model, question_hash, candidates_hash, ranked)"
+            " VALUES ('m', 'q', 'c1', ARRAY[18100004, 1]), ('m', 'q', 'c2', ARRAY[2, 3])"
+        )
+        upsert_card(conn, row("v1"))  # unchanged: recordings kept
+        assert conn.execute("SELECT count(*) FROM rerank_cache").fetchone() == (2,)
+        upsert_card(conn, row("v2"))  # changed: only the ordering that included it goes
+        left = conn.execute("SELECT candidates_hash FROM rerank_cache").fetchall()
+    assert left == [("c2",)]

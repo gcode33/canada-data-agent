@@ -33,12 +33,14 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run canada-lint-evals
       - run: uv run pytest
-      # Retrieval eval from the committed index: no Voyage key, no StatCan call (PLAN 2.2/2.3)
+      # Retrieval eval from the committed index: no Voyage key, no StatCan call (PLAN 2.2/2.3).
+      # Floors = evals/ablation.md rows; raise them when a PR improves a row.
       - run: uv run canada-migrate
       - run: make seed
-      - run: uv run canada-eval-retrieval --method fts
-      - run: uv run canada-eval-retrieval --method vector
-      - run: uv run canada-eval-retrieval --method hybrid
+      - run: uv run canada-eval-retrieval --method fts --min-recall 0.33 --min-mrr 0.21
+      - run: uv run canada-eval-retrieval --method vector --min-recall 0.66 --min-mrr 0.48
+      - run: uv run canada-eval-retrieval --method hybrid --min-recall 0.73 --min-mrr 0.40
+      - run: uv run canada-eval-retrieval --method hybrid-rerank --min-recall 0.80 --min-mrr 0.62
       - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

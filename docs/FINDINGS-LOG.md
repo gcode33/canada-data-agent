@@ -61,3 +61,13 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** nothing in code; the assumption that "hybrid always wins" broke. Feeding only full-text's top 10 and weighting vector 2x reached 0.73.
 - **Would change:** with 15 questions, one question is 0.07 of recall, so a 12-way sweep on the same set overfits easily. Record every cell and treat the winner as provisional until a held-out set confirms it.
 
+## feat/rerank
+- **Surprised:** the reranker's untuned default beat every tuned variant upstream: MRR 0.41 → 0.63. Reading the question and card together beats comparing two separately made vectors. Also, PLAN's `rerank-3` doesn't exist, and checking the docs caught it before any code.
+- **Broke:** nothing. Keying the cache on the exact candidate list means a search change can't replay a stale order; the test proves it.
+- **Would change:** n/a. Recording expensive model calls once and replaying them is now the pattern for everything slow: embeddings, reranks, and next, agent transcripts (4.3).
+
+## Phase 2 review (fixes on feat/rerank)
+- **Surprised:** every cache we added keys on *inputs we chose*, and the reviewer found the input we forgot: card text for reranks, and model for card vectors. A cache key must cover everything the cached answer depends on.
+- **Broke:** nothing in production, but CI would have stayed green through a 2× drop in retrieval quality. Evals that can't fail aren't gates; score floors fix that.
+- **Would change:** for every new cache, list "what does this result depend on?" and test that changing each one invalidates it.
+

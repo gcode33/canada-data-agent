@@ -27,7 +27,8 @@ class CardRow:
 def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
     """Insert or update one table. Returns False (and writes nothing) if it is unchanged.
 
-    A changed card clears `embedding`, so step 2.2 re-embeds exactly the changed tables.
+    A changed card clears `embedding`, so step 2.2 re-embeds exactly the changed tables,
+    and drops recorded reranks that read its old text (Phase 2 review, finding 1).
     """
     m = row.meta
     with conn.transaction():
@@ -48,7 +49,8 @@ def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
                 title = EXCLUDED.title, subject_codes = EXCLUDED.subject_codes,
                 frequency = EXCLUDED.frequency, start_date = EXCLUDED.start_date,
                 end_date = EXCLUDED.end_date, card_text = EXCLUDED.card_text,
-                tsv = EXCLUDED.tsv, embedding = NULL, metadata_hash = EXCLUDED.metadata_hash,
+                tsv = EXCLUDED.tsv, embedding = NULL, embedding_model = NULL,
+                metadata_hash = EXCLUDED.metadata_hash,
                 indexed_at = now()
             """,
             (
@@ -57,6 +59,7 @@ def upsert_card(conn: psycopg.Connection, row: CardRow) -> bool:
                 row.card_text, m.title, row.fts, row.hash,
             ),
         )  # fmt: skip
+        conn.execute("DELETE FROM rerank_cache WHERE %s = ANY(ranked)", (m.product_id,))
         conn.execute("DELETE FROM member WHERE product_id = %s", (m.product_id,))
         with conn.cursor() as cur:
             cur.executemany(

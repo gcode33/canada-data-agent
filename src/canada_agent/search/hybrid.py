@@ -19,6 +19,7 @@ import psycopg
 
 from canada_agent.embed.voyage import VoyageClient
 from canada_agent.search.fts import search_fts
+from canada_agent.search.rerank import RERANK_CANDIDATES, rerank
 from canada_agent.search.vector import query_vector, search_vector
 
 RRF_K = 60
@@ -47,6 +48,7 @@ def rrf(
 class HybridResult:
     tables: list[int]
     degraded_retrieval: bool  # True when the question had no vector: full-text only
+    reranked: bool = False  # False if reranking was asked for but unavailable offline
 
 
 def search_hybrid(
@@ -54,15 +56,19 @@ def search_hybrid(
     question: str,
     client: VoyageClient | None = None,
     limit: int = 10,
+    use_rerank: bool = False,
 ) -> HybridResult:
     fts = search_fts(conn, question, limit=FTS_CANDIDATES)
     vector = query_vector(conn, question, client)
     if vector is None:
         return HybridResult(fts[:limit], degraded_retrieval=True)
-    return HybridResult(
-        rrf(
-            [fts, search_vector(conn, vector, limit=VECTOR_CANDIDATES)],
-            weights=[1.0, VECTOR_WEIGHT],
-        )[:limit],
-        degraded_retrieval=False,
+    fused = rrf(
+        [fts, search_vector(conn, vector, limit=VECTOR_CANDIDATES)],
+        weights=[1.0, VECTOR_WEIGHT],
     )
+    if use_rerank:
+        top = fused[:RERANK_CANDIDATES]
+        ordered = rerank(conn, question, top, client)
+        if ordered is not None:
+            return HybridResult((ordered + fused[len(top) :])[:limit], False, reranked=True)
+    return HybridResult(fused[:limit], degraded_retrieval=False)

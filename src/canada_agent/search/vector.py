@@ -15,6 +15,9 @@ from canada_agent.embed.voyage import MODEL, VoyageClient
 
 
 def question_hash(question: str) -> str:
+    # Case and spacing are normalised on purpose: "GDP of BC" and "gdp of  bc" share one
+    # recorded vector (the first spelling seen). Their live vectors differ trivially, and
+    # a stable key matters more for replay (Phase 2 review, finding 3).
     normalised = " ".join(question.split()).casefold()
     return hashlib.sha256(normalised.encode()).hexdigest()
 
@@ -45,8 +48,8 @@ def search_vector(conn: psycopg.Connection, vector: str, limit: int = 50) -> lis
     # <=> is cosine distance. 584 rows: an exact scan is ~1 ms, so an approximate index
     # would only add recall loss (ADR 0003).
     rows = conn.execute(
-        "SELECT product_id FROM table_card WHERE embedding IS NOT NULL"
+        "SELECT product_id FROM table_card WHERE embedding_model = %s"
         " ORDER BY embedding <=> %s::vector, product_id LIMIT %s",
-        (vector, limit),
+        (MODEL, vector, limit),
     )
     return [r[0] for r in rows]

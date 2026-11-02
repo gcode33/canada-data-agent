@@ -9,7 +9,7 @@ Measured on the 15-question retrieval set (`evals/retrieval/questions.yaml`), wh
 | 3 | **Vector only:** Voyage `voyage-4` (1024-d), exact cosine scan (ADR 0003) | **0.67** | **0.67** | **0.49** | **0.49** | 2026-11-01 |
 | 4a | Hybrid: plain RRF (k=60) of 2 + 3, 50 candidates each, equal weights | 0.40 | 0.40 | 0.29 | 0.29 | 2026-11-01 |
 | 4 | **Hybrid: weighted RRF:** full-text top 10 + vector top 50, vector weight 2 (provisional) | **0.73** | **0.73** | 0.41 | 0.41 | 2026-11-01 |
-| 5 | Hybrid + `rerank-3` | pending | | | | |
+| 5 | **Hybrid + rerank:** Voyage `rerank-2.5` over the top 20 (ADR 0004) | **0.80** | **0.80** | **0.63** | **0.67** | 2026-11-01 |
 
 ## What we tried for full-text, and why v2 won
 - **Length normalisation** (`ts_rank_cd` flags 1, 2, 8, 16, 32): no flag beat row 1, and `len` (2) fell to 0.00. Long tables weren't the core problem.
@@ -55,4 +55,10 @@ Cells are recall@5 / MRR (strict).
 **Caveats:**
 - It was picked from 12 variants on the same 15 questions, and 0.73 vs 0.67 is **one question**, so it's provisional until the golden dev set (PLAN 4.1) confirms it.
 - MRR is below vector-only (0.41 vs 0.49): hybrid finds more right tables but ranks some lower. That's what the reranker (row 5) is meant to fix.
+
+## Rerank (row 5)
+- One configuration, not tuned on these questions: `rerank-2.5` over the hybrid top 20.
+- **recall@5 0.73 → 0.80 (one more question in the top 5, so treat the recall gain as small) and MRR 0.41 → 0.63** (the larger, steadier gain: right tables move to rank 1–2). The reranker fixes hybrid's weakness, finding the table but ranking it 3rd–5th, and is best on both metrics.
+- PLAN named `rerank-3`, which doesn't exist; `rerank-2.5` is Voyage's current recommended model.
+- Recorded in `rerank_cache` and replayed with no key; the CI eval reproduces this row.
 
