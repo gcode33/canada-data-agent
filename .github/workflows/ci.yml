@@ -38,6 +38,7 @@ jobs:
       - run: make seed
       - run: uv run canada-eval-retrieval --method fts
       - run: uv run canada-eval-retrieval --method vector
+      - run: uv run canada-eval-retrieval --method hybrid
       - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

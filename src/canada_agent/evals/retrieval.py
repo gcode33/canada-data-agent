@@ -2,7 +2,7 @@
 
 Strict = the first listed table; lenient = any listed table. MRR is the mean of 1/rank of
 the first hit (0 when absent), which rewards ranking the right table near the top.
-`canada-eval-retrieval --method fts|vector` prints a Markdown ablation row and per-question
+`canada-eval-retrieval --method fts|vector|hybrid` prints a Markdown ablation row and per-question
 ranks. `--record` embeds unrecorded questions live (needs VOYAGE_API_KEY) and stores them,
 so later runs, including CI, replay them with no key; that's `make record`.
 """
@@ -19,6 +19,7 @@ from canada_agent.config import Settings
 from canada_agent.embed.voyage import VoyageClient
 from canada_agent.evals.lint import RETRIEVAL, load
 from canada_agent.search.fts import search_fts
+from canada_agent.search.hybrid import search_hybrid
 from canada_agent.search.vector import query_vector, search_vector
 
 Searcher = Callable[[str], list[int]]
@@ -58,7 +59,7 @@ def score(questions: list[dict[str, Any]], search: Callable[[str], list[int]], k
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--method", choices=["fts", "vector"], default="fts")
+    parser.add_argument("--method", choices=["fts", "vector", "hybrid"], default="fts")
     parser.add_argument("--k", type=int, default=5)
     parser.add_argument("--record", action="store_true", help="embed unrecorded questions")
     args = parser.parse_args()
@@ -74,6 +75,11 @@ def main() -> None:
         def search(qid: str) -> list[int]:
             if args.method == "fts":
                 return search_fts(conn, by_id[qid])
+            if args.method == "hybrid":
+                result = search_hybrid(conn, by_id[qid], client, limit=50)
+                if result.degraded_retrieval:
+                    unrecorded.append(qid)  # full-text only; flagged and failed like vector
+                return result.tables
             vector = query_vector(conn, by_id[qid], client)
             if vector is None:
                 unrecorded.append(qid)  # scored as a miss, never silently skipped

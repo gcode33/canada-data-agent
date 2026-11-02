@@ -7,7 +7,8 @@ Measured on the 15-question retrieval set (`evals/retrieval/questions.yaml`), wh
 | 1 | Full-text, ORed terms, `ts_rank_cd` over title + all members | 0.13 | 0.13 | 0.05 | 0.05 | 2026-10-27 |
 | 2 | **Full-text v2:** title weighted A, member names D with positions stripped, `ts_rank` | **0.33** | **0.33** | **0.22** | **0.22** | 2026-10-27 |
 | 3 | **Vector only:** Voyage `voyage-4` (1024-d), exact cosine scan (ADR 0003) | **0.67** | **0.67** | **0.49** | **0.49** | 2026-11-01 |
-| 4 | Hybrid: RRF of 2 + 3 | pending | | | | |
+| 4a | Hybrid: plain RRF (k=60) of 2 + 3, 50 candidates each, equal weights | 0.40 | 0.40 | 0.29 | 0.29 | 2026-11-01 |
+| 4 | **Hybrid: weighted RRF:** full-text top 10 + vector top 50, vector weight 2 (provisional) | **0.73** | **0.73** | 0.41 | 0.41 | 2026-11-01 |
 | 5 | Hybrid + `rerank-3` | pending | | | | |
 
 ## What we tried for full-text, and why v2 won
@@ -36,3 +37,22 @@ That's the gap embeddings are meant to close, and row 3 shows they mostly do.
 - **Still missed:** "jobless rate" (r04) is at rank 16. r01, r03, r05 and r12 also fall outside the top 5.
 - **The two methods are complementary.** Full-text finds r01 and r03, which vector misses; vector finds 8 that full-text misses. Their top-5 hits together cover 12 of 15 questions, which is the case for hybrid RRF (row 4).
 - Queries are recorded once (`make record`) and replayed from `query_embedding`, so CI reproduces this row with no key.
+
+## Hybrid: why plain RRF lost, and the sweep (row 4)
+Plain RRF scored **worse than vector alone** (0.40 vs 0.67). Full-text's 50 candidates are mostly noise for questions it can't match. A table that's mediocre in both lists (ranks 3 and 10: 1/63 + 1/70 = 0.030) outscores the right table at vector rank 1 that full-text never found (1/61 = 0.016).
+
+| full-text candidates | vector weight 1 | 2 | 3 |
+|---|---|---|---|
+| 50 | 0.40 / 0.29 | 0.40 / 0.34 | 0.60 / 0.39 |
+| 20 | 0.40 / 0.32 | 0.53 / 0.35 | 0.60 / 0.40 |
+| 10 | 0.67 / 0.35 | **0.73 / 0.41** | 0.73 / 0.47 |
+| 5 | 0.67 / 0.34 | 0.73 / 0.41 | 0.73 / 0.46 |
+
+Cells are recall@5 / MRR (strict).
+
+**Chosen:** top 10, weight 2. It's the smallest change that reaches the best recall, and it isn't the single best cell.
+
+**Caveats:**
+- It was picked from 12 variants on the same 15 questions, and 0.73 vs 0.67 is **one question**, so it's provisional until the golden dev set (PLAN 4.1) confirms it.
+- MRR is below vector-only (0.41 vs 0.49): hybrid finds more right tables but ranks some lower. That's what the reranker (row 5) is meant to fix.
+

@@ -56,3 +56,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** (1) the first run died at 90/584 on "429 after 6 attempts", because exponential backoff (2–32 s) doesn't outlast a one-minute window. A 429 without `Retry-After` now waits 60 s. (2) `make dump` wrote a 13-byte file: Compose named the project after the worktree folder and found no `db`, and the pipe into zstd hid the error. Fixed with a fixed `name:` in compose and `pipefail` in the Makefile.
 - **Would change:** check a provider's rate limits for *your* tier before designing a batch job. And never pipe a producer in make without pipefail.
 
+## feat/hybrid-search
+- **Surprised:** textbook RRF (k=60, equal weights) made search *worse* than vector alone (recall@5 0.40 vs 0.67). Fusion is only as good as its weakest list: full-text's long tail of noise outvoted vector's correct rank-1 hits.
+- **Broke:** nothing in code; the assumption that "hybrid always wins" broke. Feeding only full-text's top 10 and weighting vector 2x reached 0.73.
+- **Would change:** with 15 questions, one question is 0.07 of recall, so a 12-way sweep on the same set overfits easily. Record every cell and treat the winner as provisional until a held-out set confirms it.
+
