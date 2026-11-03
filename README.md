@@ -2,17 +2,18 @@
 
 An AI assistant that answers questions with **live Statistics Canada data** and cites every number, plus an **eval suite that blocks any pull request that makes it worse**.
 
-Status: in progress (PLAN Phase 2). It answers live questions end to end today:
+Status: in progress (PLAN Phase 3). It finds the right table and answers live questions end to end today:
 
 ```text
-$ canada-ask --table 18100004 "By how much did the rent index in Ontario change from September 2025 to September 2026, in percent?"
-Ontario's rent index (CPI, Rent component) rose 2.0% from September 2025 (161.2) to September 2026 (164.4).
+$ canada-ask "How much did rent go up in Ontario last year?"
+Ontario's rent CPI rose 2.9% over 2025 (December 2024 index 158.8 to December 2025 index 163.4). [...]
+I took "last year" to mean calendar year 2025 [...]
 Source: https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401
 ```
 
 ## How it works
 - **Agent:** `canada-ask` runs Claude through `claude -p` with this project's MCP server as its only tools (ADR 0009).
-- **Tools:** a stdio MCP server (`canada-mcp`) over the StatCan WDS API: host allowlist, rate limit, retries, cache, and machine-readable error codes.
+- **Tools:** a stdio MCP server (`canada-mcp`) with `search_tables`, `get_table_dimensions` and `get_series` over the StatCan WDS API: host allowlist, rate limit, retries, cache, machine-readable error codes, a 4k-token result cap, and pinned tool descriptions (ADR 0005).
 - **Table search:** 584 in-scope tables, each with a short card.
 
 | Method | recall@5 | MRR |

@@ -1,0 +1,112 @@
+[
+  {
+    "name": "get_series",
+    "description": "Fetch one series (one member per dimension) between two months, at most 120\npoints. Values are as published; null means suppressed, never zero. Multiply by\nscalar_factor. Compute changes yourself from the values, and cite source_url.",
+    "input_schema": {
+      "properties": {
+        "product_id": {
+          "description": "8-digit table id",
+          "maximum": 99999999,
+          "minimum": 10000000,
+          "title": "Product Id",
+          "type": "integer"
+        },
+        "members": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "{dimension position: member id}, e.g. {\"1\": 14, \"2\": 81}",
+          "title": "Members",
+          "type": "object"
+        },
+        "start": {
+          "description": "First month, YYYY-MM",
+          "pattern": "^\\d{4}-\\d{2}$",
+          "title": "Start",
+          "type": "string"
+        },
+        "end": {
+          "description": "Last month, YYYY-MM",
+          "pattern": "^\\d{4}-\\d{2}$",
+          "title": "End",
+          "type": "string"
+        }
+      },
+      "required": [
+        "product_id",
+        "members",
+        "start",
+        "end"
+      ],
+      "title": "get_seriesArguments",
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "get_table_dimensions",
+    "description": "List a table's dimensions and their member ids (at most 50 per dimension).\nCall this before get_series to find one member id per dimension. Filter a large\ndimension by name, e.g. {\"1\": \"ontario\", \"2\": \"rent\"}.",
+    "input_schema": {
+      "properties": {
+        "product_id": {
+          "description": "8-digit table id",
+          "maximum": 99999999,
+          "minimum": 10000000,
+          "title": "Product Id",
+          "type": "integer"
+        },
+        "filters": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Optional {dimension position: text} filter, e.g. {\"2\": \"rent\"}",
+          "title": "Filters"
+        }
+      },
+      "required": [
+        "product_id"
+      ],
+      "title": "get_table_dimensionsArguments",
+      "type": "object",
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "search_tables",
+    "description": "Find the Statistics Canada tables most likely to answer a question. Call this\nfirst. Returns up to k tables, best first, each with a short card (title,\nfrequency, date range, dimensions with member counts) and its source_url.\nPick a table, then call get_table_dimensions on its product_id.",
+    "input_schema": {
+      "properties": {
+        "query": {
+          "description": "The question",
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Query",
+          "type": "string"
+        },
+        "k": {
+          "default": 5,
+          "description": "Tables to return",
+          "maximum": 5,
+          "minimum": 1,
+          "title": "K",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "title": "search_tablesArguments",
+      "type": "object",
+      "additionalProperties": false
+    }
+  }
+]

@@ -21,7 +21,8 @@ def test_command_gives_the_model_only_our_mcp_tools():
     assert flag(cmd, "--setting-sources") == ""  # ignore user hooks and settings
     assert "--no-session-persistence" in cmd
     assert (
-        flag(cmd, "--allowedTools") == "mcp__canada__get_table_dimensions,mcp__canada__get_series"
+        flag(cmd, "--allowedTools")
+        == "mcp__canada__search_tables,mcp__canada__get_table_dimensions,mcp__canada__get_series"
     )
     server = json.loads(flag(cmd, "--mcp-config"))["mcpServers"]["canada"]
     assert server["args"] == ["-m", "canada_agent.mcp_server"]

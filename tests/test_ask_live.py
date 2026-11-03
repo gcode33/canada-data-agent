@@ -20,3 +20,16 @@ def test_slice_answers_the_rent_question_with_a_citation():
     assert (
         "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401" in answer["source_urls"]
     )
+
+
+def test_the_agent_finds_the_table_by_itself():
+    settings = Settings()
+    answer = ask(
+        "How much did rent go up in Ontario last year?",
+        model=settings.agent_model,
+        settings=settings,
+    ).answer
+    assert answer["refused"] is False
+    assert (
+        "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401" in answer["source_urls"]
+    )

@@ -71,3 +71,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** nothing in production, but CI would have stayed green through a 2× drop in retrieval quality. Evals that can't fail aren't gates; score floors fix that.
 - **Would change:** for every new cache, list "what does this result depend on?" and test that changing each one invalidates it.
 
+## feat/mcp-server
+- **Surprised:** an MCP schema's `additionalProperties: false` is only a promise. The SDK dropped unknown arguments and ran the tool anyway, and a test written to confirm the rule exposed it. Also, given "last year", the agent chose calendar 2025 and stated that assumption; I had assumed it would use the latest 12 months.
+- **Broke:** nothing shipped. The merged idea file was a garbled chat paste at the repo root; it's now `docs/ideas/0001-uber-mcp-gateway.md`, checked against Uber's post.
+- **Would change:** test what a boundary *does*, not what its schema says. Run the real question through the agent before predicting its behaviour in an interview answer.
+
