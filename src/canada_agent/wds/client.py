@@ -90,7 +90,8 @@ class WdsClient:
         self.http = httpx.Client(
             base_url=BASE_URL,
             transport=transport,
-            timeout=30.0,
+            # A stalled connect fails fast so retries fit inside a question's time budget.
+            timeout=httpx.Timeout(30.0, connect=5.0),
             follow_redirects=True,
             event_hooks={"request": [_enforce_host]},
         )

@@ -125,17 +125,25 @@ def parse_result(stdout: str) -> AskResult:
 
 
 def ask(question: str, *, model: str, settings: Settings, table: int | None = None) -> AskResult:
-    proc = subprocess.run(  # noqa: S603 - fixed argv, no shell
-        build_command(question, model, settings, table),
-        stdin=subprocess.DEVNULL,  # an inherited open stdin makes `claude -p` wait for input
-        capture_output=True,
-        text=True,
-        timeout=settings.question_timeout_s * 3,
-        check=False,
-    )
+    timeout = settings.question_timeout_s * 3
+    try:
+        proc = _run(build_command(question, model, settings, table), timeout)
+    except subprocess.TimeoutExpired as exc:
+        raise AskError(f"claude -p timed out after {timeout:.0f}s") from exc
     if proc.returncode != 0 and not proc.stdout:
         raise AskError(f"claude -p exited {proc.returncode}: {proc.stderr[:300]}")
     return parse_result(proc.stdout)
+
+
+def _run(command: list[str], timeout: float) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(  # noqa: S603 - fixed argv, no shell
+        command,
+        stdin=subprocess.DEVNULL,  # an inherited open stdin makes `claude -p` wait for input
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        check=False,
+    )
 
 
 def render(result: AskResult) -> str:

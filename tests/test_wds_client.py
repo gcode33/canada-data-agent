@@ -214,3 +214,8 @@ def test_request_body_is_canonical_json():
     client, _ = make_client(script)
     call(client)
     assert json.loads(script.requests[0].content) == [{"productId": 1}]
+
+
+def test_a_stalled_connect_fails_fast():
+    client, _ = make_client(Script())
+    assert client.http.timeout.connect == 5.0
