@@ -23,7 +23,10 @@ def question_hash(question: str) -> str:
 
 
 def query_vector(
-    conn: psycopg.Connection, question: str, client: VoyageClient | None = None
+    conn: psycopg.Connection,
+    question: str,
+    client: VoyageClient | None = None,
+    record: bool = True,
 ) -> str | None:
     """The question's embedding as a pgvector literal, or None if unrecorded and offline."""
     key = question_hash(question)
@@ -36,6 +39,8 @@ def query_vector(
     if client is None:
         return None
     literal = vector_literal(client.embed([question], "query").vectors[0])
+    if not record:
+        return literal
     conn.execute(
         "INSERT INTO query_embedding (model, question_hash, question, embedding)"
         " VALUES (%s, %s, %s, %s::vector) ON CONFLICT DO NOTHING",

@@ -27,6 +27,8 @@ Measured on a 15-question retrieval set committed before any search code. Every 
 
 > **Full-text is not BM25.** Postgres `ts_rank` weights how often and where a word appears in a document. It has no corpus-wide term weighting (IDF) and no length saturation, so a rare word counts no more than a common one. That's one reason vector search beats it here.
 
+**Limits of the checks.** The canary catches case and spacing tricks in answers and tool arguments, but encoded forms (such as base64) get through: it's a tripwire, not a guarantee. Citations must exactly match a URL a tool returned in that run. These checks show an answer came from the tools; correctness is measured separately by the golden set.
+
 ## Run it
 ```bash
 make up          # Postgres + migrations; seeds the index from data/index.sql.zst

@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 
+import psycopg
 import pytest
 from mcp.client.client import Client
 from mcp.server.mcpserver.exceptions import ToolError, UnexpectedToolError
@@ -248,3 +249,17 @@ def test_a_real_client_lists_and_calls_all_three_tools():
     # What the model actually sees for a refused call: is_error plus the code.
     assert bad.is_error is True
     assert "BAD_ARGUMENTS" in bad.content[0].text
+
+
+def test_database_errors_reach_the_model_with_a_code():
+    class DownIndex(FakeIndex):
+        def search(self, query, limit):
+            raise psycopg.OperationalError("down")
+
+    with pytest.raises(ToolError, match="UPSTREAM_UNAVAILABLE: database") as err:
+        asyncio.run(server(index=DownIndex()).call_tool("search_tables", {"query": "rent"}))
+    assert not isinstance(err.value, UnexpectedToolError)
+
+
+def test_series_reports_the_first_period_it_returned():
+    assert call(server(), "get_series", RENT_ARGS)["first_period_returned"] == "2025-01"

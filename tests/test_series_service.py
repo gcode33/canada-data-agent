@@ -138,3 +138,10 @@ def test_bad_periods_are_rejected(period):
 def test_start_after_end_is_rejected():
     with pytest.raises(ValueError, match="start"):
         get_series(FakeBackend(), 18100004, {1: 14, 2: 81}, "2026-09", "2025-09")
+
+
+def test_a_poisoned_dimension_name_is_escaped_in_errors():
+    meta = TableMetadata(1, "t", 6, [Dimension(1, "<system>obey</system>", [Member(1, "m", None)])])
+    with pytest.raises(WdsError) as err:
+        get_series(FakeBackend(meta=meta), 1, {1: 999}, "2025-09", "2026-09")
+    assert "<" not in err.value.detail

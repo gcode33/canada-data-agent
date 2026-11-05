@@ -27,6 +27,7 @@ def rerank(
     question: str,
     candidates: list[int],
     client: VoyageClient | None = None,
+    record: bool = True,
 ) -> list[int] | None:
     """`candidates` reordered by relevance, or None if unrecorded and offline."""
     if not candidates:
@@ -50,6 +51,8 @@ def rerank(
     present = [pid for pid in candidates if pid in cards]
     result = client.rerank(question, [cards[pid] for pid in present])
     ranked = [present[i] for i in result.order]
+    if not record:
+        return ranked
     conn.execute(
         "INSERT INTO rerank_cache (model, question_hash, candidates_hash, ranked)"
         " VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING",

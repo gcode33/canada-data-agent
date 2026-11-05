@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import psycopg
 import pytest
 
 from canada_agent.db.migrate import apply_migrations
@@ -43,3 +44,10 @@ def test_unreachable_database_is_a_miss_not_a_crash():
     down = PostgresCache("postgresql://nobody@127.0.0.1:1/none?connect_timeout=1")
     assert down.get("k") is None
     down.put("k", "url", {"a": 1}, "data")  # skipped, logged, no exception
+
+
+def test_expired_rows_are_deleted_on_write(cache):
+    cache.put("old", "u", {"a": 1}, "data", now=1000.0)
+    cache.put("new", "u", {"a": 2}, "data", now=1000.0 + TTL_SECONDS["data"] + 1)
+    with psycopg.connect(cache.database_url) as conn:
+        assert conn.execute("SELECT key FROM http_cache").fetchall() == [("new",)]

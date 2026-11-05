@@ -27,17 +27,27 @@ class TableIndex(Protocol):
 class PostgresTableIndex:
     """The real index. Without a Voyage key, unrecorded queries fall back to full-text."""
 
-    def __init__(self, conn: psycopg.Connection, client: VoyageClient | None) -> None:
-        self.conn, self.client = conn, client
+    def __init__(self, database_url: str, client: VoyageClient | None) -> None:
+        self.database_url, self.client = database_url, client
+
+    def _connect(self) -> psycopg.Connection:
+        # Per call, like PostgresCache: starting needs no database, and a restart heals itself.
+        return psycopg.connect(self.database_url, autocommit=True)
 
     def search(self, query: str, limit: int) -> HybridResult:
-        return search_hybrid(self.conn, query, self.client, limit=limit, use_rerank=True)
+        with self._connect() as conn:
+            # record=False: the tools are read-only, and the agent's queries (which injected
+            # text could steer) must never reach the committed index dump.
+            return search_hybrid(
+                conn, query, self.client, limit=limit, use_rerank=True, record=False
+            )
 
     def cards(self, product_ids: list[int]) -> dict[int, tuple[str, str]]:
-        rows = self.conn.execute(
-            "SELECT product_id, title, card_text FROM table_card WHERE product_id = ANY(%s)",
-            (product_ids,),
-        )
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT product_id, title, card_text FROM table_card WHERE product_id = ANY(%s)",
+                (product_ids,),
+            ).fetchall()
         return {pid: (title, card) for pid, title, card in rows}
 
 

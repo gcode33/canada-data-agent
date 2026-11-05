@@ -17,7 +17,7 @@ from dataclasses import dataclass
 
 import psycopg
 
-from canada_agent.embed.voyage import VoyageClient
+from canada_agent.embed.voyage import EmbedError, VoyageClient
 from canada_agent.search.fts import search_fts
 from canada_agent.search.rerank import RERANK_CANDIDATES, rerank
 from canada_agent.search.vector import query_vector, search_vector
@@ -57,9 +57,14 @@ def search_hybrid(
     client: VoyageClient | None = None,
     limit: int = 10,
     use_rerank: bool = False,
+    record: bool = True,
 ) -> HybridResult:
     fts = search_fts(conn, question, limit=FTS_CANDIDATES)
-    vector = query_vector(conn, question, client)
+    # Live Voyage trouble degrades search; it never fails the question (the flags say so).
+    try:
+        vector = query_vector(conn, question, client, record)
+    except EmbedError:
+        vector = None
     if vector is None:
         return HybridResult(fts[:limit], degraded_retrieval=True)
     fused = rrf(
@@ -68,7 +73,10 @@ def search_hybrid(
     )
     if use_rerank:
         top = fused[:RERANK_CANDIDATES]
-        ordered = rerank(conn, question, top, client)
+        try:
+            ordered = rerank(conn, question, top, client, record)
+        except EmbedError:
+            ordered = None
         if ordered is not None:
             return HybridResult((ordered + fused[len(top) :])[:limit], False, reranked=True)
     return HybridResult(fused[:limit], degraded_retrieval=False)
