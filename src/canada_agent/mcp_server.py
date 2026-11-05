@@ -48,6 +48,7 @@ def project_series(full: dict[str, Any]) -> dict[str, Any]:
         | ({"scalar_factor": p["scalar_factor"]} if out["scalar_factor"] == "varies" else {})
         for p in points
     ]
+    out["first_period_returned"] = points[0]["ref_period"] if points else None
     out["truncated"] = full["truncated"]
     out["no_data_in_range"] = full["no_data_in_range"]
     return out
@@ -67,9 +68,11 @@ def _trim(result: dict[str, Any]) -> bool:
     if result.get("points"):
         result["points"] = result["points"][len(result["points"]) // 4 + 1 :]  # oldest first
         result["truncated"] = True
+        result["first_period_returned"] = result["points"][0]["ref_period"]
         return True
     if result.get("results") and len(result["results"]) > 1:
         result["results"].pop()  # lowest-ranked table first
+        result["truncated"] = True
         return True
     dims = [d for d in result.get("dimensions", []) if len(d["members"]) > 1]
     if dims:
@@ -88,6 +91,8 @@ def _call(fn: Callable[[], dict[str, Any]]) -> str:
         raise ToolError(f"{code}: {exc.detail if isinstance(exc, WdsError) else exc}") from exc
     except ValueError as exc:
         raise ToolError(f"BAD_ARGUMENTS: {exc}") from exc
+    except psycopg.Error as exc:
+        raise ToolError(f"UPSTREAM_UNAVAILABLE: database: {type(exc).__name__}") from exc
 
 
 class StrictServer(MCPServer):
@@ -170,8 +175,7 @@ def main() -> None:
     except EmbedError as exc:
         print(f"canada-mcp: {exc}; search falls back to recorded queries", file=sys.stderr)
         voyage = None
-    conn = psycopg.connect(settings.database_url, autocommit=True)
-    index = tables.PostgresTableIndex(conn, voyage)
+    index = tables.PostgresTableIndex(settings.database_url, voyage)
     build_server(LiveBackend(client), index).run("stdio")
 
 

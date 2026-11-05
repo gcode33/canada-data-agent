@@ -57,11 +57,12 @@ def search_hybrid(
     client: VoyageClient | None = None,
     limit: int = 10,
     use_rerank: bool = False,
+    record: bool = True,
 ) -> HybridResult:
     fts = search_fts(conn, question, limit=FTS_CANDIDATES)
     # Live Voyage trouble degrades search; it never fails the question (the flags say so).
     try:
-        vector = query_vector(conn, question, client)
+        vector = query_vector(conn, question, client, record)
     except EmbedError:
         vector = None
     if vector is None:
@@ -73,7 +74,7 @@ def search_hybrid(
     if use_rerank:
         top = fused[:RERANK_CANDIDATES]
         try:
-            ordered = rerank(conn, question, top, client)
+            ordered = rerank(conn, question, top, client, record)
         except EmbedError:
             ordered = None
         if ordered is not None:

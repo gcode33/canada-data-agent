@@ -103,7 +103,8 @@ def get_series(
             raise WdsError(
                 ErrorCode.BAD_MEMBERS,
                 f"member {member_id} is not in dimension {dim.position} "
-                f"({dim.name}); use get_table_dimensions to find valid ids",
+                f"({untrusted_text(dim.name, NAME_LIMIT)}); "
+                "use get_table_dimensions to find valid ids",
             )
     try:
         coordinate = build_coordinate(chosen, n_dimensions=len(meta.dimensions))

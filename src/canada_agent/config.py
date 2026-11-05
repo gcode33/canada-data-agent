@@ -15,5 +15,6 @@ class Settings(BaseSettings):
     ci_model: str = "claude-haiku-5-5"
 
     max_tool_calls: int = 8
+    max_question_usd: float = 1.0  # API-equivalent; ADR 0009
     question_timeout_s: float = 120.0  # SPEC said 60; cold `claude -p` runs took 42-95 s
     statcan_max_rps: float = 10.0

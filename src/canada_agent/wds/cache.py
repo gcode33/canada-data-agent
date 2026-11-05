@@ -73,6 +73,10 @@ class PostgresCache:
 
     def _put(self, key: str, url: str, body: Any, kind: Kind, now: float) -> None:
         with psycopg.connect(self.database_url) as conn:
+            conn.execute(  # expired rows go here, or the table only ever grows
+                "DELETE FROM http_cache WHERE extract(epoch FROM fetched_at) + ttl_seconds <= %s",
+                (now,),
+            )
             conn.execute(
                 "INSERT INTO http_cache (key, url, body, fetched_at, ttl_seconds)"
                 " VALUES (%s, %s, %s, to_timestamp(%s), %s)"

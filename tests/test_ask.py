@@ -1,9 +1,11 @@
 import json
+import subprocess
 import sys
 from decimal import Decimal
 
 import pytest
 
+from canada_agent import ask as canada_ask
 from canada_agent.ask import (
     PROMPT_VERSION,
     AskError,
@@ -38,7 +40,7 @@ def test_command_gives_the_model_only_our_mcp_tools():
     )
     server = json.loads(flag(cmd, "--mcp-config"))["mcpServers"]["canada"]
     assert server["args"] == ["-m", "canada_agent.mcp_server"]
-    assert server["env"] == {"DATABASE_URL": "postgresql://x@localhost/db"}
+    assert "postgresql" not in " ".join(cmd)  # `ps` shows argv
 
 
 def test_table_hint_is_appended_to_the_question():
@@ -108,6 +110,7 @@ VALUE = {
     "vector_id": 41691954,
     "ref_period": "2025-09/2026-09",
 }
+REFUSAL = {"answer": "I can't.", "answer_values": [], "source_urls": [], "refused": True}
 GOOD = {"answer": "+2.0%", "answer_values": [VALUE], "source_urls": [URL], "refused": False}
 
 
@@ -126,7 +129,14 @@ def tool_result(i, is_error=False):
     return {
         "type": "user",
         "message": {
-            "content": [{"type": "tool_result", "tool_use_id": f"t{i}", "is_error": is_error}]
+            "content": [
+                {
+                    "type": "tool_result",
+                    "tool_use_id": f"t{i}",
+                    "is_error": is_error,
+                    "content": f'{{"vector_id": 41691954, "source_url": "{URL}"}}',
+                }
+            ]
         },
     }
 
@@ -151,8 +161,8 @@ def test_a_full_run_records_each_tool_call_and_its_latency():
 
 
 def test_tool_errors_are_recorded():
-    result = run([tool_use(1), tool_result(1, is_error=True), final()])
-    assert result.tool_calls[0].is_error is True
+    events = [tool_use(1), tool_result(1, is_error=True), tool_use(2), tool_result(2), final()]
+    assert run(events).tool_calls[0].is_error is True
 
 
 def test_the_ninth_tool_call_is_budget_exceeded_and_stops_consuming():
@@ -183,11 +193,75 @@ def test_a_silent_hang_is_killed_and_budget_exceeded():
     assert err.value.code is ErrorCode.BUDGET_EXCEEDED
 
 
-def test_stopping_early_kills_the_agent_process():
-    chatty = [sys.executable, "-u", "-c", "import time\nprint('{}')\ntime.sleep(30)"]
-    stream = _stream(chatty, timeout=25)
-    next(stream)
-    stream.close()  # what run_events raising does; must not wait out the sleep
+def test_going_over_budget_kills_the_agent_even_while_the_error_is_held(monkeypatch):
+    lines = [json.dumps(tool_use(i)) for i in range(3)]
+    script = f"import time\nfor x in {lines!r}: print(x, flush=True)\ntime.sleep(30)"
+    monkeypatch.setattr(
+        canada_ask, "build_command", lambda *a, **k: [sys.executable, "-u", "-c", script]
+    )
+    made = []
+    real = subprocess.Popen
+    monkeypatch.setattr(subprocess, "Popen", lambda *a, **k: made.append(real(*a, **k)) or made[-1])
+    settings = Settings(database_url="postgresql://x@localhost/db", max_tool_calls=2)
+    with pytest.raises(AskError) as err:
+        canada_ask.ask("q", model="m", settings=settings)
+    held = err.value  # what an eval runner's failures.append(exc) does
+    assert held.code is ErrorCode.BUDGET_EXCEEDED
+    assert made[0].poll() is not None  # dead now, not when the traceback is released
+
+
+def test_a_noisy_stderr_does_not_block_the_agent():
+    noisy = [
+        sys.executable,
+        "-c",
+        "import sys; sys.stderr.write('x' * 300000); sys.stderr.flush(); print('{}')",
+    ]
+    assert list(_stream(noisy, timeout=10)) == [{}]
+
+
+def test_a_failed_mcp_server_is_an_outage_not_a_refusal():
+    init = {
+        "type": "system",
+        "subtype": "init",
+        "mcp_servers": [{"name": "canada", "status": "failed"}],
+    }
+    with pytest.raises(AskError) as err:
+        run([init, final(REFUSAL)])
+    assert err.value.code is ErrorCode.UPSTREAM_UNAVAILABLE
+
+
+def test_a_refusal_after_every_tool_failed_is_an_outage():
+    with pytest.raises(AskError) as err:
+        run([tool_use(1), tool_result(1, is_error=True), final(REFUSAL)])
+    assert err.value.code is ErrorCode.UPSTREAM_UNAVAILABLE
+
+
+def test_a_refusal_with_no_tool_calls_is_fine():
+    assert run([final(REFUSAL)]).answer["refused"] is True
+
+
+def test_an_answer_from_memory_fails():
+    with pytest.raises(AskError, match="successful get_series"):
+        run([final()])
+
+
+def test_a_cited_url_no_tool_returned_fails():
+    other = URL.replace("18100004", "99999999")
+    with pytest.raises(AskError, match="no tool returned"):
+        run([tool_use(1), tool_result(1), final(GOOD | {"source_urls": [other]})])
+
+
+def test_a_vector_no_tool_returned_fails():
+    bad = GOOD | {"answer_values": [VALUE | {"vector_id": 7}]}
+    with pytest.raises(AskError, match="vector 7"):
+        run([tool_use(1), tool_result(1), final(bad)])
+
+
+def test_the_canary_in_a_tool_argument_fails():
+    event = tool_use(1)
+    event["message"]["content"][0]["input"] = {"query": "c a n a r y - X"}
+    with pytest.raises(AskError, match="canary"):
+        run([event])
 
 
 def test_a_stream_without_a_result_is_an_error():
@@ -204,7 +278,7 @@ def test_a_usage_limit_is_its_own_error():
 def test_only_our_tools_count_toward_the_budget():
     other = tool_use(1)
     other["message"]["content"][0]["name"] = "StructuredOutput"
-    assert run([other, final()]).tool_calls == []
+    assert run([other, final(REFUSAL)]).tool_calls == []
 
 
 # --- check_answer: rules enforced in code, not trusted to the model ---
@@ -212,6 +286,32 @@ def test_only_our_tools_count_toward_the_budget():
 
 def test_a_good_answer_passes():
     check_answer(GOOD, "CANARY-x")
+
+
+@pytest.mark.parametrize("text", ["canary-x", "C A N A R Y - X", "CANARY_X"])
+def test_canary_variants_fail(text):
+    with pytest.raises(AskError, match="canary"):
+        check_answer(GOOD | {"answer": text}, "CANARY-x")
+
+
+@pytest.mark.parametrize(
+    "answer",
+    [
+        GOOD | {"source_urls": ["https://["]},
+        GOOD | {"source_urls": ["https://www150.statcan.gc.ca:8443/x"]},
+        GOOD | {"source_urls": ["https://www150.statcan.gc.ca/?leak=abc"]},
+        GOOD | {"answer": "see https://evil.example/x"},
+        {
+            "answer": "no",
+            "answer_values": [],
+            "source_urls": ["https://evil.example"],
+            "refused": True,
+        },
+    ],
+)
+def test_urls_are_checked_everywhere_and_never_crash(answer):
+    with pytest.raises(AskError, match="not a StatCan URL"):
+        check_answer(answer, "CANARY-x")
 
 
 def test_a_leaked_canary_fails_even_inside_a_refusal():
@@ -259,5 +359,6 @@ def test_a_citation_outside_statcan_fails(url):
 
 def test_the_canary_is_in_the_prompt_and_differs_per_run():
     assert "CANARY-abc" in system_prompt("CANARY-abc")
+    assert "{canary}" not in system_prompt("CANARY-abc")
     cmd = build_command("q", "m", SETTINGS, None, canary="CANARY-abc")
     assert "CANARY-abc" in flag(cmd, "--system-prompt")

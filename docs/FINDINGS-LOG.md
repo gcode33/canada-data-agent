@@ -81,3 +81,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** seven of my own tests, because a fake canary of "c" matches almost any text. Also, `claude -p` had no visibility until `stream-json`: over-budget runs couldn't be stopped mid-way.
 - **Would change:** retry policy belongs to the caller, not the client: batch jobs wait, interactive calls degrade.
 
+## Phase 3 review (fixes on feat/agent)
+- **Surprised:** the worst bug passed every test: with the database down, the MCP server failed, the model had no tools, and it "refused" politely. That's a green result during an outage (confirmed on the real CLI). Also, a `for` loop that raises doesn't close its generator, so "over budget" left the agent running while the exception was held.
+- **Broke:** 12 findings, 3 high. The agent's checks looked at the answer's shape, never at what the tools actually returned.
+- **Would change:** for every "safe" outcome (refusal, fallback), ask how a failure could disguise itself as it. Test the real raising path, not a stand-in like `stream.close()`.
+

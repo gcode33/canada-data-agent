@@ -96,3 +96,9 @@ def test_a_rate_limited_rerank_keeps_the_hybrid_order_and_says_so(conn):
     assert result.tables[0] == 22
     assert result.degraded_retrieval is False
     assert result.reranked is False
+
+
+@pytest.mark.db
+def test_the_tool_path_records_nothing(conn):
+    search_hybrid(conn, "b gasoline", FakeVoyage(), use_rerank=False, record=False)
+    assert conn.execute("SELECT count(*) FROM query_embedding").fetchone() == (0,)
