@@ -1,0 +1,187 @@
+{
+"product_id": 18100001,
+"title": "Monthly average retail prices for gasoline and fuel oil, by geography",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 20,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "St. John's, Newfoundland and Labrador",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Charlottetown and Summerside, Prince Edward Island",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Halifax, Nova Scotia",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Saint John, New Brunswick",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Québec, Quebec",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Montréal, Quebec",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Toronto, Ontario",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Thunder Bay, Ontario",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Winnipeg, Manitoba",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Regina, Saskatchewan",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Saskatoon, Saskatchewan",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Edmonton, Alberta",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Calgary, Alberta",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Vancouver, British Columbia",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Victoria, British Columbia",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Whitehorse, Yukon",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Yellowknife, Northwest Territories",
+"parent_id": 20,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Type of fuel",
+"members": [
+{
+"id": 1,
+"name": "Regular unleaded gasoline at full service filling stations",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 2,
+"name": "Regular unleaded gasoline at self service filling stations",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Premium unleaded gasoline at full service filling stations",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 4,
+"name": "Premium unleaded gasoline at self service filling stations",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Diesel fuel at full service filling stations",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 6,
+"name": "Diesel fuel at self service filling stations",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Household heating fuel",
+"parent_id": null,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1979-01-01",
+"end_date": "2026-09-01",
+"footnotes": [
+"For concepts and definitions, see publication Your Guide to the Consumer Price Index, catalogue no. 62-557-X, or publication The Canadian Consumer Price Index Reference Paper, catalogue no. 62-553-X. Additional information can also be obtained by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@statcan.gc.ca\">Consumer Prices Division</a>.",
+"Formerly Ottawa (Ottawa-Hull, Ontario part).",
+"No average retail price for diesel fuel at full service filling stations is published for Thunder Bay because it is not applicable.",
+"No average retail price for fuel oil is published for Edmonton and Calgary because it is not applicable.",
+"No average retail price for fuel oil is published for Edmonton and Calgary because it is not applicable.",
+"Due to a lack of data availability, the average prices for Regular unleaded gasoline at full service filling stations, Premium unleaded gasoline at full service filling stations and Diesel fuel at full service filling stations will no longer be published after February 22, 2013, with the release of the January 2013 Consumer Price Index. Historical information for these series will continue to be available.",
+"Due to a lack of data availability, the average prices for Regular unleaded gasoline at full service filling stations, Premium unleaded gasoline at full service filling stations and Diesel fuel at full service filling stations will no longer be published after February 22, 2013, with the release of the January 2013 Consumer Price Index. Historical information for these series will continue to be available.",
+"Due to a lack of data availability, the average prices for Regular unleaded gasoline at full service filling stations, Premium unleaded gasoline at full service filling stations and Diesel fuel at full service filling stations will no longer be published after February 22, 2013, with the release of the January 2013 Consumer Price Index. Historical information for these series will continue to be available."
+]
+}

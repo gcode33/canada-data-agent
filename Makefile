@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -eo pipefail -c
 
-.PHONY: up down migrate test live lint fmt index record dump seed verify-golden
+.PHONY: up down migrate test live lint fmt index record dump seed verify-golden snapshot
 
 INDEX_DUMP := data/index.sql.zst
 DATABASE_URL ?= postgresql://canada:canada@localhost:5432/canada
@@ -54,3 +54,6 @@ seed:  ## load $(INDEX_DUMP) into a migrated database; no Voyage key or StatCan 
 
 verify-golden:  ## recompute every golden value from StatCan's CSV downloads (network, large files)
 	uv run python evals/verify_golden.py
+
+snapshot:  ## rebuild snapshots/ for the golden tables from live StatCan
+	uv run canada-snapshot

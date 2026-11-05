@@ -1,0 +1,1566 @@
+{
+"product_id": 34100133,
+"title": "Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over",
+"frequency_code": 12,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 192,
+"name": "Bay Roberts, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 1,
+"name": "Carbonear, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 2,
+"name": "Corner Brook, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Gander, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Grand Falls-Windsor, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Labrador City, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 6,
+"name": "St. John's, Newfoundland and Labrador",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Charlottetown, Prince Edward Island",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Summerside, Prince Edward Island",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Cape Breton, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 208,
+"name": "Chester, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 209,
+"name": "East Hants, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Halifax, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Kentville, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Kentville, Nova Scotia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 210,
+"name": "Lunenburg, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 13,
+"name": "New Glasgow, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 211,
+"name": "Queens, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Truro, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 212,
+"name": "West Hants, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 213,
+"name": "Yarmouth, Nova Scotia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Bathurst, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Campbellton, New Brunswick part, New Brunswick/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Edmundston, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Fredericton, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Miramichi, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Moncton, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Oromocto, New Brunswick",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 22,
+"name": "Saint John, New Brunswick",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 23,
+"name": "Alma, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 24,
+"name": "Amos, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 25,
+"name": "Asbestos, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 26,
+"name": "Baie-Comeau, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 27,
+"name": "Bécancour, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 28,
+"name": "Campbellton, Quebec part, New-Brunswick/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 29,
+"name": "Chibougamau, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 31,
+"name": "Cowansville, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 32,
+"name": "Dolbeau-Mistassini, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 33,
+"name": "Drummondville, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Gaspé, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 37,
+"name": "Ottawa-Gatineau, Quebec part, Ontario/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Granby, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 36,
+"name": "Hawkesbury, Quebec part, Ontario/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 38,
+"name": "Joliette, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 39,
+"name": "La Baie, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 40,
+"name": "La Tuque, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 41,
+"name": "Lachute, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 214,
+"name": "Les Îles-de-la-Madeleine, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 42,
+"name": "Magog, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 43,
+"name": "Matane, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 44,
+"name": "Mirabel, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 215,
+"name": "Mont-Laurier, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 45,
+"name": "Montmagny, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 46,
+"name": "Montréal, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 47,
+"name": "Pembroke, Quebec part, Ontario/Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 216,
+"name": "Prévost, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 48,
+"name": "Québec, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 217,
+"name": "Rawdon, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 49,
+"name": "Rimouski, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 50,
+"name": "Rivière-du-Loup, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 51,
+"name": "Roberval, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 52,
+"name": "Rouyn-Noranda, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 190,
+"name": "Saint-Félicien, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 59,
+"name": "Saint-Georges, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 60,
+"name": "Saint-Hyacinthe, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 61,
+"name": "Saint-Jean-sur-Richelieu, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 62,
+"name": "Saint-Jérôme, Quebec",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 203,
+"name": "Saint-Lin--Laurentides, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 218,
+"name": "Sainte-Adèle, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 58,
+"name": "Sainte-Marie, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 219,
+"name": "Sainte- Sophie, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 30,
+"name": "Saguenay, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 53,
+"name": "Salaberry-de-Valleyfield, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 54,
+"name": "Sept-Îles, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 55,
+"name": "Shawinigan, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 56,
+"name": "Sherbrooke, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 57,
+"name": "Sorel-Tracy, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 63,
+"name": "Thetford Mines, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 64,
+"name": "Trois-Rivières, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 65,
+"name": "Val-d'Or, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 66,
+"name": "Victoriaville, Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 67,
+"name": "Barrie, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 68,
+"name": "Belleville, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 69,
+"name": "Bracebridge, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 70,
+"name": "Brantford, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 220,
+"name": "Brighton, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 221,
+"name": "Brock, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 71,
+"name": "Brockville, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 194,
+"name": "Centre Wellington, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 72,
+"name": "Chatham-Kent, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 73,
+"name": "Cobourg, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 74,
+"name": "Collingwood, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 75,
+"name": "Cornwall, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 76,
+"name": "Dunnville, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 77,
+"name": "Elliot Lake, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 222,
+"name": "Erin, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 223,
+"name": "Essex, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 78,
+"name": "Fergus, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 79,
+"name": "Fort Erie, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 80,
+"name": "Gravenhurst, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 196,
+"name": "Greater Napanee, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 121,
+"name": "Greater Sudbury, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 81,
+"name": "Guelph, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 83,
+"name": "Haldimand County, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 84,
+"name": "Halton Hills, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 85,
+"name": "Hamilton, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 86,
+"name": "Hawkesbury, Ontario part, Ontario/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 87,
+"name": "Huntsville, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 198,
+"name": "Ingersoll, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 88,
+"name": "Kapuskasing, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 95,
+"name": "Kawartha Lakes, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 89,
+"name": "Kenora, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 224,
+"name": "Kincardine, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 225,
+"name": "Kings Subdivision, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 90,
+"name": "Kingston, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 91,
+"name": "Kirkland Lake, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 92,
+"name": "Kitchener-Cambridge-Waterloo, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 199,
+"name": "Lambton Shores, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 93,
+"name": "Leamington, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 94,
+"name": "Lincoln, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 96,
+"name": "London, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 195,
+"name": "Meaford, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 97,
+"name": "Midland, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 98,
+"name": "Milton, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 200,
+"name": "Mississippi Mills, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 99,
+"name": "Nanticoke, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 100,
+"name": "Newcastle, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 114,
+"name": "Norfolk, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 101,
+"name": "North Bay, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 226,
+"name": "North Grenville, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 201,
+"name": "North Perth, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 102,
+"name": "Orangeville, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 103,
+"name": "Orillia, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 104,
+"name": "Oshawa, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 105,
+"name": "Ottawa-Gatineau, Ontario/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 106,
+"name": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 107,
+"name": "Owen Sound, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 108,
+"name": "Pembroke, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 109,
+"name": "Petawawa, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 110,
+"name": "Peterborough, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 111,
+"name": "Port Hope, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 189,
+"name": "Prince Edward, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 227,
+"name": "St. Andrews, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 117,
+"name": "St. Catharines-Niagara, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 118,
+"name": "St. Thomas, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 112,
+"name": "Sarnia, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 204,
+"name": "Saugeen Shores, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 113,
+"name": "Sault Ste. Marie, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 228,
+"name": "Scugog, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 115,
+"name": "Smiths Falls, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 116,
+"name": "Smiths Falls, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 205,
+"name": "South Huron, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 119,
+"name": "Stratford, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 120,
+"name": "Strathroy, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 82,
+"name": "Temiskaming Shores, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 229,
+"name": "The Nation, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 122,
+"name": "Thunder Bay, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 123,
+"name": "Tillsonburg, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 124,
+"name": "Timmins, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 125,
+"name": "Toronto, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 230,
+"name": "Trent Hills, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 126,
+"name": "Trenton, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 127,
+"name": "Wallaceburg, Ontario",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 231,
+"name": "Wasaga Beach, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 232,
+"name": "West Grey, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 207,
+"name": "West Nipissing, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 128,
+"name": "Windsor, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 129,
+"name": "Woodstock, Ontario",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 130,
+"name": "Brandon, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 197,
+"name": "Hanover, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 131,
+"name": "Portage La Prairie, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 132,
+"name": "Selkirk, Manitoba",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 233,
+"name": "Steinbach, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 133,
+"name": "Thompson, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 134,
+"name": "Winnipeg, Manitoba",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 135,
+"name": "Estevan, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 136,
+"name": "Lloydminster, Saskatchewan part, Saskatchewan/Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 137,
+"name": "Moose Jaw, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 138,
+"name": "North Battleford, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 139,
+"name": "Prince Albert, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 140,
+"name": "Regina, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 141,
+"name": "Saskatoon, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 142,
+"name": "Swift Current, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 143,
+"name": "Weyburn, Saskatchewan",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 144,
+"name": "Yorkton, Saskatchewan",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 234,
+"name": "Bonnyvill No. 87, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 145,
+"name": "Brooks, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 146,
+"name": "Calgary, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 147,
+"name": "Camrose, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 193,
+"name": "Canmore, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 235,
+"name": "Clearwater County, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 150,
+"name": "Cold Lake, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 148,
+"name": "Edmonton, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 236,
+"name": "Foothills No. 13, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 151,
+"name": "Grande Prairie, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 237,
+"name": "High River, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 238,
+"name": "Lacombe, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 239,
+"name": "Lacombe County, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 152,
+"name": "Leduc, Alberta",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 153,
+"name": "Lethbridge, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 154,
+"name": "Lloydminster, Alberta part, Saskachewan/Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 240,
+"name": "Mackenzie No. 23, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 155,
+"name": "Medicine Hat, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 241,
+"name": "Mountain View County, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 202,
+"name": "Okotoks, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 156,
+"name": "Red Deer, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 242,
+"name": "Red Deer County, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 157,
+"name": "Spruce Grove, Alberta",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 243,
+"name": "Strathmore, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 244,
+"name": "Sylvan Lake, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 158,
+"name": "Wetaskiwin, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 245,
+"name": "Wetaskiwin County No. 10, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 149,
+"name": "Wood Buffalo, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 246,
+"name": "Yellowhead County, Alberta",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 159,
+"name": "Abbotsford-Mission, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 160,
+"name": "Abbotsford-Mission, British Columbia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 161,
+"name": "Campbell River, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 162,
+"name": "Chilliwack, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 163,
+"name": "Courtenay, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 164,
+"name": "Cranbrook, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 165,
+"name": "Dawson Creek, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 166,
+"name": "Duncan, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 167,
+"name": "Fort St. John, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 168,
+"name": "Kamloops, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 169,
+"name": "Kelowna, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 170,
+"name": "Kitimat, British Columbia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 171,
+"name": "Mission, British Columbia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 172,
+"name": "Nanaimo, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 173,
+"name": "North Cowichan, British Columbia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 191,
+"name": "Parksville, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 174,
+"name": "Penticton, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 175,
+"name": "Port Alberni, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 176,
+"name": "Powell River, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 177,
+"name": "Prince George, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 178,
+"name": "Prince Rupert, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 179,
+"name": "Quesnel, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 180,
+"name": "Salmon Arm, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 181,
+"name": "Squamish, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 206,
+"name": "Summerland, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 182,
+"name": "Terrace, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 183,
+"name": "Trail, British Columbia",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 184,
+"name": "Vancouver, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 185,
+"name": "Vernon, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 186,
+"name": "Victoria, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 187,
+"name": "Williams Lake, British Columbia",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 247,
+"name": "Whitehorse, Yukon",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 188,
+"name": "Yellowknife, Northwest Territories",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Type of structure",
+"members": [
+{
+"id": 3,
+"name": "Row and apartment structures of three units and over",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Row structures of three units and over",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 1,
+"name": "Apartment structures of three units and over",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Apartment structures of six units and over",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 3,
+"name": "Type of unit",
+"members": [
+{
+"id": 1,
+"name": "Bachelor units",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "One bedroom units",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Two bedroom units",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Three bedroom units",
+"parent_id": null,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1987-01-01",
+"end_date": "2025-01-01",
+"footnotes": [
+"Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.",
+"These data are obtained from Canada Mortgage and Housing Corporation (CMHC) and are provided subject to <a href=\"https://www.cmhc-schl.gc.ca/about-us/terms-conditions/hmip-terms-conditions\" rel=\"external noopener noreferrer\" target=\"_blank\"> CMHC Licence Agreement for the Use of Data (opens new window)</a>.",
+"For additional information and definitions, refer to <a href=\"https://www.cmhc-schl.gc.ca/professionals/housing-markets-data-and-research/housing-research/surveys/methods/methodology-rental-market-survey\" rel=\"external noopener noreferrer\" target=\"_blank\">CMHC Rental Market Survey Methodology and Definitions (opens new window)</a>.",
+"Kentville's population fell below 10,000 people from 1988 to 1991 and, consequently, was not surveyed in the rental market survey.",
+"Kentville's population fell below 10,000 people from 1988 to 1991 and, consequently, was not surveyed in the rental market survey.",
+"Smiths Falls' population fell below 10,000 people from 1988 to 1999 and, consequently, was not surveyed in the rental market survey.",
+"Smiths Falls' population fell below 10,000 people from 1988 to 1999 and, consequently, was not surveyed in the rental market survey."
+]
+}

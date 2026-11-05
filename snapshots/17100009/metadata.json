@@ -1,0 +1,114 @@
+{
+"product_id": 17100009,
+"title": "Population estimates, quarterly",
+"frequency_code": 21,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Newfoundland and Labrador",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Prince Edward Island",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Nova Scotia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 5,
+"name": "New Brunswick",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Manitoba",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Saskatchewan",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Alberta",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 11,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Yukon",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Northwest Territories including Nunavut",
+"parent_id": 1,
+"terminated": true
+},
+{
+"id": 14,
+"name": "Northwest Territories",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Nunavut",
+"parent_id": 1,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1946-01-01",
+"end_date": "2026-07-01",
+"footnotes": [
+"Postcensal estimates are based on the 2021 Census counts adjusted for census net undercoverage (CNU) (including adjustment for incompletely enumerated reserves and settlements (IERS)) and the components of demographic growth that occurred since that census. Intercensal estimates are produced using counts from two consecutive censuses adjusted for CNU (including IERS) and postcensal estimates.",
+"Quarterly population estimates are derived from the components of demographic change observed during the preceding quarter. January 1 estimates incorporate population changes from October 1 to December 31 (fourth quarter), April 1 estimates incorporate population changes from January 1 to March 31 (first quarter), July 1 estimates incorporate population changes from April 1 to June 30 (second quarter), and October 1 estimates incorporate population changes from July 1 to September 30 (third quarter).",
+"Estimates are final intercensal and unadjusted for census net undercoverage prior to July 1, 1971. Estimates are final intercensal from July 1, 1971 to April 1, 2021, final postcensal from July 1, 2021 to July 1, 2023, updated postcensal from October 1, 2023 to April 1, 2026 and preliminary postcensal from July 1, 2026.",
+"The population growth, which is used to calculate population estimates, is comprised of natural increase (Table 17100059), international migration (Table 17100040) and interprovincial migration (Tables 17100020 and 17100045).",
+"Population estimates for Northwest Territories and Nunavut are presented separately from July 1, 1991.",
+"Prior to July 1, 1991, only population estimates for Northwest Territories and Nunavut combined are available.",
+"Prior to July 1, 1991, only population estimates for Northwest Territories and Nunavut combined are available."
+]
+}

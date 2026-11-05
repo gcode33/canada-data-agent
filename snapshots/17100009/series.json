@@ -1,0 +1,281 @@
+{
+"1.0.0.0.0.0.0.0.0.0": {
+"vector_id": 1,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 40670178.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-04-01",
+"value": 40912561.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-07-01",
+"value": 41162593.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-10-01",
+"value": 41373096.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-01-01",
+"value": 41435888.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-04-01",
+"value": 41495432.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-07-01",
+"value": 41608982.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-10-01",
+"value": 41723923.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-01-01",
+"value": 41716698.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-04-01",
+"value": 41718064.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-07-01",
+"value": 41798407.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+}
+]
+},
+"10.0.0.0.0.0.0.0.0.0": {
+"vector_id": 15,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 4797611.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-04-01",
+"value": 4852191.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-07-01",
+"value": 4901795.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-10-01",
+"value": 4945710.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-01-01",
+"value": 4973853.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-04-01",
+"value": 4996457.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-07-01",
+"value": 5024631.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-10-01",
+"value": 5052333.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-01-01",
+"value": 5067862.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-04-01",
+"value": 5079176.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-07-01",
+"value": 5101050.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+}
+]
+},
+"11.0.0.0.0.0.0.0.0.0": {
+"vector_id": 3,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 5594479.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-04-01",
+"value": 5628073.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-07-01",
+"value": 5659205.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2024-10-01",
+"value": 5684774.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-01-01",
+"value": 5684439.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-04-01",
+"value": 5687504.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-07-01",
+"value": 5702544.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-10-01",
+"value": 5716602.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-01-01",
+"value": 5706331.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-04-01",
+"value": 5703683.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2026-07-01",
+"value": 5710598.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+}
+]
+}
+}
