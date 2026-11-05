@@ -86,3 +86,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** 12 findings, 3 high. The agent's checks looked at the answer's shape, never at what the tools actually returned.
 - **Would change:** for every "safe" outcome (refusal, fallback), ask how a failure could disguise itself as it. Test the real raising path, not a stand-in like `stream.close()`.
 
+## test/golden-final
+- **Surprised:** looking cases up by CSV names rather than typing ids caught three wrong names before they could become wrong answers. The values also agreed with the live API path (Ontario rent +1.985%, BC 5,710,598) through a route that shares no code.
+- **Broke:** nothing. Food beat shelter, and gasoline +27.8% stands out, so these will be useful cases.
+- **Would change:** the spec asks for a third of questions from *The Daily*, each with a source. Sourcing all of them wasn't worth it; a third being reworded (`phrasing: own`) is what stops questions flattering keyword search, and the linter enforces that.
+
