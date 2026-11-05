@@ -1,9 +1,10 @@
 import json
+import subprocess
 from decimal import Decimal
 
 import pytest
 
-from canada_agent.ask import AskError, build_command, parse_result
+from canada_agent.ask import AskError, ask, build_command, parse_result
 from canada_agent.config import Settings
 
 SETTINGS = Settings(database_url="postgresql://x@localhost/db")
@@ -21,7 +22,8 @@ def test_command_gives_the_model_only_our_mcp_tools():
     assert flag(cmd, "--setting-sources") == ""  # ignore user hooks and settings
     assert "--no-session-persistence" in cmd
     assert (
-        flag(cmd, "--allowedTools") == "mcp__canada__get_table_dimensions,mcp__canada__get_series"
+        flag(cmd, "--allowedTools")
+        == "mcp__canada__search_tables,mcp__canada__get_table_dimensions,mcp__canada__get_series"
     )
     server = json.loads(flag(cmd, "--mcp-config"))["mcpServers"]["canada"]
     assert server["args"] == ["-m", "canada_agent.mcp_server"]
@@ -82,3 +84,12 @@ def test_parse_success_keeps_answer_and_usage():
 def test_parse_failures_raise_ask_error(stdout, message):
     with pytest.raises(AskError, match=message):
         parse_result(stdout)
+
+
+def test_a_hung_claude_is_an_ask_error_not_a_raw_exception(monkeypatch):
+    def hang(*args, **kwargs):
+        raise subprocess.TimeoutExpired("claude", 1)
+
+    monkeypatch.setattr(subprocess, "run", hang)
+    with pytest.raises(AskError, match="timed out"):
+        ask("q", model="m", settings=SETTINGS)
