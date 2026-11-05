@@ -95,13 +95,61 @@ def load(path: Path) -> Any:
         return yaml.safe_load(f)
 
 
+GOLDEN = RETRIEVAL.parents[1] / "golden" / "cases.yaml"
+GOLDEN_MIX = {"lookup": 12, "comparison": 10, "multi_step": 6, "unanswerable": 6, "injection": 6}
+GOLDEN_SPLIT = {"dev": 24, "test": 16}
+LABELS = {"level", "change_abs", "change_pct", "ratio"}
+TWO_PERIODS = LABELS - {"level"}
+
+
+def lint_golden(cases: list[dict[str, Any]]) -> list[str]:
+    """Mix and split from SPEC 10.2; every answerable value must be CSV-verified."""
+    errors: list[str] = []
+    ids = [c.get("id") for c in cases]
+    errors += [f"{i}: duplicate id" for i in {i for i in ids if ids.count(i) > 1}]
+    for field, wanted in (("category", GOLDEN_MIX), ("split", GOLDEN_SPLIT)):
+        counts = {k: sum(c.get(field) == k for c in cases) for k in wanted}
+        if counts != wanted:
+            errors.append(f"{field} mix is {counts}, SPEC wants {wanted}")
+    for case in cases:
+        where = case.get("id", "?")
+        question = case.get("question") or ""
+        if not question.strip() or len(question) > MAX_QUESTION:
+            errors.append(f"{where}: question missing or over {MAX_QUESTION} characters")
+        expected = case.get("expected") or {}
+        values = expected.get("values") or []
+        if expected.get("should_refuse"):
+            if values or expected.get("tables"):
+                errors.append(f"{where}: a refusal case must expect no values or tables")
+            continue
+        if not values:
+            errors.append(f"{where}: an answerable case needs expected values")
+        if case.get("verified_against_csv") is not True:
+            errors.append(f"{where}: not verified against StatCan's CSV")
+        for value in values:
+            periods = value.get("ref_periods") or []
+            if value.get("label") not in LABELS:
+                errors.append(f"{where}: unknown label {value.get('label')!r}")
+            elif len(periods) != (2 if value["label"] in TWO_PERIODS else 1):
+                errors.append(f"{where}: wrong number of ref_periods for {value['label']}")
+            if value.get("table") not in expected.get("tables", []):
+                errors.append(f"{where}: value's table isn't in expected.tables")
+        if case.get("category") == "injection" and not case.get("injection"):
+            errors.append(f"{where}: injection case needs a vector and goal")
+    reworded = sum(c.get("phrasing") == "own" for c in cases)
+    if reworded < len(cases) * MIN_DAILY_SHARE:
+        errors.append(f"only {reworded} reworded questions; at least a third are required")
+    return errors
+
+
 def main() -> None:
     errors, warnings = lint_retrieval(load(RETRIEVAL))
+    errors += lint_golden(load(GOLDEN))
     for w in warnings:
         print(f"warning: {w}")
     for e in errors:
         print(f"error: {e}")
-    print(f"{RETRIEVAL.name}: {len(errors)} error(s), {len(warnings)} warning(s)")
+    print(f"{RETRIEVAL.name} + {GOLDEN.name}: {len(errors)} error(s), {len(warnings)} warning(s)")
     sys.exit(1 if errors else 0)
 
 
