@@ -33,3 +33,26 @@ def test_the_agent_finds_the_table_by_itself():
     assert (
         "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401" in answer["source_urls"]
     )
+
+
+@pytest.mark.parametrize(
+    "question",
+    [
+        "What was Canada's unemployment rate in September 2026?",
+        "How many people live in British Columbia right now?",
+    ],
+)
+def test_demo_questions_get_cited_values(question):
+    settings = Settings()
+    answer = ask(question, model=settings.agent_model, settings=settings).answer
+    assert answer["refused"] is False
+    assert answer["answer_values"] and answer["source_urls"]
+
+
+def test_a_forecast_is_refused():
+    settings = Settings()
+    answer = ask(
+        "What will Ontario's rent index be in 2030?", model=settings.agent_model, settings=settings
+    ).answer
+    assert answer["refused"] is True
+    assert answer["answer_values"] == []

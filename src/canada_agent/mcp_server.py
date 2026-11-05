@@ -164,7 +164,9 @@ def main() -> None:
     client = WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
     key = settings.voyage_api_key.get_secret_value()
     try:
-        voyage = VoyageClient(key) if key else None
+        # One attempt: an agent is waiting, so a rate limit degrades search (flagged) rather
+        # than stalling 60 s. The batch indexer keeps the patient default.
+        voyage = VoyageClient(key, max_attempts=1) if key else None
     except EmbedError as exc:
         print(f"canada-mcp: {exc}; search falls back to recorded queries", file=sys.stderr)
         voyage = None

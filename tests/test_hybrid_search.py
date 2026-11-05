@@ -6,6 +6,7 @@ from test_vector_search import FakeVoyage
 
 from canada_agent.db.migrate import apply_migrations
 from canada_agent.embed.index import embed_missing
+from canada_agent.embed.voyage import EmbedError
 from canada_agent.search.hybrid import rrf, search_hybrid
 
 
@@ -67,3 +68,31 @@ def test_recorded_question_fuses_both_methods(conn):
     result = search_hybrid(conn, "b gasoline price", client=FakeVoyage())
     assert result.degraded_retrieval is False
     assert result.tables[0] == 22
+
+
+class RateLimited(FakeVoyage):
+    def embed(self, texts, input_type):
+        raise EmbedError("HTTP 429 after 1 attempts")
+
+    def rerank(self, query, documents):
+        raise EmbedError("HTTP 429 after 1 attempts")
+
+
+class EmbedsButRerankLimited(FakeVoyage):
+    def rerank(self, query, documents):
+        raise EmbedError("HTTP 429 after 1 attempts")
+
+
+@pytest.mark.db
+def test_a_rate_limited_embedding_falls_back_to_full_text_and_says_so(conn):
+    result = search_hybrid(conn, "rent in ontario", RateLimited(), use_rerank=True)
+    assert result.tables == [11]
+    assert result.degraded_retrieval is True
+
+
+@pytest.mark.db
+def test_a_rate_limited_rerank_keeps_the_hybrid_order_and_says_so(conn):
+    result = search_hybrid(conn, "b gasoline", EmbedsButRerankLimited(), use_rerank=True)
+    assert result.tables[0] == 22
+    assert result.degraded_retrieval is False
+    assert result.reranked is False

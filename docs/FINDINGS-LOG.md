@@ -76,3 +76,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** nothing shipped. The merged idea file was a garbled chat paste at the repo root; it's now `docs/ideas/0001-uber-mcp-gateway.md`, checked against Uber's post.
 - **Would change:** test what a boundary *does*, not what its schema says. Run the real question through the agent before predicting its behaviour in an interview answer.
 
+## feat/agent
+- **Surprised:** the `--trace` view showed `search_tables` taking 60.8 s against 0.05 s for the other tools. A live rerank hit Voyage's free-tier limit and waited a full minute, which suits a batch job and not a waiting agent. Interactive search now gets one attempt and degrades with a flag. Without per-tool latency we'd have blamed the model.
+- **Broke:** seven of my own tests, because a fake canary of "c" matches almost any text. Also, `claude -p` had no visibility until `stream-json`: over-budget runs couldn't be stopped mid-way.
+- **Would change:** retry policy belongs to the caller, not the client: batch jobs wait, interactive calls degrade.
+
