@@ -8,7 +8,6 @@ runs would cost on the API, as `claude -p` reports it; the subscription pays (AD
 
 import json
 import math
-import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -17,6 +16,7 @@ HISTORY = Path(__file__).resolve().parents[3] / "evals" / "history.jsonl"
 REQUIRED = {
     "timestamp": str,
     "git_sha": str,
+    "git_dirty": bool,
     "kind": str,
     "split": str,
     "model": str,
@@ -30,6 +30,9 @@ REQUIRED = {
     "pass_rate": float,
     "wilson_95": list,
     "by_category": dict,
+    "n_counted": int,
+    "searches": int,
+    "degraded_searches": int,
 }
 TOKEN_KEYS = ("input", "output", "cache_read", "cache_creation")
 
@@ -70,35 +73,29 @@ def usage(results: list[dict[str, Any]]) -> tuple[dict[str, int], float, list[fl
     return tokens, usd, latencies
 
 
-def git_sha() -> str:
-    try:
-        return subprocess.run(  # noqa: S603 - fixed argv
-            ["git", "rev-parse", "--short", "HEAD"],  # noqa: S607 - git from PATH, as make does
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-    except (OSError, subprocess.CalledProcessError):
-        return "unknown"
-
-
 def entry(
     *,
     kind: str,
     split: str,
     model: str,
     prompt_version: str,
+    git_sha: str,
+    git_dirty: bool,
     k: int,
     report: dict[str, Any],
     results: list[dict[str, Any]],
+    wall_s: list[float],
 ) -> dict[str, Any]:
-    tokens, usd, latencies = usage(results)
-    cases = report["cases"].values()
-    passed = sum(c["passed"] for c in cases)
-    low, high = wilson(passed, len(report["cases"]))
+    """Provenance (commit, prompt) comes from the transcripts, not the code grading them.
+    Latency is wall-clock per run; `claude -p`'s own duration_ms leaves out start-up."""
+    tokens, usd, _ = usage(results)
+    counted = [c for c in report["cases"].values() if c["counted"]]
+    passed = sum(c["passed"] for c in counted)
+    low, high = wilson(passed, len(counted))
     return {
         "timestamp": datetime.now(UTC).isoformat(timespec="seconds"),
-        "git_sha": git_sha(),
+        "git_sha": git_sha,
+        "git_dirty": git_dirty,
         "kind": kind,
         "split": split,
         "model": model,
@@ -107,12 +104,17 @@ def entry(
         "k": k,
         "tokens": tokens,
         "api_equivalent_usd": round(usd, 4),
-        "latency_p50_s": round(percentile(latencies, 0.5), 1),
-        "latency_p95_s": round(percentile(latencies, 0.95), 1),
+        "latency_p50_s": round(percentile(wall_s, 0.5), 1),
+        "latency_p95_s": round(percentile(wall_s, 0.95), 1),
         "pass_rate": round(report["pass_rate"], 4),
         "wilson_95": [round(low, 4), round(high, 4)],
-        "by_category": {k: round(v, 4) for k, v in report["by_category"].items()},
+        "by_category": {
+            k: None if v is None else round(v, 4) for k, v in report["by_category"].items()
+        },
+        "n_counted": len(counted),
         "search_recall_at_5_in_run": report.get("search_recall_at_5_in_run"),
+        "searches": report.get("searches", 0),
+        "degraded_searches": report.get("degraded_searches", 0),
     }
 
 

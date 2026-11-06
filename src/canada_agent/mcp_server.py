@@ -165,24 +165,29 @@ def build_server(backend: DataBackend, index: tables.TableIndex | None = None) -
     return server
 
 
-def main() -> None:
-    settings = Settings()
+def components(settings: Settings) -> tuple[DataBackend, VoyageClient | None]:
+    """The data backend and Voyage client a server would use. Snapshot runs get neither a
+    StatCan nor a Voyage client, so Claude is the only outside service they reach; search
+    then uses full-text plus recorded query vectors and says when it is degraded."""
     if settings.data_backend == "snapshot":
-        backend: DataBackend = SnapshotBackend()  # no route to StatCan at all
-    else:
-        backend = LiveBackend(
-            WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
-        )
+        return SnapshotBackend(), None
+    backend = LiveBackend(
+        WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
+    )
     key = settings.voyage_api_key.get_secret_value()
     try:
         # One attempt: an agent is waiting, so a rate limit degrades search (flagged) rather
         # than stalling 60 s. The batch indexer keeps the patient default.
-        voyage = VoyageClient(key, max_attempts=1) if key else None
+        return backend, VoyageClient(key, max_attempts=1) if key else None
     except EmbedError as exc:
         print(f"canada-mcp: {exc}; search falls back to recorded queries", file=sys.stderr)
-        voyage = None
-    index = tables.PostgresTableIndex(settings.database_url, voyage)
-    build_server(backend, index).run("stdio")
+        return backend, None
+
+
+def main() -> None:
+    settings = Settings()
+    backend, voyage = components(settings)
+    build_server(backend, tables.PostgresTableIndex(settings.database_url, voyage)).run("stdio")
 
 
 if __name__ == "__main__":

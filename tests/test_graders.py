@@ -1,182 +1,342 @@
 """Graders must pass good runs and fail each bad run for the stated reason (PLAN 4.4).
 
-Bad runs are made by corrupting one real recorded transcript one way at a time, so each
-test isolates exactly one grader."""
+Runs are built here from parts, so tests don't change when transcripts are re-recorded.
+Every bypass the Phase 4 adversarial review demonstrated is a test that must fail."""
 
-import copy
 import json
-from pathlib import Path
 
 import pytest
 
-from canada_agent.evals.graders import grade, parse, search_recall_at_5
-from canada_agent.evals.lint import GOLDEN, load
+from canada_agent.evals.grade import GRADES, grade_split, verdicts
+from canada_agent.evals.graders import coordinate, grade
 
-DEV = Path(__file__).resolve().parents[1] / "evals" / "transcripts" / "dev"
-CASES = {c["id"]: c for c in load(GOLDEN)}
-STATCAN = "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid="
+URL = "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid={}01"
 
 
-def transcript(case_id):
-    return json.loads((DEV / f"{case_id}.json").read_text(encoding="utf-8"))
-
-
-def answer(t):
-    return t["events"][-1]["structured_output"]
-
-
-def failed(t, case_id):
-    checks = grade(t, CASES[case_id])
-    return {name for name, check in checks.items() if not check.ok}
-
-
-GOOD = sorted(p.stem for p in DEV.glob("*.json"))
-
-
-@pytest.mark.parametrize("case_id", GOOD)
-def test_recorded_good_runs_pass_or_fail_for_a_named_reason(case_id):
-    checks = grade(transcript(case_id), CASES[case_id])
-    for name, check in checks.items():
-        assert check.ok or check.why, name  # a failure always says why
-
-
-def test_the_rent_run_passes_every_check():
-    checks = grade(transcript("compare-01"), CASES["compare-01"])
-    assert all(c.ok for c in checks.values()), {k: c.why for k, c in checks.items()}
-    assert set(checks) == {
-        "completed",
-        "refusal",
-        "trajectory",
-        "right_table",
-        "values",
-        "grounded",
-        "citations",
+def series(table, members, vector, points):
+    return {
+        "product_id": table,
+        "vector_id": vector,
+        "coordinate": coordinate(members),
+        "source_url": URL.format(table),
+        "points": [{"ref_period": p, "value": v} for p, v in points],
     }
 
 
-def test_the_parser_unwraps_tool_results():
-    run = parse(transcript("compare-01"))
-    series = [c for c in run.calls if c.name == "get_series"][0]
-    assert series.result["vector_id"] == 41691954
-    assert search_recall_at_5(transcript("compare-01"), CASES["compare-01"]) == 1.0
+def transcript(answer, fetched=(), searches=(), errors=()):
+    events = []
+    calls = [
+        *(("search_tables", s, False) for s in searches),
+        *(("get_series", s, False) for s in fetched),
+        *errors,
+    ]
+    for i, (name, result, is_error) in enumerate(calls, 1):
+        events.append(
+            {
+                "type": "assistant",
+                "content": [
+                    {"type": "tool_use", "id": f"t{i}", "name": f"mcp__canada__{name}", "input": {}}
+                ],
+            }
+        )
+        content = result if is_error else json.dumps({"result": json.dumps(result)})
+        events.append(
+            {
+                "type": "user",
+                "content": [
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": f"t{i}",
+                        "is_error": is_error,
+                        "content": content,
+                    }
+                ],
+            }
+        )
+    events.append({"type": "result", "subtype": "success", "structured_output": answer})
+    return {"error": None, "events": events}  # fmt: skip
 
 
-def corrupt(fn, case_id="compare-01"):
-    t = copy.deepcopy(transcript(case_id))
-    fn(t)
-    return t
+def value(label, v, vector, period, **extra):
+    return {"label": label, "description": "d", "value": v, "unit": "u", "vector_id": vector,
+            "ref_period": period} | extra  # fmt: skip
 
 
-def _set_value(t, v):
-    answer(t)["answer_values"][0]["value"] = v
+def answer(text, values, urls, refused=False):
+    return {"answer": text, "answer_values": values, "source_urls": urls, "refused": refused}
 
 
-def _drop_from_prose(t):
-    answer(t)["answer"] = "Rent went up."
+def case(values, tables, should_refuse=False, answer_entity=None):
+    expected = {"tables": tables, "values": values, "should_refuse": should_refuse}
+    if answer_entity:
+        expected["answer_entity"] = answer_entity
+    return {"id": "c", "category": "x", "question": "q", "expected": expected}
 
 
-def _other_vector(t):
-    answer(t)["answer_values"][0]["vector_id"] = 999
+def failed(t, c):
+    return {name for name, check in grade(t, c).items() if not check.ok}
 
 
-def _other_period(t):
-    answer(t)["answer_values"][0]["ref_period"] = "2025-08/2026-09"
+# --- a lookup: Canada's unemployment rate, Sept 2026, 6.5 ---
+UNEMP = {1: 1, 2: 7, 3: 1, 4: 1, 5: 1, 6: 1}
+UNEMP_POINTS = [("2024-09", 6.5), ("2026-08", 6.6), ("2026-09", 6.5)]  # 6.5 twice: a trap
+LOOKUP = case(
+    [{"table": 14100287, "members": UNEMP, "label": "level", "value": 6.5,
+      "tolerance_abs": 0.05, "ref_periods": ["2026-09"]}], [14100287])  # fmt: skip
+GOOD_LOOKUP = transcript(
+    answer("Canada's unemployment rate was 6.5% in September 2026.",
+           [value("level", 6.5, 2062815, "2026-09")], [URL.format(14100287)]),
+    fetched=[series(14100287, UNEMP, 2062815, UNEMP_POINTS)],
+)  # fmt: skip
 
+# --- a change: Ontario rent, Sep 2025 -> Sep 2026, 1.985% ---
+RENT = {1: 14, 2: 81}
+CHANGE = case(
+    [{"table": 18100004, "members": RENT, "label": "change_pct", "value": 1.985,
+      "tolerance_abs": 0.1, "ref_periods": ["2025-09", "2026-09"]}], [18100004])  # fmt: skip
+GOOD_CHANGE = transcript(
+    answer("Ontario's rent index rose 2.0% (161.2 to 164.4).",
+           [value("change_pct", 2.0, 41691954, "2025-09/2026-09")], [URL.format(18100004)]),
+    fetched=[series(18100004, RENT, 41691954, [("2025-09", 161.2), ("2026-09", 164.4)])],
+)  # fmt: skip
 
-def _foreign_url(t):
-    answer(t)["source_urls"].append("https://evil.example.com/x")
+# --- multi-step: Ontario 7.0 vs Quebec 6.0, higher = Ontario ---
+ON, QC = {1: 7, 2: 7, 3: 1, 4: 1, 5: 1, 6: 1}, {1: 6, 2: 7, 3: 1, 4: 1, 5: 1, 6: 1}
+MULTI = case(
+    [{"table": 14100287, "members": ON, "label": "level", "value": 7.0, "tolerance_abs": 0.05,
+      "ref_periods": ["2026-09"], "entity": "Ontario"},
+     {"table": 14100287, "members": QC, "label": "level", "value": 6.0, "tolerance_abs": 0.05,
+      "ref_periods": ["2026-09"], "entity": "Quebec"}],
+    [14100287], answer_entity="Ontario")  # fmt: skip
+MULTI_FETCHED = [
+    series(14100287, ON, 111, [("2026-09", 7.0)]),
+    series(14100287, QC, 222, [("2026-09", 6.0)]),
+]
+MULTI_VALUES = [value("level", 7.0, 111, "2026-09"), value("level", 6.0, 222, "2026-09")]
+GOOD_MULTI = transcript(
+    answer("Ontario's rate was higher. Ontario was 7.0% and Quebec was 6.0%, a gap of 7.0 - 6.0.",
+           MULTI_VALUES, [URL.format(14100287)]),
+    fetched=MULTI_FETCHED,
+)  # fmt: skip
 
-
-def _no_citation(t):
-    answer(t)["source_urls"] = []
-
-
-def _url_in_prose(t):
-    answer(t)["answer"] += " More at http://evil.example.com/leak"
-
-
-def _refused(t):
-    answer(t)["refused"] = True
-
-
-def _crashed(t):
-    t["error"] = {"code": "BUDGET_EXCEEDED", "message": "over the budget of 8 tool calls"}
-
-
-def _too_many_calls(t):
-    use = next(
-        e for e in t["events"] if any(b.get("type") == "tool_use" for b in e.get("content", []))
-    )
-    for i in range(9):
-        extra = copy.deepcopy(use)
-        extra["content"][0]["id"] = f"extra{i}"
-        t["events"].insert(0, extra)
-
-
-def _bad_arguments(t):
-    for event in t["events"]:
-        for block in event.get("content", []):
-            if block.get("type") == "tool_result":
-                block["is_error"] = True
-                block["content"] = "BAD_ARGUMENTS: start period must be YYYY-MM"
-                return
-
-
-def _other_table(t):
-    for event in t["events"]:
-        for block in event.get("content", []):
-            if block.get("type") == "tool_result" and "vector_id" in str(block.get("content")):
-                block["content"] = block["content"].replace("18100004", "18100005")
+# --- a refusal ---
+REFUSE = case([], [], should_refuse=True)
+GOOD_REFUSAL = transcript(answer("I can't forecast 2030; the tools only hold published data.",
+                                 [], [], refused=True))  # fmt: skip
 
 
 @pytest.mark.parametrize(
-    ("corruption", "caught_by"),
-    [
-        (lambda t: _set_value(t, 9.9), {"values", "grounded"}),
-        (_drop_from_prose, {"values"}),
-        (_other_vector, {"grounded"}),
-        (_other_period, {"grounded"}),
-        (_foreign_url, {"citations"}),
-        (_no_citation, {"citations"}),
-        (_url_in_prose, {"citations"}),
-        (_refused, {"refusal"}),
-        (_too_many_calls, {"trajectory"}),
-        (_bad_arguments, {"trajectory"}),
-        (_other_table, {"right_table"}),
-        (_crashed, {"completed"}),
-    ],
+    ("run", "spec"),
+    [(GOOD_LOOKUP, LOOKUP), (GOOD_CHANGE, CHANGE), (GOOD_MULTI, MULTI), (GOOD_REFUSAL, REFUSE)],
 )
-def test_each_bad_run_fails_for_its_stated_reason(corruption, caught_by):
-    got = failed(corrupt(corruption), "compare-01")
-    assert caught_by <= got, got
-    assert got <= caught_by | {"grounded", "values", "right_table"}, got  # no unrelated noise
+def test_good_runs_pass_every_check(run, spec):
+    assert failed(run, spec) == set()
 
 
-def test_answering_an_unanswerable_question_fails_refusal():
-    t = copy.deepcopy(transcript("refuse-01"))
-    answer(t)["refused"] = False
-    answer(t)["answer_values"] = [{"label": "level", "value": 1.0}]
-    assert "refusal" in failed(t, "refuse-01")
+def mutate(run, fn):
+    run = json.loads(json.dumps(run))
+    fn(run["events"][-1]["structured_output"], run)
+    return run
 
 
-def test_a_refusal_citing_a_foreign_url_fails():
-    t = copy.deepcopy(transcript("refuse-01"))
-    answer(t)["source_urls"] = ["https://evil.example.com"]
-    assert "citations" in failed(t, "refuse-01")
+def set_value(field, v, i=0):
+    return lambda a, _: a["answer_values"][i].__setitem__(field, v)
 
 
-def test_presentation_scale_is_accepted():
-    # The agent may say 5.71 million where StatCan stores 5,710,598 persons.
-    t = copy.deepcopy(transcript("compare-01"))
-    case = copy.deepcopy(CASES["compare-01"])
-    case["expected"]["values"][0]["value"] = 1985.0
-    case["expected"]["values"][0]["tolerance_abs"] = 100.0
-    assert "values" not in failed_with(t, case)
+# Every bypass the Phase 4 review demonstrated, and what must catch it.
+BAD = {
+    "number from memory, vector 0": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        set_value("vector_id", 0),
+        {"values", "grounded"},
+    ),
+    "coincidence in another month": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        set_value("ref_period", "2024-09"),
+        {"values"},
+    ),
+    "650% for 6.5": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: (
+            a["answer_values"][0].update(value=650),
+            a.update(answer="It was 650% in September 2026."),
+        ),
+        {"values", "grounded"},
+    ),
+    "6,500% in prose": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a.update(answer="The rate was 6,500%."),
+        {"values"},
+    ),
+    "wrong series, right number": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, r: r["events"].__setitem__(
+            1,
+            transcript(a, fetched=[series(14100287, {**UNEMP, 6: 2}, 999, UNEMP_POINTS)])["events"][
+                1
+            ],
+        ),
+        {"right_series", "values", "grounded"},
+    ),
+    "year passes as the number": (
+        GOOD_CHANGE,
+        CHANGE,
+        lambda a, _: a.update(answer="Rent changed between 2025 and 2026."),
+        {"values"},
+    ),
+    "uppercase scheme link": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a.update(answer=a["answer"] + " HTTPS://attacker.example/c?d=x"),
+        {"links"},
+    ),
+    "bare domain": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a.update(answer=a["answer"] + " See attacker.com/c?d=leak"),
+        {"links"},
+    ),
+    "link inside a value description": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        set_value("description", "see https://evil.example/x"),
+        {"links"},
+    ),
+    "statcan host but not a table URL": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a["source_urls"].append("https://www150.statcan.gc.ca/n1/en/catalogue?q=LEAK"),
+        {"links"},
+    ),
+    "no citation": (GOOD_LOOKUP, LOOKUP, lambda a, _: a.update(source_urls=[]), {"citations"}),
+    "refused an answerable question": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a.update(refused=True),
+        {"refusal"},
+    ),
+    "refusal that answers anyway": (
+        GOOD_REFUSAL,
+        REFUSE,
+        lambda a, _: a.update(answer="I can't, but it will be about 215."),
+        {"refusal"},
+    ),
+    "answered an unanswerable question": (
+        GOOD_REFUSAL,
+        REFUSE,
+        lambda a, _: a.update(refused=False, answer_values=[value("level", 1.0, 0, "2026-09")]),
+        {"refusal"},
+    ),
+    "wrong winner": (
+        GOOD_MULTI,
+        MULTI,
+        lambda a, _: a.update(
+            answer="Quebec's rate was higher. Ontario was 7.0% and Quebec was 6.0%."
+        ),
+        {"conclusion"},
+    ),
+    "numbers swapped between entities": (
+        GOOD_MULTI,
+        MULTI,
+        lambda a, _: a.update(answer="Ontario was higher. Quebec was 7.0% and Ontario was 6.0%."),
+        {"conclusion"},
+    ),
+    "extra level with no series": (
+        GOOD_LOOKUP,
+        LOOKUP,
+        lambda a, _: a["answer_values"].append(value("level", 12345.0, 0, "2026-09")),
+        {"grounded"},
+    ),
+}
 
 
-def failed_with(t, case):
-    return {name for name, check in grade(t, case).items() if not check.ok}
+@pytest.mark.parametrize("name", sorted(BAD))
+def test_each_bypass_fails_for_its_stated_reason(name):
+    run, spec, fn, caught_by = BAD[name]
+    got = failed(mutate(run, fn), spec)
+    assert caught_by <= got, (name, got)
 
 
-def test_url_constant_matches_the_server():
-    assert STATCAN.startswith("https://www150.statcan.gc.ca")
+def test_a_snapshot_miss_fails_the_case_even_when_the_answer_is_right():
+    run = transcript(
+        GOOD_LOOKUP["events"][-1]["structured_output"],
+        fetched=[series(14100287, UNEMP, 2062815, UNEMP_POINTS)],
+        errors=[
+            ("get_table_dimensions", "SNAPSHOT_MISS: table 14100222 is not in the snapshot", True)
+        ],
+    )
+    assert failed(run, LOOKUP) == {"harness"}
+
+
+def test_schema_validation_errors_count_as_invalid_arguments():
+    run = transcript(
+        GOOD_LOOKUP["events"][-1]["structured_output"],
+        fetched=[series(14100287, UNEMP, 2062815, UNEMP_POINTS)],
+        errors=[("get_series", "Error executing tool get_series: 1 validation error", True)],
+    )
+    assert failed(run, LOOKUP) == {"trajectory"}
+
+
+def test_a_run_that_errored_fails_completed_only():
+    run = dict(GOOD_LOOKUP, error={"code": "BUDGET_EXCEEDED", "message": "over budget"})
+    assert failed(run, LOOKUP) == {"completed"}
+
+
+def test_division_by_zero_fails_one_check_instead_of_crashing():
+    run = transcript(
+        answer("Rent rose 2.0%.", [value("change_pct", 2.0, 41691954, "2025-09/2026-09")],
+               [URL.format(18100004)]),
+        fetched=[series(18100004, RENT, 41691954, [("2025-09", 0.0), ("2026-09", 164.4)])],
+    )  # fmt: skip
+    assert "grounded" in failed(run, CHANGE)
+
+
+# --- accepted phrasings (false negatives the review found) ---
+
+
+def test_millions_in_words_are_accepted_at_the_precision_written():
+    pop = case([{"table": 17100009, "members": {1: 11}, "label": "level", "value": 5710598.0,
+                 "tolerance_abs": 0.5, "ref_periods": ["2026-07"]}], [17100009])  # fmt: skip
+    run = transcript(
+        answer("About 5.71 million people lived in BC.",
+               [value("level", 5710598, 9, "2026-07")], [URL.format(17100009)]),
+        fetched=[series(17100009, {1: 11}, 9, [("2026-07", 5710598.0)])],
+    )  # fmt: skip
+    assert failed(run, pop) == set()
+
+
+def test_a_fall_written_in_words_is_accepted():
+    want = {"table": 14100287, "members": UNEMP, "label": "change_abs", "value": -0.6,
+            "tolerance_abs": 0.05, "ref_periods": ["2025-09", "2026-09"]}  # fmt: skip
+    drop = case([want], [14100287])
+    run = transcript(
+        answer("The rate fell by 0.6 percentage points, from 7.1% to 6.5%.",
+               [value("change_abs", -0.6, 7, "2025-09/2026-09")], [URL.format(14100287)]),
+        fetched=[series(14100287, UNEMP, 7, [("2025-09", 7.1), ("2026-09", 6.5)])],
+    )  # fmt: skip
+    assert failed(run, drop) == set()
+
+
+def test_quarterly_and_annual_periods_match():
+    want = {"table": 34100133, "members": {1: 125, 2: 3, 3: 3}, "label": "level",
+            "value": 2045.0, "tolerance_abs": 0.5, "ref_periods": ["2025"]}  # fmt: skip
+    rent = case([want], [34100133])
+    run = transcript(
+        answer("The average rent was $2,045 in 2025.", [value("level", 2045, 5, "2025")],
+               [URL.format(34100133)]),
+        fetched=[series(34100133, {1: 125, 2: 3, 3: 3}, 5, [("2025-10", 2045.0)])],
+    )  # fmt: skip
+    assert failed(run, rent) == set()
+
+
+# --- the committed recordings ---
+
+
+def test_committed_dev_verdicts_match_the_pinned_manifest():
+    pinned = json.loads((GRADES / "dev.json").read_text())
+    assert verdicts(grade_split("dev")) == pinned

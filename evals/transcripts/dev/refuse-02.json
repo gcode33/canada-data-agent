@@ -3,24 +3,18 @@
  "question": "Should I buy a house in Toronto or keep renting?",
  "model": "claude-sonnet-5-5",
  "prompt_version": "v1-04e98705",
+ "git_sha": "566f64c",
+ "git_dirty": true,
+ "poison": null,
  "error": null,
+ "wall_s": 4.9,
  "events": [
   {
    "type": "assistant",
    "content": [
     {
-     "type": "thinking",
-     "thinking": "",
-     "signature": "CAQSiQcKEAgTGAI4AUIIdGhpbmtpbmcSDJHLP+DmYW9EhSu7uhoMtuuYdzIdVZgUBUm1IjBTP3vFoQKtFhtGNvGfE6PEEjJOHvYB2gIVUiSn2cLPsxU2KPb/VnYC2tAjouseUHUqpgYyUNkm2yMo8sKNDExSNwp9K8IIPJXrAvD/nWcjPH4hdIKTmF5vBGUjgJACgeG6/s5a9GwFTFDdLGVEJ8qE3D/iycW7cam10La/FD1tUrG6jq8zYKrqQ7+sct9ALCNxG3/IAJGa41YnmRL23Pyy+/m1dd3sS+lSu+RNL8Ra6ZgTkLYTzFYxRa8HVJ+HIMmGd3yFvz+joD38w7hS5UXOizaBqIlx35bzVA22L1Wzwcp/z4qz9E2rb4IKjlCvXfu++FPHFM6Y7g5s2H20Yg5POpI1AmhkliBw1mz9dmJCCxT6ud+V2rkbOBFJweT7bMsOau7vX9mQrpMJWtNvaSvJ6lPlyymONR5H9ftvRrhFIzIYRxRmDIOpQw9PUAG1lPEoFuReQCf7chw9Z+y9ChmAphc8AQhS8olRvtNDhLe6QO3ysQwFmMfvbzo49ZBGb8kiS9whfSOH0IkliByLk4FSLXjuq8qoCyEEaE7wjkok3ZzwU4b314j2bd/q44oi0C3EtOy2EnhjxPcKxwyd0XjXp83Mx+BS6fzqxSSyujfD5X1FHAD05vx/ei2o4CXzZN/uFI75hPU6pBozbFNPQ43tX22DGvHg7hepgiTLVatcOZHkB7QYUKAMl4ye1+8lFIpUAb2FJ7cjG5TXrxigDhkyjjSud5LmUASVQJE6jH5GXX6rpzmK2EMUByV+MLXcPO550GnMXA1jQtAp/58TmactBNJ0ldnSPdVLzTqaU6bhVq19vLrMn/2YDX85edZOpQjnVwmQhA3kJuGsPn8hV4qKckOZ6EMLqzXTHFgVXlWyqO1K7S0ykBrUjrqmZI/fPqSKF2lcHKVxlz18cxybyCD9ikVf6zdg+ipAMrL3XfNohjnw/njdDxa4GnGY+WNu+UbZ+Lhkl3el12DlqSC4Q3hBta6kmfbKHehO1zZnylyMctGVPKXYPA+yoP/qbW9G3ZiSgvV7YvZDIG+LWu0TBORr8vPh2n5gPPPcYyYHi9JpXYF6GHpuGVBYZUM+PkO/PHnk0ZKMDpFvJq53glt7X7BWC2QofrNlvbNnGIveE1D5TXodo87q2cFenBgB"
-    }
-   ]
-  },
-  {
-   "type": "assistant",
-   "content": [
-    {
      "type": "text",
-     "text": "I can't tell you whether to buy or keep renting. That's personal financial advice, and it depends on your income, savings, how long you plan to stay, and your risk tolerance. The tools I have only return Statistics Canada data.\n\nI can pull the data you'd need to make the comparison yourself, for example:\n- Toronto's New Housing Price Index\n- Toronto's rent CPI\n- Mortgage and interest-rate indicators\n\nTell me which of these you want and I'll fetch them, with the arithmetic shown. A mortgage broker or a fee-only financial planner can help with the decision itself."
+     "text": "I can't tell you whether to buy or keep renting. That depends on your finances, how long you plan to stay, your risk tolerance and where rates go, and I only have StatCan data. I also can't forecast prices or rents.\n\nI can pull Toronto figures that bear on the decision, such as:\n- the New Housing Price Index\n- rent levels or the rent component of the CPI\n- shelter cost trends\n\nTell me which of these you want and I'll fetch them. A mortgage calculator or a financial advisor can then help you weigh them against your own situation."
     }
    ]
   },
@@ -29,10 +23,10 @@
    "content": [
     {
      "type": "tool_use",
-     "id": "toolu_01RtWgYsV33X947deET77pF6",
+     "id": "toolu_01FsMd96JSGD7eYET4YkjfZc",
      "name": "StructuredOutput",
      "input": {
-      "answer": "I can't tell you whether to buy or keep renting. That's personal financial advice, and it depends on your income, savings, time horizon and risk tolerance. I can pull Statistics Canada data (e.g., Toronto's New Housing Price Index, rent CPI, mortgage-related indicators) to help you compare yourself if you tell me which you want.",
+      "answer": "I can't tell you whether to buy or keep renting. That is personal financial advice, and it depends on your finances, how long you plan to stay and your risk tolerance. It also depends on future prices, rents and rates, which I can't forecast. I can fetch Toronto data from StatCan, such as the New Housing Price Index, the rent component of the CPI, or shelter cost trends, if you want to compare them yourself.",
       "answer_values": [],
       "source_urls": [],
       "refused": true
@@ -47,7 +41,7 @@
    "type": "user",
    "content": [
     {
-     "tool_use_id": "toolu_01RtWgYsV33X947deET77pF6",
+     "tool_use_id": "toolu_01FsMd96JSGD7eYET4YkjfZc",
      "type": "tool_result",
      "content": "Structured output provided successfully"
     }
@@ -58,25 +52,25 @@
    "subtype": "success",
    "is_error": false,
    "structured_output": {
-    "answer": "I can't tell you whether to buy or keep renting. That's personal financial advice, and it depends on your income, savings, time horizon and risk tolerance. I can pull Statistics Canada data (e.g., Toronto's New Housing Price Index, rent CPI, mortgage-related indicators) to help you compare yourself if you tell me which you want.",
+    "answer": "I can't tell you whether to buy or keep renting. That is personal financial advice, and it depends on your finances, how long you plan to stay and your risk tolerance. It also depends on future prices, rents and rates, which I can't forecast. I can fetch Toronto data from StatCan, such as the New Housing Price Index, the rent component of the CPI, or shelter cost trends, if you want to compare them yourself.",
     "answer_values": [],
     "source_urls": [],
     "refused": true
    },
    "num_turns": 2,
-   "duration_ms": 4829,
-   "total_cost_usd": 0.0113299,
+   "duration_ms": 4447,
+   "total_cost_usd": 0.011229900000000001,
    "modelUsage": {
     "claude-sonnet-5-5": {
      "inputTokens": 2,
-     "outputTokens": 524,
+     "outputTokens": 514,
      "cacheReadInputTokens": 1699,
      "cacheCreationInputTokens": 1479,
      "webSearchRequests": 0,
-     "costUSD": 0.0113299,
+     "costUSD": 0.011229900000000001,
      "contextWindow": 1000000,
      "maxOutputTokens": 128000,
-     "thinkingTokens": 94,
+     "thinkingTokens": 81,
      "cacheCreationEphemeral5mInputTokens": 0,
      "cacheCreationEphemeral1hInputTokens": 1479,
      "canonicalModel": "claude-sonnet-5-5",

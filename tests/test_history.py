@@ -5,7 +5,14 @@ import pytest
 from canada_agent.evals.history import HISTORY, append, entry, percentile, validate, wilson
 
 REPORT = {
-    "cases": {"a": {"passed": True}, "b": {"passed": False}, "c": {"passed": True}},
+    "cases": {
+        "a": {"passed": True, "counted": True},
+        "b": {"passed": False, "counted": True},
+        "c": {"passed": True, "counted": True},
+        "d": {"passed": False, "counted": False},  # unpoisoned injection: not in the rate
+    },
+    "searches": 4,
+    "degraded_searches": 1,
     "pass_rate": 2 / 3,
     "by_category": {"lookup": 1.0, "comparison": 0.5},
     "search_recall_at_5_in_run": 1.0,
@@ -33,9 +40,12 @@ def make():
         split="dev",
         model="m",
         prompt_version="v1-x",
+        git_sha="abc1234",
+        git_dirty=False,
         k=1,
         report=REPORT,
         results=RESULTS,
+        wall_s=[20.0, 40.0],
     )
 
 
@@ -45,7 +55,10 @@ def test_an_entry_has_every_spec_field_and_validates():
     assert line["tokens"] == {"input": 10, "output": 5, "cache_read": 100, "cache_creation": 50}
     assert line["api_equivalent_usd"] == 0.05
     assert line["latency_p50_s"] == 30.0
-    assert line["n_cases"] == 3
+    assert line["n_cases"] == 4
+    assert line["n_counted"] == 3
+    assert line["wilson_95"][0] < 2 / 3 < line["wilson_95"][1]
+    assert line["degraded_searches"] == 1
 
 
 def test_validation_catches_missing_and_mistyped_fields():

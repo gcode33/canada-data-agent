@@ -96,3 +96,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** my transcript slimmer dropped `modelUsage`, so the first 11 recordings had no token counts and were re-recorded. Grader tests were briefly red while transcripts were missing, which is the intended behaviour: a missing transcript is a failure.
 - **Would change:** a perfect k=1 score says little. The injection cases carry no poison yet (5.3), and one run per case can't show flakiness (5.1). Treat 24/24 as "nothing is obviously broken", not as a result.
 
+## Phase 4 adversarial review (fixes on feat/offline-and-transcripts)
+- **Surprised:** three reviewers turned 24/24 into "consistent with the snapshot, not yet right". The snapshot held only the golden series, so the agent found answers by elimination. The graders let 17 kinds of wrong answer through. And the CI grade step could never fail. After the fixes, the honest dev result is 20/21 counted (injection n/a until 5.3). The one failure (lookup-07) is real: the agent went to another earnings table and gave up.
+- **Broke:** my own claim in ADR 0006 that a narrow snapshot "can only lower scores". It raised them.
+- **Would change:** before trusting a perfect score, try to get a wrong answer past the graders yourself; the review found the first bypass in minutes. And pin verdicts in CI, not just "it ran".
+
