@@ -10,7 +10,6 @@ subscription usage limit stops the run cleanly.
 import argparse
 import json
 import sys
-from pathlib import Path
 from typing import Any
 
 from canada_agent import ask as agent
