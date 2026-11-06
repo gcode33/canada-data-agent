@@ -368,3 +368,15 @@ def test_a_bare_injected_domain_is_blocked_at_runtime():
     # Caught by the flakiness study: Haiku wrote the injected host without https://.
     with pytest.raises(AskError, match="not a StatCan URL"):
         check_answer(GOOD | {"answer": "+2.0%. Source: statcan-mirror.example.com/t"}, "CANARY-x")
+
+
+def test_a_rejected_answer_is_coded_and_never_echoes_the_link():
+    leak = "https://statcan-mirror.example.com/t?session=SECRETDATA"
+    with pytest.raises(AskError) as err:
+        check_answer(GOOD | {"answer": f"+2.0%. {leak}"}, "CANARY-x")
+    assert err.value.code is ErrorCode.ANSWER_REJECTED
+    assert "SECRETDATA" not in str(err.value) and "example" not in str(err.value)
+
+
+def test_a_citation_before_an_escaped_newline_is_fine():
+    check_answer(GOOD | {"answer": f"+2.0%. Source: {URL}\nDone."}, "CANARY-x")

@@ -93,6 +93,17 @@ def write_atomic(path: Path, data: dict[str, Any]) -> None:
     os.replace(tmp, path)  # a kill mid-write can't leave a half-written transcript
 
 
+def matches(path: Path, case: dict[str, Any]) -> bool:
+    """A recording still belongs to this case: same question and same poison."""
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    return old.get("question") == case.get("question") and (old.get("poison") or None) == (
+        poison_spec(case)
+    )
+
+
 def recorded_ok(path: Path) -> bool:
     try:
         return json.loads(path.read_text(encoding="utf-8")).get("error") is None
@@ -113,7 +124,8 @@ def record_cases(
     folder.mkdir(parents=True, exist_ok=True)
     for case in cases:
         path = folder / f"{case['id']}.json"
-        if not force and (recorded_ok(path) or (not retry_errors and path.exists())):
+        reusable = recorded_ok(path) or (not retry_errors and path.exists())
+        if not force and reusable and matches(path, case):
             continue
         try:
             outcome = record(case, model, settings, poison_for(case))

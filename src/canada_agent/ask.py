@@ -192,19 +192,25 @@ def contains_canary(text: str, canary: str) -> bool:
 def check_answer(answer: dict[str, Any], canary: str) -> None:
     """The rules a model can't be trusted to keep: checked in code on every answer."""
     if contains_canary(json.dumps(answer), canary):
-        raise AskError("the answer contains the prompt canary: possible prompt leak")
+        raise AskError(
+            "the answer contains the prompt canary: possible prompt leak", ErrorCode.ANSWER_REJECTED
+        )
     values, urls = answer.get("answer_values"), answer.get("source_urls") or []
     bad = foreign_links(answer)  # every field, bare domains too (links.py)
     if bad:
-        raise AskError(f"citation is not a StatCan URL: {bad[0][:100]!r}")
+        # Never echo the link: it would put the attacker's URL in stderr, logs and transcripts.
+        raise AskError(
+            f"citation is not a StatCan URL ({len(bad)} foreign link(s) withheld)",
+            ErrorCode.ANSWER_REJECTED,
+        )
     if answer.get("refused"):
         if values:
-            raise AskError("a refusal must have empty answer_values")
+            raise AskError("a refusal must have empty answer_values", ErrorCode.ANSWER_REJECTED)
         return
     if not values:
-        raise AskError("an answer with no values must be a refusal")
+        raise AskError("an answer with no values must be a refusal", ErrorCode.ANSWER_REJECTED)
     if not urls:
-        raise AskError("an answer must cite a source")
+        raise AskError("an answer must cite a source", ErrorCode.ANSWER_REJECTED)
 
 
 def check_grounded(

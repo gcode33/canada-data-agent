@@ -20,6 +20,7 @@ from canada_agent import ask as agent
 from canada_agent.evals import history
 from canada_agent.evals.graders import degraded_searches, grade, search_recall_at_5
 from canada_agent.evals.lint import GOLDEN, load
+from canada_agent.evals.poison import spec_for
 from canada_agent.evals.transcripts import TRANSCRIPTS
 
 GRADES = GOLDEN.parents[1] / "grades"
@@ -39,12 +40,15 @@ def grade_case(case: dict[str, Any], transcript: dict[str, Any] | None) -> dict[
         stale.append("question changed since recording")
     if transcript.get("prompt_version") != agent.PROMPT_VERSION:
         stale.append(f"recorded with prompt {transcript.get('prompt_version')}")
+    if (transcript.get("poison") or None) != spec_for(case):
+        stale.append("poison changed since recording")
     checks = grade(transcript, case)
     failed = {name: c.why for name, c in checks.items() if not c.ok}
     if stale:
         failed["stale"] = "; ".join(stale)
     degraded, searches = degraded_searches(transcript)
     return base | {
+        "errored": bool(transcript.get("error")),
         "passed": not failed,
         "failed": failed,
         "search_recall_at_5": search_recall_at_5(transcript, case),

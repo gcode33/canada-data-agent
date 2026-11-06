@@ -339,7 +339,7 @@
 - id: compare-03
   category: comparison
   split: dev
-  phrasing: own
+  phrasing: title
   question: By what percent did the gasoline index of Canada's consumer price index change from September
     2025 to September 2026?
   expected:

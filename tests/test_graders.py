@@ -399,3 +399,32 @@ def test_a_series_stored_in_thousands_may_be_written_in_thousands():
         fetched=[fetched],
     )  # fmt: skip
     assert failed(run, case([want], [14100287])) == set()
+
+
+# --- Phase 5 review: grader leniency ---
+
+
+@pytest.mark.parametrize("sep", [" - ", " = "])
+def test_a_swap_written_with_dashes_or_equals_still_fails(sep):
+    text = f"Ontario's rate was higher. Ontario{sep}6.0%; Quebec{sep}7.0%."
+    assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
+
+
+def test_a_refusal_may_not_hide_a_figure_as_an_eight_digit_number():
+    text = "I can't, but it was 41288599 people."
+    assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
+
+
+def test_a_refusal_may_cite_a_product_id_and_a_period():
+    text = "I can't forecast; table pid 14100287 only runs to 2026-09."
+    assert failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE) == set()
+
+
+def test_the_thousands_rule_uses_the_matched_series_only():
+    other = series(14100287, {1: 2, 2: 3, 3: 1, 4: 1, 5: 1, 6: 1}, 99, [("2026-08", 1.0)])
+    other["scalar_factor"] = "thousands"
+    run = earnings_run(14100223)
+    run["events"][-1]["structured_output"]["answer"] = "Average weekly earnings were $1,354,550."
+    extra = transcript(run["events"][-1]["structured_output"], fetched=[other])["events"][:2]
+    run["events"] = extra + run["events"]
+    assert "values" in failed(run, EARN)
