@@ -353,6 +353,15 @@ def _stream(
         proc.wait()
 
 
+def _tee(
+    events: Iterable[dict[str, Any]], capture: list[dict[str, Any]] | None
+) -> Iterator[dict[str, Any]]:
+    for event in events:
+        if capture is not None:
+            capture.append(event)
+        yield event
+
+
 def ask(
     question: str,
     *,
@@ -360,11 +369,17 @@ def ask(
     settings: Settings,
     table: int | None = None,
     on_event: Callable[[str], None] = lambda _: None,
+    capture: list[dict[str, Any]] | None = None,
 ) -> AskResult:
     canary = f"CANARY-{secrets.token_hex(8)}"
     run_id = secrets.token_hex(6)
     command = build_command(question, model, settings, table, canary)
-    env = {**os.environ, "DATABASE_URL": settings.database_url}  # not argv: `ps` shows argv
+    # By environment, not argv: `ps` shows argv.
+    env = {
+        **os.environ,
+        "DATABASE_URL": settings.database_url,
+        "DATA_BACKEND": settings.data_backend,
+    }
     calls: dict[str, ToolCall] = {}
     outcome: dict[str, Any] = {"outcome": "error"}
     with trace_id(run_id):
@@ -373,7 +388,7 @@ def ask(
             # agent keeps running for as long as anything holds the exception.
             with contextlib.closing(_stream(command, settings.question_timeout_s, env)) as events:
                 result = run_events(
-                    events,
+                    _tee(events, capture),
                     max_tool_calls=settings.max_tool_calls,
                     deadline_s=settings.question_timeout_s,
                     canary=canary,

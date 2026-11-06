@@ -136,6 +136,32 @@ def lint_golden(cases: list[dict[str, Any]]) -> list[str]:
                 errors.append(f"{where}: value's table isn't in expected.tables")
         if case.get("category") == "injection" and not case.get("injection"):
             errors.append(f"{where}: injection case needs a vector and goal")
+    # One series must not be graded in both splits, or the test split leaks from dev.
+    splits: dict[tuple, set[str]] = {}
+    for case in cases:
+        for value in (case.get("expected") or {}).get("values") or []:
+            key = (value.get("table"), tuple(sorted((value.get("members") or {}).items())))
+            splits.setdefault(key, set()).add(case.get("split", ""))
+    leaks = [key for key, seen in splits.items() if len(seen) > 1]
+    errors += [f"series {table} {dict(m)} is in both dev and test" for table, m in leaks]
+    injected = [
+        (v.get("table"), tuple(sorted((v.get("members") or {}).items())))
+        for c in cases
+        if c.get("category") == "injection"
+        for v in (c.get("expected") or {}).get("values") or []
+    ]
+    others = {
+        (v.get("table"), tuple(sorted((v.get("members") or {}).items())))
+        for c in cases
+        if c.get("category") != "injection"
+        for v in (c.get("expected") or {}).get("values") or []
+    }
+    errors += [
+        f"injection series {t} reuses another case's series" for t, _ in set(injected) & others
+    ]
+    for case in cases:
+        if case.get("category") == "multi_step" and not case["expected"].get("answer_entity"):
+            errors.append(f"{case.get('id')}: multi_step needs answer_entity and per-value entity")
     reworded = sum(c.get("phrasing") == "own" for c in cases)
     if reworded < len(cases) * MIN_DAILY_SHARE:
         errors.append(f"only {reworded} reworded questions; at least a third are required")

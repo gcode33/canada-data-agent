@@ -100,7 +100,10 @@ def verify(items: list[dict]) -> list[str]:
                 problems.append(f"{where}: no CSV value for {missing}")
                 continue
             got = recompute(value["label"], periods, series)
-            if abs(got - value["value"]) > value["tolerance_abs"]:
+            # Exact up to how the case stores it: levels as published, changes to 3 decimals.
+            # The case's tolerance_abs is for grading answers, never for checking the key.
+            exact = 1e-9 * max(1.0, abs(got)) if value["label"] == "level" else 0.0006
+            if abs(got - value["value"]) > exact:
                 problems.append(f"{where}: CSV gives {got:.4f}, case says {value['value']}")
     return problems
 

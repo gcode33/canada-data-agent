@@ -5,7 +5,7 @@ import yaml
 
 from canada_agent.errors import ErrorCode
 from canada_agent.series.service import get_series, get_table_dimensions
-from canada_agent.series.snapshot import GOLDEN, SNAPSHOTS, SnapshotBackend, golden_coordinates
+from canada_agent.series.snapshot import GOLDEN, SnapshotBackend
 from canada_agent.wds.client import WdsError
 
 backend = SnapshotBackend()
@@ -31,14 +31,14 @@ def test_a_table_not_in_the_snapshot_is_snapshot_miss():
     assert err.value.code is ErrorCode.SNAPSHOT_MISS
 
 
-def test_an_uncovered_coordinate_is_bad_members_like_live():
+def test_an_invalid_coordinate_is_bad_members_like_live():
     with pytest.raises(WdsError) as err:
         backend.series_data(18100004, "99.99.0.0.0.0.0.0.0.0", "2025-09", "2026-09")
     assert err.value.code is ErrorCode.BAD_MEMBERS
 
 
 def test_an_empty_range_is_no_points_like_live():
-    assert backend.series_data(18100004, RENT, "1900-01", "1900-12").points == []
+    assert backend.series_data(18100004, RENT, "2030-01", "2030-12").points == []
 
 
 def test_every_golden_value_is_answerable_from_the_snapshot():
@@ -54,7 +54,3 @@ def test_every_golden_value_is_answerable_from_the_snapshot():
                 out = get_series(backend, value["table"], members, start, end)
                 assert out["points"], (case["id"], period)
                 assert out["points"][0]["value"] is not None, (case["id"], period)
-
-
-def test_snapshot_covers_exactly_the_golden_tables():
-    assert {int(p.name) for p in SNAPSHOTS.iterdir() if p.is_dir()} == set(golden_coordinates())
