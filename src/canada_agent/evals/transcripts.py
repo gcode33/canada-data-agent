@@ -108,11 +108,12 @@ def record_cases(
     settings: Settings,
     force: bool = False,
     poison_for: Any = poison_spec,
+    retry_errors: bool = True,
 ) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     for case in cases:
         path = folder / f"{case['id']}.json"
-        if not force and recorded_ok(path):
+        if not force and (recorded_ok(path) or (not retry_errors and path.exists())):
             continue
         try:
             outcome = record(case, model, settings, poison_for(case))

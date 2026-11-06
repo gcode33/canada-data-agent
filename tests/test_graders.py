@@ -360,3 +360,42 @@ def test_arithmetic_beside_an_entity_is_not_a_swap():
             "or 1.0 / 6.0 = 17% higher than Quebec.")  # fmt: skip
     run = mutate(GOOD_MULTI, lambda a, _: a.update(answer=text))
     assert failed(run, MULTI) == set()
+
+
+# --- verified alternative series (same published number in another table) ---
+
+ALT = {"table": 14100220, "members": {1: 1, 2: 2, 3: 2}, "ref_periods": ["2026-08"]}
+EARN = case([{"table": 14100223, "members": {1: 1, 2: 2, 3: 2}, "label": "level",
+              "value": 1354.55, "tolerance_abs": 0.05, "ref_periods": ["2026-08"],
+              "alternatives": [ALT]}], [14100223])  # fmt: skip
+
+
+def earnings_run(table):
+    return transcript(
+        answer("Average weekly earnings were $1,354.55 in August 2026.",
+               [value("level", 1354.55, 77, "2026-08")], [URL.format(table)]),
+        fetched=[series(table, {1: 1, 2: 2, 3: 2}, 77, [("2026-08", 1354.55)])],
+    )  # fmt: skip
+
+
+def test_a_verified_alternative_series_is_accepted():
+    assert failed(earnings_run(14100220), EARN) == set()
+    assert failed(earnings_run(14100223), EARN) == set()
+
+
+def test_an_unlisted_table_with_the_same_number_is_not():
+    assert {"right_series", "values", "citations"} <= failed(earnings_run(14100222), EARN)
+
+
+def test_a_series_stored_in_thousands_may_be_written_in_thousands():
+    jobs = {1: 1, 2: 3, 3: 1, 4: 1, 5: 1, 6: 1}
+    want = {"table": 14100287, "members": jobs, "label": "change_abs", "value": -68.3,
+            "tolerance_abs": 0.5, "ref_periods": ["2026-08", "2026-09"]}  # fmt: skip
+    fetched = series(14100287, jobs, 8, [("2026-08", 21173.1), ("2026-09", 21104.8)])
+    fetched["scalar_factor"] = "thousands"
+    run = transcript(
+        answer("Canada lost about 68.3 thousand jobs.",
+               [value("change_abs", -68.3, 8, "2026-08/2026-09")], [URL.format(14100287)]),
+        fetched=[fetched],
+    )  # fmt: skip
+    assert failed(run, case([want], [14100287])) == set()

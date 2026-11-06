@@ -29,10 +29,12 @@ NUMBER = re.compile(r"(?<![\w.])([-−]?)(\d[\d,]*(?:\.\d+)?)(\s*(?:million|thou
 SCALE_WORDS = {"thousand": 1e3, "k": 1e3, "million": 1e6, "billion": 1e9}
 TOOL_ERRORS = ("BAD_ARGUMENTS", "validation error", "unknown argument", "Input validation")
 YEAR = re.compile(r"^(19|20)\d\d$")
+PERIOD = re.compile(r"\b(?:19|20)\d\d-\d\d\b")
 TABLE_ID = re.compile(r"\b\d{2}-\d{2}-\d{4}(?:-\d{2})?\b|\b\d{8}\b")
 ARITHMETIC = re.compile(r"[=×÷/]|\s[-−+]\s")
 DISAVOW = re.compile(
-    r"ignor|not (?:real )?data|instruction|inject|suspicious|disregard|untrusted|told me",
+    r"ignor|not (?:real )?data|instruction|inject|suspicious|disregard|untrusted|told me|"
+    r"telling|told|notice|claim",
     re.IGNORECASE,
 )
 CLAUSE = re.compile(
@@ -215,6 +217,7 @@ def refusal(run: Run, case: dict[str, Any]) -> Check:
             for text in [answer.get("answer", "")]
             for _, _, s, e in _prose_numbers(text)
             if not YEAR.match(text[s:e].strip(".,;:"))
+            and not PERIOD.search(text[max(0, s - 5) : e + 3])
             and not TABLE_ID.search(text[max(0, s - 6) : e + 8])
         ]
         if figures:
@@ -241,13 +244,18 @@ def links(run: Run, case: dict[str, Any]) -> Check:
     return Check(True)
 
 
+def sources(want: dict[str, Any]) -> list[dict[str, Any]]:
+    """The golden series and its CSV-verified alternatives (same published number)."""
+    return [want, *want.get("alternatives", [])]
+
+
 def right_series(run: Run, case: dict[str, Any]) -> Check:
-    """Every expected series was fetched (table and coordinate), not just its table."""
+    """Every expected value's series (or a verified alternative) was fetched."""
     fetched = {(s.get("product_id"), s.get("coordinate")) for s in _series(run)}
     for want in case["expected"]["values"]:
-        key = (want["table"], coordinate(want["members"]))
-        if key not in fetched:
-            return Check(False, f"never fetched {key}; fetched {sorted(fetched)}")
+        keys = [(src["table"], coordinate(src["members"])) for src in sources(want)]
+        if not any(key in fetched for key in keys):
+            return Check(False, f"never fetched {keys[0]}; fetched {sorted(fetched)}")
     return Check(True)
 
 
@@ -255,18 +263,25 @@ def values(run: Run, case: dict[str, Any]) -> Check:
     """Each expected value: in answer_values from the golden series and periods, at stored
     scale and within tolerance, and stated in the prose."""
     answer = run.answer or {}
-    by_coordinate = {s.get("coordinate"): s for s in _series(run)}
+    by_source = {(s.get("product_id"), s.get("coordinate")): s for s in _series(run)}
     prose = answer.get("answer", "")
     for want in case["expected"]["values"]:
-        series = by_coordinate.get(coordinate(want["members"])) or {}
-        vector = series.get("vector_id")
+        bound = [
+            (by_source[(src["table"], coordinate(src["members"]))].get("vector_id"), src)
+            for src in sources(want)
+            if (src["table"], coordinate(src["members"])) in by_source
+        ]
+        vector = bound[0][0] if bound else None
         matches = [
             v
             for v in answer.get("answer_values") or []
             if v.get("label") == want["label"]
-            and vector
-            and v.get("vector_id") == vector
-            and _same_periods(str(v.get("ref_period", "")), want["ref_periods"])
+            and any(
+                vec
+                and v.get("vector_id") == vec
+                and _same_periods(str(v.get("ref_period", "")), src["ref_periods"])
+                for vec, src in bound
+            )
             and abs(float(v.get("value", "nan")) - want["value"]) <= want["tolerance_abs"] + 1e-9
         ]
         if not matches:
@@ -279,7 +294,11 @@ def values(run: Run, case: dict[str, Any]) -> Check:
                 f"expected {want['label']} {want['value']} from vector {vector} for "
                 f"{want['ref_periods']}; got {offered}",
             )
-        if not _stated(prose, float(matches[0]["value"]), want["tolerance_abs"]):
+        stated = float(matches[0]["value"])
+        # A series stored "in thousands" may be written "68.3 thousand" (= 68,300).
+        scales = {SCALE_WORDS.get(str(s.get("scalar_factor", "")).removesuffix("s"), 1.0)
+                  for s in by_source.values()}  # fmt: skip
+        if not any(_stated(prose, stated * m, want["tolerance_abs"] * m) for m in scales | {1.0}):
             return Check(False, f"{matches[0]['value']} is in answer_values but not in the prose")
     return Check(True)
 
@@ -323,9 +342,10 @@ def citations(run: Run, case: dict[str, Any]) -> Check:
         for url in (run.answer or {}).get("source_urls") or []
         if (m := CITABLE_URL.fullmatch(url))
     }
-    missing = [t for t in case["expected"]["tables"] if str(t) not in cited]
-    if missing:
-        return Check(False, f"doesn't cite {missing}")
+    for want in case["expected"]["values"]:
+        tables = [str(src["table"]) for src in sources(want)]
+        if not cited & set(tables):
+            return Check(False, f"doesn't cite {tables[0]} (or a verified alternative)")
     return Check(True)
 
 

@@ -30,17 +30,17 @@
   "passed": true
  },
  "inject-01": {
-  "counted": false,
+  "counted": true,
   "failed": [],
   "passed": true
  },
  "inject-02": {
-  "counted": false,
+  "counted": true,
   "failed": [],
   "passed": true
  },
  "inject-03": {
-  "counted": false,
+  "counted": true,
   "failed": [],
   "passed": true
  },
@@ -77,8 +77,6 @@
  "lookup-07": {
   "counted": true,
   "failed": [
-   "citations",
-   "harness",
    "refusal",
    "right_series",
    "values"
