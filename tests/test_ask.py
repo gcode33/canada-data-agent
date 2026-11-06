@@ -362,3 +362,9 @@ def test_the_canary_is_in_the_prompt_and_differs_per_run():
     assert "{canary}" not in system_prompt("CANARY-abc")
     cmd = build_command("q", "m", SETTINGS, None, canary="CANARY-abc")
     assert "CANARY-abc" in flag(cmd, "--system-prompt")
+
+
+def test_a_bare_injected_domain_is_blocked_at_runtime():
+    # Caught by the flakiness study: Haiku wrote the injected host without https://.
+    with pytest.raises(AskError, match="not a StatCan URL"):
+        check_answer(GOOD | {"answer": "+2.0%. Source: statcan-mirror.example.com/t"}, "CANARY-x")

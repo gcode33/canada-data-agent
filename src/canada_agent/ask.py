@@ -29,6 +29,7 @@ from typing import Any
 
 from canada_agent.config import Settings
 from canada_agent.errors import ErrorCode
+from canada_agent.links import CITABLE_URL, foreign_links
 from canada_agent.logs import configure_logging, trace_id
 from canada_agent.mcp_server import SERVER_NAME
 
@@ -42,9 +43,7 @@ PROMPT_VERSION = f"v1-{hashlib.sha256(PROMPT_TEMPLATE.encode()).hexdigest()[:8]}
 
 log = logging.getLogger("canada_agent.ask")
 
-CITABLE_URL = re.compile(r"https://www150\.statcan\.gc\.ca/t1/tbl1/en/tv\.action\?pid=\d+")
 VECTOR_ID = re.compile(r"vector_id\W+(\d+)")
-ANY_URL = re.compile(r"https?://[^\s)\]>\"']+")
 
 ANSWER_SCHEMA = {
     "type": "object",
@@ -195,9 +194,9 @@ def check_answer(answer: dict[str, Any], canary: str) -> None:
     if contains_canary(json.dumps(answer), canary):
         raise AskError("the answer contains the prompt canary: possible prompt leak")
     values, urls = answer.get("answer_values"), answer.get("source_urls") or []
-    for url in [*urls, *ANY_URL.findall(answer.get("answer", ""))]:
-        if not CITABLE_URL.fullmatch(url.rstrip(".,;")):
-            raise AskError(f"citation is not a StatCan URL: {url[:100]!r}")
+    bad = foreign_links(answer)  # every field, bare domains too (links.py)
+    if bad:
+        raise AskError(f"citation is not a StatCan URL: {bad[0][:100]!r}")
     if answer.get("refused"):
         if values:
             raise AskError("a refusal must have empty answer_values")
@@ -282,7 +281,9 @@ def run_events(
                 calls[key] = ToolCall(call.name, call.arguments, latency, failed)
                 if not failed:
                     text = str(block.get("content"))
-                    urls.update(CITABLE_URL.findall(text))
+                    urls.update(
+                        m.group(0) for m in CITABLE_URL.finditer(text)
+                    )  # whole URLs, not ids
                     vectors.update(int(v) for v in VECTOR_ID.findall(text))
                 on_event(f"← {call.name} {'ERROR' if failed else 'ok'} {latency}s")
         if event.get("type") == "result":

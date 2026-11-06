@@ -317,7 +317,8 @@
   category: comparison
   split: dev
   phrasing: own
-  question: By what percent did prices at the pump change in Canada from September 2025 to September 2026?
+  question: By what percent did the gasoline index of Canada's consumer price index change from September
+    2025 to September 2026?
   expected:
     tables:
     - 18100004

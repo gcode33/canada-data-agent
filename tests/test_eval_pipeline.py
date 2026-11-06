@@ -205,4 +205,7 @@ def test_requests_before_the_window_are_a_snapshot_miss_not_silent_truncation():
 
 
 def test_the_snapshot_covers_exactly_the_golden_tables():
-    assert {int(p.name) for p in SNAPSHOTS.iterdir() if p.is_dir()} == snapshot_tables()
+    from canada_agent.series.snapshot import EXTRA_TABLES
+
+    held = {int(p.name) for p in SNAPSHOTS.iterdir() if p.is_dir()}
+    assert held == snapshot_tables() | set(EXTRA_TABLES)

@@ -340,3 +340,23 @@ def test_quarterly_and_annual_periods_match():
 def test_committed_dev_verdicts_match_the_pinned_manifest():
     pinned = json.loads((GRADES / "dev.json").read_text())
     assert verdicts(grade_split("dev")) == pinned
+
+
+# --- false positives the flakiness study found ---
+
+
+def test_a_refusal_may_name_a_table_and_a_year():
+    note = (
+        "I can't: Germany isn't in StatCan's tables "
+        "(e.g. Table 14-10-0287, 14100287) for 2026, or any year."
+    )
+    run = mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=note))
+    assert failed(run, REFUSE) == set()
+
+
+def test_arithmetic_beside_an_entity_is_not_a_swap():
+    text = ("Ontario's rate was higher. Ontario was 7.0% and Quebec 6.0%. "
+            "Ontario was 7.0 - 6.0 = 1.0 points above Quebec, "
+            "or 1.0 / 6.0 = 17% higher than Quebec.")  # fmt: skip
+    run = mutate(GOOD_MULTI, lambda a, _: a.update(answer=text))
+    assert failed(run, MULTI) == set()

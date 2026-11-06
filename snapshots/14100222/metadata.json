@@ -1,0 +1,185 @@
+{
+"product_id": 14100222,
+"title": "Employment, average hourly and weekly earnings (including overtime), and average weekly hours for the industrial aggregate excluding unclassified businesses, monthly, seasonally adjusted",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Newfoundland and Labrador",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Prince Edward Island",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Nova Scotia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 5,
+"name": "New Brunswick",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Manitoba",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Saskatchewan",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Alberta",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 11,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Yukon",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Northwest Territories",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Nunavut",
+"parent_id": 1,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Estimate",
+"members": [
+{
+"id": 1,
+"name": "Employment for all employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Employment for hourly paid employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Employment for salaried employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Employment for all employees, industrial aggregate including unclassified",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Average weekly earnings including overtime for all employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Average weekly earnings including overtime for hourly employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Average weekly earnings including overtime for salaried employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Average hourly earnings including overtime for hourly employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Average hourly earnings including overtime for salaried employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Average weekly hours including overtime for hourly employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Standard work week excluding overtime for salaried employees (exclude overtime)",
+"parent_id": null,
+"terminated": false
+}
+]
+}
+],
+"start_date": "2001-01-01",
+"end_date": "2026-08-01",
+"footnotes": [
+"The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - Too unreliable to publish or sample size is too small to produce reliable estimates.",
+"Some series exhibit no clear seasonal pattern. In such cases the data are not adjusted.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Excludes unclassified businesses unless otherwise mentioned.",
+"The introduction of administrative data in 2001 and the associated change in methodology resulted in level shifts for some series. This affects the comparability of pre- and post-2001 estimates.",
+"Estimates for the latest reference month are preliminary.",
+"Earnings data are based on gross payroll before source deductions.",
+"Average weekly earnings for the industrial aggregate, excluding unclassified businesses [11-91N] in Alberta for February 2004, 2008 and 2012 have been corrected.",
+"The following variables for Canada, the provinces and territories have been corrected for January 2013: Employment for all employees for the industrial aggregate, excluding unclassified businesses [11-91N]; and Average weekly hours including overtime for hourly employees for the industrial aggregate, excluding unclassified businesses [11-91N].",
+"Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS) Version 1.0.",
+"\"All employees\" is the sum of employees paid by the hour, salaried employees and other employees."
+]
+}
