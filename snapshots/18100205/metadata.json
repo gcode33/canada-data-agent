@@ -1,0 +1,295 @@
+{
+"product_id": 18100205,
+"title": "New housing price index, monthly",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Atlantic Region",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Newfoundland and Labrador",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "St. John's, Newfoundland and Labrador",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Prince Edward Island",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Charlottetown, Prince Edward Island",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Nova Scotia",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Halifax, Nova Scotia",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 9,
+"name": "New Brunswick",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Saint John, Fredericton, and Moncton, New Brunswick",
+"parent_id": 9,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Québec, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Sherbrooke, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Trois-Rivières, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Montréal, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Ottawa-Gatineau, Quebec part, Ontario/Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Oshawa, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Toronto, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Hamilton, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 22,
+"name": "St. Catharines-Niagara, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 23,
+"name": "Kitchener-Cambridge-Waterloo, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 24,
+"name": "Guelph, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 25,
+"name": "London, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 26,
+"name": "Windsor, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 27,
+"name": "Greater Sudbury, Ontario",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 28,
+"name": "Prairie Region",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 29,
+"name": "Manitoba",
+"parent_id": 28,
+"terminated": false
+},
+{
+"id": 30,
+"name": "Winnipeg, Manitoba",
+"parent_id": 29,
+"terminated": false
+},
+{
+"id": 31,
+"name": "Saskatchewan",
+"parent_id": 28,
+"terminated": false
+},
+{
+"id": 32,
+"name": "Regina, Saskatchewan",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 33,
+"name": "Saskatoon, Saskatchewan",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Alberta",
+"parent_id": 28,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Calgary, Alberta",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 36,
+"name": "Edmonton, Alberta",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 37,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 38,
+"name": "Kelowna, British Columbia",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 39,
+"name": "Vancouver, British Columbia",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 40,
+"name": "Victoria, British Columbia",
+"parent_id": 37,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "New housing price indexes",
+"members": [
+{
+"id": 1,
+"name": "Total (house and land)",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "House only",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Land only",
+"parent_id": 1,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1981-01-01",
+"end_date": "2026-09-01",
+"footnotes": [
+"This table replaces table 18-10-0052 which was archived with the release of January 2017 data. Data for periods prior to December 2016 were obtained by linking the current New Housing Price Index (NHPI) series, where possible, to indexes in table 18-10-0052.",
+"Beginning in December 2016, several changes have been made to the New Housing Price Index (NHPI). The census metropolitan areas (CMAs) of Kelowna, Guelph, Trois-Rivières and Sherbrooke are included in the NHPI basket. Separate indexes are published for the census metropolitan areas (CMAs) of Toronto, Oshawa, Ottawa-Gatineau (Ontario part), Ottawa-Gatineau (Quebec part) and Greater Sudbury. The New Housing Price Index no longer includes Thunder Bay.",
+"The index base period, for which the New Housing Price Index (NHPI) equals 100, is December 2016.",
+"New Housing price indexes denoted with the data quality indicator “E”, should be used with caution.",
+"This table partially replaces 18100169 which has been archived.",
+"To maintain the accuracy of the index, Saint John, Fredericton and Moncton are published together.",
+"Beginning in December 2016, the census metropolitan areas (CMAs) of Ottawa-Gatineau (Quebec part), Trois-Rivières and Sherbrooke are included in the provincial aggregate for Quebec.",
+"The index for Ottawa-Gatineau (Quebec part) begins in December 2016.",
+"Beginning in December 2016, the census metropolitan area (CMA) of Guelph is included in the provincial aggregate for Ontario.",
+"For historical continuity, the Ottawa-Gatineau (Ontario part) index is linked to the previously combined Ottawa-Gatineau index, which was published until December 2016.",
+"The index for Oshawa begins in December 2016.",
+"For historical continuity, the Toronto index is linked to the previously combined Toronto and Oshawa index, which was published until December 2016.",
+"For historical continuity, the Greater Sudbury index is linked to the previously combined Greater Sudbury and Thunder Bay index, which was published until December 2016. The New Housing Price Index no longer includes Thunder Bay.",
+"Beginning in December 2016, the census metropolitan area (CMA) of Kelowna is included in the provincial aggregate for British Columbia."
+]
+}

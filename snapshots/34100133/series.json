@@ -1,0 +1,44 @@
+{
+"125.3.3.0.0.0.0.0.0.0": {
+"vector_id": 3823103,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 1972.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-01-01",
+"value": 2045.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+}
+]
+},
+"184.3.3.0.0.0.0.0.0.0": {
+"vector_id": 3823105,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 2313.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+},
+{
+"ref_period": "2025-01-01",
+"value": 2364.0,
+"decimals": 0,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 0
+}
+]
+}
+}
