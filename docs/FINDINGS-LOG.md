@@ -91,3 +91,8 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** nothing. Food beat shelter, and gasoline +27.8% stands out, so these will be useful cases.
 - **Would change:** the spec asks for a third of questions from *The Daily*, each with a source. Sourcing all of them wasn't worth it; a third being reworded (`phrasing: own`) is what stops questions flattering keyword search, and the linter enforces that.
 
+## feat/offline-and-transcripts, feat/graders, feat/history (4.3–4.5)
+- **Surprised:** the first full dev run scored 24/24 at k=1, with in-run search recall@5 at 0.95. Spot checks confirmed the answers are right (−68.3k jobs, BC 5,710,598, Toronto gas 183.7¢ vs Vancouver 209.5¢). The agent also picked the right table when search ranked a wrong one first (commercial rents above CPI rent).
+- **Broke:** my transcript slimmer dropped `modelUsage`, so the first 11 recordings had no token counts and were re-recorded. Grader tests were briefly red while transcripts were missing, which is the intended behaviour: a missing transcript is a failure.
+- **Would change:** a perfect k=1 score says little. The injection cases carry no poison yet (5.3), and one run per case can't show flakiness (5.1). Treat 24/24 as "nothing is obviously broken", not as a result.
+

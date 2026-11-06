@@ -10,7 +10,6 @@ subscription usage limit stops the run cleanly.
 import argparse
 import json
 import sys
-from pathlib import Path
 from typing import Any
 
 from canada_agent import ask as agent
@@ -25,7 +24,7 @@ def slim(event: dict[str, Any]) -> dict[str, Any] | None:
     kind = event.get("type")
     if kind == "result":
         keys = ("type", "subtype", "is_error", "structured_output", "num_turns", "duration_ms")
-        return {k: event[k] for k in (*keys, "total_cost_usd") if k in event}
+        return {k: event[k] for k in (*keys, "total_cost_usd", "modelUsage") if k in event}
     if kind in ("assistant", "user"):
         blocks = event.get("message", {}).get("content")
         return {"type": kind, "content": blocks} if isinstance(blocks, list) else None

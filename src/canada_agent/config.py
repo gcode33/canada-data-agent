@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     agent_model: str = "claude-sonnet-5-5"
     ci_model: str = "claude-haiku-5-5"
 
+    data_backend: str = "live"  # or "snapshot": committed golden tables, no StatCan calls
     max_tool_calls: int = 8
     max_question_usd: float = 1.0  # API-equivalent; ADR 0009
     question_timeout_s: float = 120.0  # SPEC said 60; cold `claude -p` runs took 42-95 s

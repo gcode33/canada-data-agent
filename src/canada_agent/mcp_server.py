@@ -26,6 +26,7 @@ from canada_agent.embed.voyage import EmbedError, VoyageClient
 from canada_agent.search import tables
 from canada_agent.series import service
 from canada_agent.series.backend import DataBackend, LiveBackend
+from canada_agent.series.snapshot import SnapshotBackend
 from canada_agent.wds.cache import PostgresCache
 from canada_agent.wds.client import WdsClient, WdsError
 
@@ -166,7 +167,12 @@ def build_server(backend: DataBackend, index: tables.TableIndex | None = None) -
 
 def main() -> None:
     settings = Settings()
-    client = WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
+    if settings.data_backend == "snapshot":
+        backend: DataBackend = SnapshotBackend()  # no route to StatCan at all
+    else:
+        backend = LiveBackend(
+            WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
+        )
     key = settings.voyage_api_key.get_secret_value()
     try:
         # One attempt: an agent is waiting, so a rate limit degrades search (flagged) rather
@@ -176,7 +182,7 @@ def main() -> None:
         print(f"canada-mcp: {exc}; search falls back to recorded queries", file=sys.stderr)
         voyage = None
     index = tables.PostgresTableIndex(settings.database_url, voyage)
-    build_server(LiveBackend(client), index).run("stdio")
+    build_server(backend, index).run("stdio")
 
 
 if __name__ == "__main__":
