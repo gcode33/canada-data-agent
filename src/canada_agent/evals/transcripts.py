@@ -23,6 +23,7 @@ from typing import Any
 from canada_agent import ask as agent
 from canada_agent.config import Settings
 from canada_agent.evals.lint import GOLDEN, load
+from canada_agent.evals.poison import spec_for as poison_spec
 
 TRANSCRIPTS = GOLDEN.parents[1] / "transcripts"
 
@@ -73,8 +74,9 @@ def record(
         "poison": poison,
     }
     started = time.monotonic()
+    run_settings = settings.model_copy(update={"poison": poison or ""})
     try:
-        agent.ask(case["question"], model=model, settings=settings, capture=events)
+        agent.ask(case["question"], model=model, settings=run_settings, capture=events)
         outcome["error"] = None
     except agent.UsageLimitError:
         raise
@@ -105,7 +107,7 @@ def record_cases(
     model: str,
     settings: Settings,
     force: bool = False,
-    poison_for: Any = lambda case: None,
+    poison_for: Any = poison_spec,
 ) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     for case in cases:
@@ -136,4 +138,5 @@ def main() -> None:
         model=args.model or settings.agent_model,
         settings=settings,
         force=args.force or bool(only),
+        poison_for=poison_spec,
     )

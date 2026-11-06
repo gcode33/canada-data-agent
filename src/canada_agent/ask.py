@@ -379,6 +379,7 @@ def ask(
         **os.environ,
         "DATABASE_URL": settings.database_url,
         "DATA_BACKEND": settings.data_backend,
+        "POISON": settings.poison,
     }
     calls: dict[str, ToolCall] = {}
     outcome: dict[str, Any] = {"outcome": "error"}

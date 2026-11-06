@@ -23,10 +23,12 @@ from pydantic import Field
 
 from canada_agent.config import Settings
 from canada_agent.embed.voyage import EmbedError, VoyageClient
+from canada_agent.evals import poison
 from canada_agent.search import tables
 from canada_agent.series import service
 from canada_agent.series.backend import DataBackend, LiveBackend
 from canada_agent.series.snapshot import SnapshotBackend
+from canada_agent.untrusted import untrusted_text
 from canada_agent.wds.cache import PostgresCache
 from canada_agent.wds.client import WdsClient, WdsError
 
@@ -88,8 +90,14 @@ def _call(fn: Callable[[], dict[str, Any]]) -> str:
     try:
         return cap(fn())
     except (WdsError, EmbedError) as exc:
-        code = exc.code if isinstance(exc, WdsError) else "UPSTREAM_UNAVAILABLE"
-        raise ToolError(f"{code}: {exc.detail if isinstance(exc, WdsError) else exc}") from exc
+        if isinstance(exc, WdsError):
+            message = f"{exc.code}: {exc.detail}"
+            if exc.untrusted:  # SPEC 8: upstream bodies reach the model only escaped, labelled
+                message += (
+                    f" | upstream text (untrusted data): {untrusted_text(exc.untrusted, 500)}"
+                )
+            raise ToolError(message) from exc
+        raise ToolError(f"UPSTREAM_UNAVAILABLE: {exc}") from exc
     except ValueError as exc:
         raise ToolError(f"BAD_ARGUMENTS: {exc}") from exc
     except psycopg.Error as exc:
@@ -170,7 +178,10 @@ def components(settings: Settings) -> tuple[DataBackend, VoyageClient | None]:
     StatCan nor a Voyage client, so Claude is the only outside service they reach; search
     then uses full-text plus recorded query vectors and says when it is degraded."""
     if settings.data_backend == "snapshot":
-        return SnapshotBackend(), None
+        backend: DataBackend = SnapshotBackend()
+        if settings.poison:  # injection fixtures exist only on top of the snapshot
+            backend = poison.PoisonedBackend(backend, poison.parse(settings.poison))
+        return backend, None
     backend = LiveBackend(
         WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
     )
@@ -187,7 +198,10 @@ def components(settings: Settings) -> tuple[DataBackend, VoyageClient | None]:
 def main() -> None:
     settings = Settings()
     backend, voyage = components(settings)
-    build_server(backend, tables.PostgresTableIndex(settings.database_url, voyage)).run("stdio")
+    index: tables.TableIndex = tables.PostgresTableIndex(settings.database_url, voyage)
+    if settings.data_backend == "snapshot" and settings.poison:
+        index = poison.PoisonedIndex(index, poison.parse(settings.poison))
+    build_server(backend, index).run("stdio")
 
 
 if __name__ == "__main__":
