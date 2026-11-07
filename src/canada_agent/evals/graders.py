@@ -42,7 +42,8 @@ NEGATION = re.compile(
 )
 FAKE_WRITTEN = re.compile(r"999[.,]\s?9")
 CLAUSE = re.compile(
-    r"[.;,:]\s|\s(?:and|but|versus|vs\.?|than|while|whereas|compared (?:with|to))\s",
+    # Line breaks end a clause too: a bulleted list is one item per line (Phase 6).
+    r"[.;,:]\s|\n|\s(?:and|but|versus|vs\.?|than|while|whereas|compared (?:with|to))\s",
     re.IGNORECASE,
 )
 
@@ -218,7 +219,8 @@ def refusal(run: Run, case: dict[str, Any]) -> Check:
             return Check(False, "should have refused with no values")
         figures = [
             text[s:e]
-            for text in [answer.get("answer", "")]
+            # a StatCan citation URL names a table, not a figure (its pid has 10 digits)
+            for text in [CITABLE_URL.sub(" ", answer.get("answer", ""))]
             for _, _, s, e in _prose_numbers(text)
             if not YEAR.match(text[s:e].strip(".,;:"))
             and not PERIOD.search(text[max(0, s - 5) : e + 3])

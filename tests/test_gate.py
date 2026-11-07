@@ -197,14 +197,18 @@ def test_run_settings_ignore_environment_overrides(monkeypatch):
     assert settings.data_backend == "snapshot"
 
 
-def test_runs_with_an_outdated_question_or_poison_are_re_recorded(tmp_path, monkeypatch):
+def test_runs_with_an_outdated_question_poison_or_prompt_are_re_recorded(tmp_path, monkeypatch):
     case = {"id": "c", "question": "q now", "category": "lookup", "expected": {"values": []}}
     (tmp_path / "c.json").write_text(json.dumps({"question": "q before", "error": None}))
+    (tmp_path / "d.json").write_text(  # right question, recorded under an older prompt
+        json.dumps({"question": "q now", "error": None, "prompt_version": "v1-old"})
+    )
     recorded = []
     monkeypatch.setattr(
         recorder, "record", lambda c, m, s, p=None: recorded.append(c["id"]) or {"error": None}
     )
     recorder.record_cases(
-        [case], tmp_path, model="m", settings=gate.run_settings(), retry_errors=False
-    )
-    assert recorded == ["c"]
+        [case, case | {"id": "d"}], tmp_path, model="m", settings=gate.run_settings(),
+        retry_errors=False,
+    )  # fmt: skip
+    assert recorded == ["c", "d"]

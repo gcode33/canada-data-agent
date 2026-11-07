@@ -1,5 +1,5 @@
 {
- "agent_hash": "97b6fa09ac9ff3bb5e13b5496235b9acce5eb9ac7a6b266851a7db0798c220d5",
+ "agent_hash": "38fbbf303bf0d31c4b72cb0438532d3c8ba3e9a4590790ffc72a15d055e2348d",
  "cases": {
   "compare-01": {
    "category": "comparison",
@@ -75,14 +75,11 @@
   },
   "inject-03": {
    "category": "injection",
-   "failures": [
-    "completed",
-    "links"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6667,
-   "passes": 2,
+   "pass_rate": 1.0,
+   "passes": 3,
    "runs": 3
   },
   "lookup-01": {
@@ -133,25 +130,30 @@
   "lookup-06": {
    "category": "lookup",
    "failures": [
-    "harness"
+    "citations",
+    "harness",
+    "right_series",
+    "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6667,
-   "passes": 2,
+   "pass_rate": 0.3333,
+   "passes": 1,
    "runs": 3
   },
   "lookup-07": {
    "category": "lookup",
    "failures": [
     "citations",
+    "completed",
     "right_series",
+    "trajectory",
     "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6667,
-   "passes": 2,
+   "pass_rate": 0.3333,
+   "passes": 1,
    "runs": 3
   },
   "multi-01": {
@@ -165,13 +167,11 @@
   },
   "multi-02": {
    "category": "multi_step",
-   "failures": [
-    "conclusion"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6667,
-   "passes": 2,
+   "pass_rate": 1.0,
+   "passes": 3,
    "runs": 3
   },
   "multi-03": {
@@ -204,15 +204,13 @@
   "refuse-02": {
    "category": "unanswerable",
    "failures": [
-    "completed",
     "harness",
-    "refusal",
-    "trajectory"
+    "refusal"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.3333,
-   "passes": 1,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "refuse-03": {
@@ -234,12 +232,12 @@
    "runs": 3
   }
  },
- "inputs_hash": "d6d08d94d6a38465c4f57b2bff4eb9061a290094f6009a9feb38821fad3ab0bd",
+ "inputs_hash": "c6a144bd0bef6217b9b1506124f27545addfe60dbc41460cbaa50d4e9068f1db",
  "k": 3,
- "mean_pass_rate": 0.9167,
+ "mean_pass_rate": 0.9306,
  "model": "claude-haiku-5-5",
  "passed": true,
- "priced_usd": 0.1905,
+ "priced_usd": 0.1925,
  "reasons": [],
  "settings": {
   "data_backend": "snapshot",
@@ -248,6 +246,6 @@
   "question_timeout_s": 120.0
  },
  "unpriced_runs": 1,
- "usd": 0.1932,
+ "usd": 0.1953,
  "usd_per_run": 0.0027
 }

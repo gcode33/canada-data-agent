@@ -94,13 +94,16 @@ def write_atomic(path: Path, data: dict[str, Any]) -> None:
 
 
 def matches(path: Path, case: dict[str, Any]) -> bool:
-    """A recording still belongs to this case: same question and same poison."""
+    """A recording still belongs to this case: same question, poison and prompt (the same
+    staleness rules `canada-grade` applies, so a resumed run never keeps a stale one)."""
     try:
         old = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return False
-    return old.get("question") == case.get("question") and (old.get("poison") or None) == (
-        poison_spec(case)
+    return (
+        old.get("question") == case.get("question")
+        and (old.get("poison") or None) == poison_spec(case)
+        and old.get("prompt_version") == agent.PROMPT_VERSION
     )
 
 
