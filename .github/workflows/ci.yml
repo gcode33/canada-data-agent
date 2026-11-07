@@ -35,6 +35,8 @@ jobs:
       - run: uv run pytest
       # Graders over the committed transcripts: no model, no network (PLAN 4.4)
       - run: uv run canada-grade --split dev --check
+      # The held-out test split ran once at the release; its verdicts are pinned too.
+      - run: uv run canada-grade --split test --check
       # The eval gate runs locally (no model in CI, ADR 0009); CI checks its receipt matches
       # exactly this code, prompt, golden set and data (PLAN 5.2).
       - run: uv run canada-gate verify
