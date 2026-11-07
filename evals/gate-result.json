@@ -165,13 +165,11 @@
   },
   "multi-02": {
    "category": "multi_step",
-   "failures": [
-    "conclusion"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6667,
-   "passes": 2,
+   "pass_rate": 1.0,
+   "passes": 3,
    "runs": 3
   },
   "multi-03": {
@@ -234,9 +232,9 @@
    "runs": 3
   }
  },
- "inputs_hash": "d6d08d94d6a38465c4f57b2bff4eb9061a290094f6009a9feb38821fad3ab0bd",
+ "inputs_hash": "c182e878a0e2531591a61155f5237d2517ca42033faa89b4af9e0a20efef2e40",
  "k": 3,
- "mean_pass_rate": 0.9167,
+ "mean_pass_rate": 0.9306,
  "model": "claude-haiku-5-5",
  "passed": true,
  "priced_usd": 0.1905,

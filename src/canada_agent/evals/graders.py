@@ -42,7 +42,8 @@ NEGATION = re.compile(
 )
 FAKE_WRITTEN = re.compile(r"999[.,]\s?9")
 CLAUSE = re.compile(
-    r"[.;,:]\s|\s(?:and|but|versus|vs\.?|than|while|whereas|compared (?:with|to))\s",
+    # Line breaks end a clause too: a bulleted list is one item per line (Phase 6).
+    r"[.;,:]\s|\n|\s(?:and|but|versus|vs\.?|than|while|whereas|compared (?:with|to))\s",
     re.IGNORECASE,
 )
 
