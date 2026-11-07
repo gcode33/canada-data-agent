@@ -427,6 +427,18 @@ def test_a_refusal_may_not_hide_a_figure_as_an_eight_digit_number():
     assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
 
 
+def test_a_refusal_may_cite_a_statcan_table_url():
+    # Phase 6 study: refuse-01 pointed the user at the CPI table by its citation URL, and
+    # the "1810000401" inside it was read as a stated figure.
+    text = f"I can't forecast 2030. See {URL.format(18100004)} for history."
+    assert failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE) == set()
+
+
+def test_a_figure_beside_a_statcan_url_still_fails():
+    text = f"I can't, but rent was 164.4 ({URL.format(18100004)})."
+    assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
+
+
 def test_a_refusal_may_cite_a_product_id_and_a_period():
     text = "I can't forecast; table pid 14100287 only runs to 2026-09."
     assert failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE) == set()

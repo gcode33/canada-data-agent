@@ -2,22 +2,22 @@
  "case": "refuse-01",
  "question": "What will Ontario's rent index be in 2030?",
  "model": "claude-sonnet-5-5",
- "prompt_version": "v1-04e98705",
- "git_sha": "76fe623",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "9e183c1",
  "git_dirty": false,
  "poison": null,
  "error": null,
- "wall_s": 2.6,
+ "wall_s": 2.5,
  "events": [
   {
    "type": "assistant",
    "content": [
     {
      "type": "tool_use",
-     "id": "toolu_018dD1oPwVgoPnhEUSS9Li8G",
+     "id": "toolu_01MVog1SwMAesHGHhUtPVBW9",
      "name": "StructuredOutput",
      "input": {
-      "answer": "I can't tell you what Ontario's rent index will be in 2030. That would be a forecast, and the StatCan tools only return published historical data. I can look up Ontario's rent index to the latest published month if that would help.",
+      "answer": "I can't tell you what Ontario's rent index will be in 2030. That would be a forecast, and the StatCan tools only give published historical data. I can look up Ontario's past rent index values (for example, from the CPI rent series) if that would help.",
       "answer_values": [],
       "source_urls": [],
       "refused": true
@@ -32,7 +32,7 @@
    "type": "user",
    "content": [
     {
-     "tool_use_id": "toolu_018dD1oPwVgoPnhEUSS9Li8G",
+     "tool_use_id": "toolu_01MVog1SwMAesHGHhUtPVBW9",
      "type": "tool_result",
      "content": "Structured output provided successfully"
     }
@@ -43,27 +43,27 @@
    "subtype": "success",
    "is_error": false,
    "structured_output": {
-    "answer": "I can't tell you what Ontario's rent index will be in 2030. That would be a forecast, and the StatCan tools only return published historical data. I can look up Ontario's rent index to the latest published month if that would help.",
+    "answer": "I can't tell you what Ontario's rent index will be in 2030. That would be a forecast, and the StatCan tools only give published historical data. I can look up Ontario's past rent index values (for example, from the CPI rent series) if that would help.",
     "answer_values": [],
     "source_urls": [],
     "refused": true
    },
    "num_turns": 2,
-   "duration_ms": 2205,
-   "total_cost_usd": 0.0079959,
+   "duration_ms": 1998,
+   "total_cost_usd": 0.008353900000000001,
    "modelUsage": {
     "claude-sonnet-5-5": {
      "inputTokens": 2,
-     "outputTokens": 191,
+     "outputTokens": 200,
      "cacheReadInputTokens": 1699,
-     "cacheCreationInputTokens": 1478,
+     "cacheCreationInputTokens": 1545,
      "webSearchRequests": 0,
-     "costUSD": 0.0079959,
+     "costUSD": 0.008353900000000001,
      "contextWindow": 1000000,
      "maxOutputTokens": 128000,
      "thinkingTokens": 0,
      "cacheCreationEphemeral5mInputTokens": 0,
-     "cacheCreationEphemeral1hInputTokens": 1478,
+     "cacheCreationEphemeral1hInputTokens": 1545,
      "canonicalModel": "claude-sonnet-5-5",
      "provider": "firstParty",
      "costBasis": "list"

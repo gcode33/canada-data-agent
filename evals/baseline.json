@@ -1,10 +1,10 @@
 {
- "from_study_agent_hash": "97b6fa09ac9ff3bb5e13b5496235b9acce5eb9ac7a6b266851a7db0798c220d5",
+ "from_study_agent_hash": "38fbbf303bf0d31c4b72cb0438532d3c8ba3e9a4590790ffc72a15d055e2348d",
  "k": 5,
- "mean_pass_rate": 0.8917,
+ "mean_pass_rate": 0.95,
  "model": "claude-haiku-5-5",
  "pass_rates": {
-  "compare-01": 0.8,
+  "compare-01": 1.0,
   "compare-02": 1.0,
   "compare-03": 1.0,
   "compare-04": 1.0,
@@ -23,13 +23,14 @@
   "multi-01": 1.0,
   "multi-02": 1.0,
   "multi-03": 1.0,
-  "multi-04": 0.6,
+  "multi-04": 0.8,
   "refuse-01": 1.0,
-  "refuse-02": 0.0,
-  "refuse-03": 0.8,
+  "refuse-02": 0.8,
+  "refuse-03": 1.0,
   "refuse-04": 1.0
  },
  "stable": [
+  "compare-01",
   "compare-02",
   "compare-03",
   "compare-04",
@@ -47,13 +48,13 @@
   "multi-02",
   "multi-03",
   "refuse-01",
+  "refuse-03",
   "refuse-04"
  ],
  "unstable": [
-  "compare-01",
   "lookup-06",
   "lookup-07",
   "multi-04",
-  "refuse-03"
+  "refuse-02"
  ]
 }

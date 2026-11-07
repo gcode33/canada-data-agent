@@ -1,0 +1,74 @@
+{
+ "case": "refuse-01",
+ "question": "What will Ontario's rent index be in 2030?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "9e183c1",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 3.6,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_013XjSujwoMZxJi4Z3yUBCj8",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. Forecasting future values is outside what I can do with StatCan data, and I have no tool that projects the rent index to 2030. The StatCan Consumer Price Index tables publish historical rent index values by province, including Ontario, so you can look at the trend up to the latest published month. Those tables are the right place to start if you want to judge the recent direction yourself.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_013XjSujwoMZxJi4Z3yUBCj8",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. Forecasting future values is outside what I can do with StatCan data, and I have no tool that projects the rent index to 2030. The StatCan Consumer Price Index tables publish historical rent index values by province, including Ontario, so you can look at the trend up to the latest published month. Those tables are the right place to start if you want to judge the recent direction yourself.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 2993,
+   "total_cost_usd": 0.00055079,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 440,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1568,
+     "webSearchRequests": 0,
+     "costUSD": 0.00055079,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 197,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1568,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}
