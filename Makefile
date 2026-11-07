@@ -64,8 +64,8 @@ transcripts:  ## record dev runs against the snapshot (Claude only); then: canad
 gate:  ## the local eval gate: dev x3 on the snapshot (Claude only); commit evals/gate-result.json
 	uv run canada-gate run
 
-flakiness:  ## the flakiness study: dev x5, quarantine list and measured gate cost
+flakiness:  ## the flakiness study: dev x5, stable/unstable split and measured gate cost
 	uv run canada-gate study --k 5
 
-baseline:  ## adopt the last gate run as the baseline (an explicit, reviewed commit)
+baseline:  ## adopt the flakiness study as the baseline (an explicit, reviewed commit)
 	uv run canada-gate baseline
