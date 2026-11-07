@@ -146,7 +146,8 @@ def build_server(backend: DataBackend, index: tables.TableIndex | None = None) -
     ) -> str:
         """List a table's dimensions and their member ids (at most 50 per dimension).
         Call this before get_series to find one member id per dimension. Filter a large
-        dimension by name, e.g. {"1": "ontario", "2": "rent"}."""
+        dimension by name, e.g. {"1": "ontario", "2": "rent"}. Member ids are 0-based:
+        pass each id minus 1 to get_series."""
         return _call(lambda: service.get_table_dimensions(backend, product_id, filters))
 
     @server.tool()

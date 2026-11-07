@@ -45,7 +45,7 @@
   },
   {
     "name": "get_table_dimensions",
-    "description": "List a table's dimensions and their member ids (at most 50 per dimension).\nCall this before get_series to find one member id per dimension. Filter a large\ndimension by name, e.g. {\"1\": \"ontario\", \"2\": \"rent\"}.",
+    "description": "List a table's dimensions and their member ids (at most 50 per dimension).\nCall this before get_series to find one member id per dimension. Filter a large\ndimension by name, e.g. {\"1\": \"ontario\", \"2\": \"rent\"}. Member ids are 0-based:\npass each id minus 1 to get_series.",
     "input_schema": {
       "properties": {
         "product_id": {
