@@ -43,6 +43,9 @@ SNAPSHOTS = ROOT / "snapshots"
 GOLDEN = ROOT / "evals" / "golden" / "cases.yaml"
 CSV_CACHE = ROOT / "data" / "csv"
 CSV_URL = "https://www150.statcan.gc.ca/n1/tbl/csv/{table}-eng.zip"
+# Tables the flakiness study saw agents open on golden questions (earnings by industry,
+# job vacancies by occupation, population by age): answering them is fairer than failing.
+EXTRA_TABLES = (14100220, 14100222, 14100432, 17100005)
 WINDOW_START = "2024-01"  # earlier requests are SNAPSHOT_MISS, never silently truncated
 
 
@@ -136,7 +139,7 @@ def main() -> None:
     settings = Settings()
     client = WdsClient(cache=PostgresCache(settings.database_url), max_rps=settings.statcan_max_rps)
     live = LiveBackend(client)
-    for table in sorted(golden_tables()):
+    for table in sorted(golden_tables() | set(EXTRA_TABLES)):
         folder = SNAPSHOTS / str(table)
         folder.mkdir(parents=True, exist_ok=True)
         meta = live.metadata(table)

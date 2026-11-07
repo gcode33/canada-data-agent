@@ -1,0 +1,130 @@
+{
+"product_id": 14100432,
+"title": "Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, adjusted for seasonality",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Newfoundland and Labrador",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Prince Edward Island",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Nova Scotia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 5,
+"name": "New Brunswick",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Manitoba",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Saskatchewan",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Alberta",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 11,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Yukon",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Northwest Territories",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Nunavut",
+"parent_id": 1,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Statistics",
+"members": [
+{
+"id": 1,
+"name": "Job vacancies",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Payroll employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Job vacancy rate",
+"parent_id": null,
+"terminated": false
+}
+]
+}
+],
+"start_date": "2015-04-01",
+"end_date": "2026-08-01",
+"footnotes": [
+"Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.",
+"Data for the second and third quarters of 2020 are unavailable due to some Statistics Canada operations being temporarily suspended during the COVID-19 pandemic.",
+"A job is vacant if it meets the following conditions: it is vacant on the reference date (first day of the month) or will become vacant during the month; there are tasks to be carried out during the month for the job in question; and the employer is actively seeking a worker outside the organization to fill the job. The jobs could be full-time, part-time, permanent, temporary, casual, or seasonal. Jobs reserved for subcontractors, external consultants, or other workers who are not considered employees, are excluded.",
+"The \"employee\" concept used in the Job Vacancy and Wage Survey (JVWS) is comprised of full-time employees, part-time employees, as well as permanent, casual, temporary, and seasonal employees. It also includes working owners, directors, partners, and other officers of incorporated businesses, as well as employees who work off site (for example, at home or on the road) but report to the location, and those employees on paid leave. The \"employee\" concept used in the JVWS is meant to exclude owners or partners of unincorporated businesses and professional practices, the self-employed, subcontractors, external consultants, unpaid family workers, persons working outside Canada, and military personnel. It also excludes employees on unpaid leave, such as those on extended sick leave who are receiving insurance benefits.",
+"The job vacancy rate is the number of job vacancies expressed as a percentage of labour demand; that is, all occupied and vacant jobs."
+]
+}

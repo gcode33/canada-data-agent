@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     data_backend: Literal["live", "snapshot"] = (
         "live"  # or "snapshot": committed golden tables, no StatCan calls
     )
+    poison: str = ""  # an injection fixture (evals/poison.py); snapshot mode only
     max_tool_calls: int = 8
     max_question_usd: float = 1.0  # API-equivalent; ADR 0009
     question_timeout_s: float = 120.0  # SPEC said 60; cold `claude -p` runs took 42-95 s

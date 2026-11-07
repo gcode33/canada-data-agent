@@ -9,3 +9,7 @@ __pycache__/
 .DS_Store
 logs/
 data/csv/
+evals/runs/*
+# The runs behind the published numbers are evidence: committed (ADR 0008).
+!evals/runs/study-5x-claude-haiku-5-5-97b6fa09ac9f/
+!evals/runs/gate-claude-haiku-5-5-97b6fa09ac9f/

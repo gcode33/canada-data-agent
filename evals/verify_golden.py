@@ -86,15 +86,20 @@ def verify(items: list[dict]) -> list[str]:
     needed: dict[int, set[str]] = {}
     for case in items:
         for value in case["expected"].get("values", []):
-            needed.setdefault(value["table"], set()).add(coordinate(value["members"]))
+            for source in [value, *value.get("alternatives", [])]:
+                needed.setdefault(source["table"], set()).add(coordinate(source["members"]))
     data = {t: load_series(t, coords) for t, coords in needed.items()}
 
     problems: list[str] = []
     for case in items:
-        for value in case["expected"].get("values", []):
-            where = f"{case['id']} {value['label']}"
-            series = data[value["table"]][coordinate(value["members"])]
-            periods = value["ref_periods"]
+        for value, source in [
+            (v, src)
+            for v in case["expected"].get("values", [])
+            for src in [v, *v.get("alternatives", [])]
+        ]:
+            where = f"{case['id']} {value['label']} ({source['table']})"
+            series = data[source["table"]][coordinate(source["members"])]
+            periods = source["ref_periods"]
             missing = [p for p in periods if p not in series or not series[p]["VALUE"]]
             if missing:
                 problems.append(f"{where}: no CSV value for {missing}")
@@ -113,7 +118,9 @@ def main() -> None:
     problems = verify(items)
     for problem in problems:
         print(problem, file=sys.stderr)
-    checked = sum(len(c["expected"].get("values", [])) for c in items)
+    checked = sum(
+        1 + len(v.get("alternatives", [])) for c in items for v in c["expected"].get("values", [])
+    )
     print(f"{checked} values in {len(items)} cases checked against StatCan CSVs")
     sys.exit(1 if problems else 0)
 
