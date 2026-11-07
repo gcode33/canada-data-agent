@@ -435,7 +435,7 @@ def ask(
             )
 
 
-def render(result: AskResult) -> str:
+def render(result: AskResult, replayed_from: str | None = None) -> str:
     a = result.answer
     lines = [a["answer"], ""]
     lines += [
@@ -443,11 +443,17 @@ def render(result: AskResult) -> str:
         for v in a["answer_values"]
     ]
     lines += [f"Source: {url}" for url in a["source_urls"]]
-    lines.append(
-        f"[{result.num_turns} turns, {len(result.tool_calls)} tool calls, "
-        f"{result.duration_ms / 1000:.1f}s, API-equivalent ${result.api_equivalent_usd:.4f}; "
-        "billed to subscription]"
-    )
+    if replayed_from:  # never let a replay pass for a model run
+        lines.append(
+            f"[offline: model choices replayed from {replayed_from}; "
+            f"{len(result.tool_calls)} tool calls ran live on the snapshot and passed the checks]"
+        )
+    else:
+        lines.append(
+            f"[{result.num_turns} turns, {len(result.tool_calls)} tool calls, "
+            f"{result.duration_ms / 1000:.1f}s, API-equivalent ${result.api_equivalent_usd:.4f}; "
+            "billed to subscription]"
+        )
     return "\n".join(lines)
 
 
@@ -458,6 +464,11 @@ def main() -> None:
     parser.add_argument("--model", help="defaults to AGENT_MODEL")
     parser.add_argument("--json", action="store_true", help="print the structured answer")
     parser.add_argument("--trace", action="store_true", help="show each tool call and the log")
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="no model or key: replay a recorded run's choices through the real tools (snapshot)",
+    )
     args = parser.parse_args()
     settings = Settings()
     if args.trace:
@@ -470,15 +481,21 @@ def main() -> None:
         if args.trace:
             print(line[:200], file=sys.stderr, flush=True)
 
+    replayed_from = None
     try:
-        result = ask(
-            args.question,
-            model=args.model or settings.agent_model,
-            settings=settings,
-            table=args.table,
-            on_event=show,
-        )
+        if args.offline:
+            from canada_agent.offline import ask_offline  # noqa: PLC0415 - offline-only import
+
+            result, replayed_from = ask_offline(args.question, settings=settings, on_event=show)
+        else:
+            result = ask(
+                args.question,
+                model=args.model or settings.agent_model,
+                settings=settings,
+                table=args.table,
+                on_event=show,
+            )
     except AskError as exc:
         prefix = f"{exc.code}: " if exc.code else ""
         sys.exit(f"canada-ask: {prefix}{exc}")
-    print(json.dumps(result.answer, indent=2) if args.json else render(result))
+    print(json.dumps(result.answer, indent=2) if args.json else render(result, replayed_from))
