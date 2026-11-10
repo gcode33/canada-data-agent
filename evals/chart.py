@@ -33,10 +33,20 @@ STYLE = """
 
 
 def rows(history: Path = HISTORY) -> list[dict]:
+    """The latest entry per (split, model, k) on the newest prompt, so a run recorded under
+    an older prompt can't stand in for today's agent; entries with no counted cases skipped."""
+    try:
+        lines = history.read_text(encoding="utf-8").splitlines()
+    except FileNotFoundError:
+        return []
+    entries = [json.loads(line) for line in lines if line.strip()]
+    entries = [e for e in entries if e.get("n_counted")]
+    if not entries:
+        return []
+    prompt = entries[-1].get("prompt_version")
     latest: dict[tuple, dict] = {}
-    for line in history.read_text(encoding="utf-8").splitlines():
-        if line.strip():
-            e = json.loads(line)
+    for e in entries:
+        if e.get("prompt_version") == prompt:
             latest[(e["split"], e["model"], e["k"])] = e
     # the held-out test split first: it is the headline
     return sorted(latest.values(), key=lambda e: (e["split"] != "test", e["model"], e["k"]))
@@ -81,12 +91,13 @@ def svg(entries: list[dict]) -> str:
         y = TOP + ROW * i + 14
         lo, hi = e["wilson_95"]
         head = e["split"] == "test"
-        label = f"{'Held-out test' if head else 'Dev'} · {MODELS.get(e['model'], e['model'])}"
+        split = "Held-out test" if head else "Dev (tuned on)" if e["split"] == "dev" else e["split"]
+        label = f"{split} · {MODELS.get(e['model'], e['model'])}"
+        detail = f"{e['n_counted']} cases, k={e['k']}, {str(e['timestamp'])[:10]}"
         out += [
             f'<text class="ink" x="16" y="{y - 2}" font-size="13" '
             f'font-weight="{600 if head else 400}">{escape(label)}</text>',
-            f'<text class="ink2" x="16" y="{y + 14}" font-size="12">'
-            f"{e['n_counted']} cases, k={e['k']}, {e['timestamp'][:10]}</text>",
+            f'<text class="ink2" x="16" y="{y + 14}" font-size="12">{escape(detail)}</text>',
             f'<line class="whisker" x1="{x(lo):.1f}" x2="{x(hi):.1f}" y1="{y}" y2="{y}" '
             'stroke-width="2" stroke-linecap="round"/>',
             f'<circle class="mark" cx="{x(e["pass_rate"]):.1f}" cy="{y}" r="5" stroke-width="2"/>',

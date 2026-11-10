@@ -31,7 +31,7 @@
 <line class="whisker" x1="495.1" x2="651.7" y1="70" y2="70" stroke-width="2" stroke-linecap="round"/>
 <circle class="mark" cx="599.4" cy="70" r="5" stroke-width="2"/>
 <text class="ink" x="659.7" y="74" font-size="12">81%</text>
-<text class="ink" x="16" y="114" font-size="13" font-weight="400">Dev · Sonnet 5.5</text>
+<text class="ink" x="16" y="114" font-size="13" font-weight="400">Dev (tuned on) · Sonnet 5.5</text>
 <text class="ink2" x="16" y="130" font-size="12">24 cases, k=1, 2026-11-07</text>
 <line class="whisker" x1="593.0" x2="676.8" y1="116" y2="116" stroke-width="2" stroke-linecap="round"/>
 <circle class="mark" cx="662.1" cy="116" r="5" stroke-width="2"/>

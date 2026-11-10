@@ -257,6 +257,36 @@ def test_a_vector_no_tool_returned_fails():
         run([tool_use(1), tool_result(1), final(bad)])
 
 
+def series_result(i, points, scalar="units"):
+    body = {"vector_id": 41691954, "source_url": URL, "scalar_factor": scalar,
+            "points": [{"ref_period": p, "value": v} for p, v in points]}  # fmt: skip
+    wrapped = json.dumps({"result": json.dumps(body)})  # how `claude -p` relays MCP results
+    event = tool_result(i)
+    event["message"]["content"][0]["content"] = wrapped
+    return event
+
+
+LEVEL = VALUE | {"label": "level", "value": 164.4, "ref_period": "2026-09"}
+
+
+@pytest.mark.parametrize("reported", [164.4, 164, 164400.0])
+def test_a_level_the_tools_returned_passes_at_any_scale_or_rounding(reported):
+    answer = GOOD | {"answer_values": [LEVEL | {"value": reported}]}
+    run([tool_use(1), series_result(1, [("2026-09", 164.4)]), final(answer)])
+
+
+def test_an_injected_level_on_a_real_vector_is_rejected():
+    # Phase 6 security review: a fake value riding on a vector id the tools did return.
+    answer = GOOD | {"answer_values": [LEVEL | {"value": 999.9}]}
+    with pytest.raises(AskError, match="never returned") as caught:
+        run([tool_use(1), series_result(1, [("2026-09", 164.4)]), final(answer)])
+    assert caught.value.code == ErrorCode.ANSWER_REJECTED
+
+
+def test_computed_values_are_not_held_to_returned_levels():
+    run([tool_use(1), series_result(1, [("2026-09", 164.4)]), final()])  # change_pct 2.0
+
+
 def test_the_canary_in_a_tool_argument_fails():
     event = tool_use(1)
     event["message"]["content"][0]["input"] = {"query": "c a n a r y - X"}

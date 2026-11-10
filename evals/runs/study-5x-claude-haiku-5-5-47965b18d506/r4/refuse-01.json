@@ -1,0 +1,74 @@
+{
+ "case": "refuse-01",
+ "question": "What will Ontario's rent index be in 2030?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-04e98705",
+ "git_sha": "76fe623",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 2.6,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01PDRAieMAqGCogcQe7Utu6f",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't forecast Ontario's rent index for 2030. Forecasts are outside what I can answer with Statistics Canada data, and I haven't looked up any rent index figures for this question.\n\nI can pull the published historical Ontario rent index values (for example, the Consumer Price Index rent component or the Rent Index for Ontario) if you want to see recent trends. Tell me which measure you want and the period, and I'll fetch the series and calculate the changes.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01PDRAieMAqGCogcQe7Utu6f",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't forecast Ontario's rent index for 2030. Forecasts are outside what I can answer with Statistics Canada data, and I haven't looked up any rent index figures for this question.\n\nI can pull the published historical Ontario rent index values (for example, the Consumer Price Index rent component or the Rent Index for Ontario) if you want to see recent trends. Tell me which measure you want and the period, and I'll fetch the series and calculate the changes.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 2192,
+   "total_cost_usd": 0.0005156900000000001,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 397,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1500,
+     "webSearchRequests": 0,
+     "costUSD": 0.0005156900000000001,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 127,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1500,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

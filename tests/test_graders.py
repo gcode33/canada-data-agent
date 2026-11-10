@@ -417,6 +417,25 @@ def test_a_bulleted_answer_is_split_at_line_breaks():
     assert failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI) == set()
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        # Phase 6 reviews: line-level swaps the first line-break fix let through.
+        "Ontario's rate was higher.\nOntario's rate was\n6.0% while Quebec's rate was\n7.0%.",
+        "Ontario's rate was higher.\n\nQuebec\n7.0%\n\nOntario\n6.0%",
+        "Ontario's rate was higher.\n\n### Quebec\n7.0 percent\n\n### Ontario\n6.0 percent",
+        "Ontario's rate was higher.\r\n- Ontario 6.0%\r\n- Quebec 7.0%",
+    ],
+)
+def test_a_swap_split_across_lines_still_fails(text):
+    assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
+
+
+def test_a_right_answer_with_labels_on_their_own_lines_passes():
+    text = "Ontario's rate was higher.\n\nOntario\n7.0%\n\nQuebec\n6.0%"
+    assert failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI) == set()
+
+
 def test_a_swap_inside_a_bulleted_list_still_fails():
     text = "Ontario's rate was higher.\n\n- Ontario 6.0%\n- Quebec 7.0%"
     assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
