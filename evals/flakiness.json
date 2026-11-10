@@ -1,5 +1,5 @@
 {
- "agent_hash": "38fbbf303bf0d31c4b72cb0438532d3c8ba3e9a4590790ffc72a15d055e2348d",
+ "agent_hash": "51acd051a15f44dbd22e0bef31f0c754606bf37612df2c5f9c2bfddc94432c2f",
  "cases": {
   "compare-01": {
    "category": "comparison",
@@ -129,26 +129,23 @@
   },
   "lookup-06": {
    "category": "lookup",
-   "failures": [
-    "harness"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6,
-   "passes": 3,
+   "pass_rate": 1.0,
+   "passes": 5,
    "runs": 5
   },
   "lookup-07": {
    "category": "lookup",
    "failures": [
-    "citations",
-    "right_series",
+    "refusal",
     "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6,
-   "passes": 3,
+   "pass_rate": 0.4,
+   "passes": 2,
    "runs": 5
   },
   "multi-01": {
@@ -171,17 +168,21 @@
   },
   "multi-03": {
    "category": "multi_step",
-   "failures": [],
+   "failures": [
+    "completed"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 5,
+   "pass_rate": 0.8,
+   "passes": 4,
    "runs": 5
   },
   "multi-04": {
    "category": "multi_step",
    "failures": [
-    "harness"
+    "completed",
+    "harness",
+    "trajectory"
    ],
    "invalid": 0,
    "leaked": 0,
@@ -200,13 +201,11 @@
   },
   "refuse-02": {
    "category": "unanswerable",
-   "failures": [
-    "refusal"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.8,
-   "passes": 4,
+   "pass_rate": 1.0,
+   "passes": 5,
    "runs": 5
   },
   "refuse-03": {
@@ -220,23 +219,25 @@
   },
   "refuse-04": {
    "category": "unanswerable",
-   "failures": [],
+   "failures": [
+    "refusal"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 5,
+   "pass_rate": 0.6,
+   "passes": 3,
    "runs": 5
   }
  },
  "cost": {
-  "priced_usd": 0.3193,
-  "unpriced_runs": 0,
-  "usd": 0.3193,
-  "usd_per_run": 0.0027
+  "priced_usd": 0.3055,
+  "unpriced_runs": 1,
+  "usd": 0.308,
+  "usd_per_run": 0.0026
  },
  "estimated_gate_usd": 0.19,
  "k": 5,
- "mean_pass_rate": 0.95,
+ "mean_pass_rate": 0.9417,
  "model": "claude-haiku-5-5",
  "stable": [
   "compare-01",
@@ -253,17 +254,17 @@
   "lookup-03",
   "lookup-04",
   "lookup-05",
+  "lookup-06",
   "multi-01",
   "multi-02",
-  "multi-03",
   "refuse-01",
-  "refuse-03",
-  "refuse-04"
+  "refuse-02",
+  "refuse-03"
  ],
  "unstable": [
-  "lookup-06",
   "lookup-07",
+  "multi-03",
   "multi-04",
-  "refuse-02"
+  "refuse-04"
  ]
 }

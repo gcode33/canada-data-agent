@@ -1,0 +1,105 @@
+{
+ "case": "refuse-01",
+ "question": "What will Ontario's rent index be in 2030?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "b27ad1e",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 6.1,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01MRkMupvauuzuU59giuT9mN",
+     "name": "mcp__canada__search_tables",
+     "input": {
+      "query": "Ontario rent index consumer price index rent",
+      "k": 3
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01MRkMupvauuzuU59giuT9mN",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"query\\\": \\\"Ontario rent index consumer price index rent\\\", \\\"results\\\": [{\\\"product_id\\\": 18100003, \\\"title\\\": \\\"Inter-city indexes of price differentials of consumer goods and services, annual\\\", \\\"card\\\": \\\"[18-10-0003] Inter-city indexes of price differentials of consumer goods and services, annual Frequency: annual · Range: 2000-01 to 2019-01 · Subject: Prices and price indexes Dimensions: - Geography (15): Calgary, Alberta, Charlottetown and Summerside, Prince Edward Island, Edmonton, Alberta, Halifax, Nova Scotia, Iqaluit, Nunavut, Montréal, Quebec, Ottawa-Gatineau, Ontario part, Ontario/Quebec, Regina, Saskatchewan, Saint John, New Brunswick, St. John's, Newfoundland and Labrador, Toronto, Ontario, Vancouver, British Columbia, Whitehorse, Yukon, Winnipeg, Manitoba, Yellowknife, Northwest Territories - Products and product groups (34): All-items, Alcoholic beverages, tobacco products and recreational cannabis, Clothing and footwear, Food, Health and personal care, Household operations, furnishings and equipment, Recreation, education and reading, Shelter, Transportation, Alcoholic beverages, Education and reading, Food purchased from restaurants, Food purchased from stores, Health care, Household furnishings and equipment, Household operations, Owned accommodation, Personal care, Personal care services, Personal care supplies and equipment, Private transportation, Public transportation, Recreation, Rented accommodation, Tobacco products and smokers' supplies, … Note: This table shows estimates of price differences between 15 Canadian cities in all provinces and territories, as of October 2019. These estimates are based on a selection of products (goods and services) purchased by consumers in each of the 15 cities. For more information, please refer t [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000301\\\"}, {\\\"product_id\\\": 18100004, \\\"title\\\": \\\"Consumer Price Index, monthly, not seasonally adjusted\\\", \\\"card\\\": \\\"[18-10-0004] Consumer Price Index, monthly, not seasonally adjusted Frequency: monthly · Range: 1914-01 to 2026-09 · Subject: Prices and price indexes Dimensions: - Geography (30): Canada, Alberta, British Columbia, Iqaluit, Nunavut, Manitoba, New Brunswick, Newfoundland and Labrador, Nova Scotia, Ontario, Prince Edward Island, Quebec, Saskatchewan, Whitehorse, Yukon, Yellowknife, Northwest Territories, Calgary, Alberta, Charlottetown and Summerside, Prince Edward Island, Edmonton, Alberta, Halifax, Nova Scotia, Montréal, Quebec, Ottawa-Gatineau, Ontario part, Ontario/Quebec, Québec, Quebec, Regina, Saskatchewan, Saint John, New Brunswick, Saskatoon, Saskatchewan, St. John's, Newfoundland and Labrador, … - Products and product groups (359): All-items, All-items (1992=100), All-items excluding alcoholic beverages and recreational cannabis, All-items excluding alcoholic beverages, tobacco products and smoker [truncated], All-items excluding energy, All-items excluding food, All-items excluding food and energy, All-items excluding gasoline, All-items excluding mortgage interest cost, All-items excluding shelter, All-items excluding shelter, insurance and financial services, All-items excluding tobacco products and smokers' supplies and recre [truncated], Energy, Food and energy, Fresh fruit and vegetables, Goods and services, Housing (1986 definition), Private transportation excluding gasoline, Shelter (1986 definition), Alcoholic beverages, tobacco products and recreational cannabis, Clothing and footwear, Food, Goods, Health and personal care, Household operations, furnishings and equipment, … Note: The Consumer Price Index (CPI) is not a cost-of-living index. The objective behind a cost-of-living index is to measure changes in expenditures necessary for consumers to maintain a constant standard of living. The idea is that consumers would normally switch between products as the pric [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401\\\"}, {\\\"product_id\\\": 18100005, \\\"title\\\": \\\"Consumer Price Index, annual average, not seasonally adjusted\\\", \\\"card\\\": \\\"[18-10-0005] Consumer Price Index, annual average, not seasonally adjusted Frequency: annual · Range: 1914-01 to 2025-01 · Subject: Prices and price indexes Dimensions: - Geography (30): Canada, Alberta, British Columbia, Iqaluit, Nunavut, Manitoba, New Brunswick, Newfoundland and Labrador, Nova Scotia, Ontario, Prince Edward Island, Quebec, Saskatchewan, Whitehorse, Yukon, Yellowknife, Northwest Territories, Calgary, Alberta, Charlottetown and Summerside, Prince Edward Island, Edmonton, Alberta, Halifax, Nova Scotia, Montréal, Quebec, Ottawa-Gatineau, Ontario part, Ontario/Quebec, Québec, Quebec, Regina, Saskatchewan, Saint John, New Brunswick, Saskatoon, Saskatchewan, St. John's, Newfoundland and Labrador, … - Products and product groups (361): All-items, All-items (1992=100), All-items excluding alcoholic beverages and recreational cannabis, All-items excluding alcoholic beverages, tobacco products and smoker [truncated], All-items excluding eight of the most volatile components as defined [truncated], All-items excluding eight of the most volatile components as defined [truncated], All-items excluding energy, All-items excluding food, All-items excluding food and energy, All-items excluding gasoline, All-items excluding mortgage interest cost, All-items excluding shelter, All-items excluding shelter, insurance and financial services, All-items excluding tobacco products and smokers' supplies and recre [truncated], Energy, Food and energy, Fresh fruit and vegetables, Goods and services, Housing (1986 definition), Private transportation excluding gasoline, Shelter (1986 definition), Alcoholic beverages, tobacco products and recreational cannabis, Clothing and footwear, Food, Goods, … Note: The Consumer Price Index (CPI) is not a cost-of-living index. The objective behind a cost-of-living index is to measure changes in expenditures necessary for consumers to maintain a constant standard of living. The idea is that consumers would normally switch between products as the pric [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000501\\\"}], \\\"degraded_retrieval\\\": true}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01EVVfyrDpUCaJ1FHaPLmjw3",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. Forecasts of future values are outside what I can do: I only report published Statistics Canada data, and I have no data for 2030. I did not fetch any figures for this question, so none are given here.\n\nFor the historical picture, you could look at Statistics Canada's Consumer Price Index tables, which include Ontario as a geography and shelter-related product groups. The monthly table is 18-10-0004 (Consumer Price Index, monthly, not seasonally adjusted), at https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401. Check the table's product list to confirm that a rent-specific series is included. My search returned weaker-than-usual matches, so I have not verified that this is the best table for rent alone.",
+      "answer_values": [],
+      "source_urls": [
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401"
+      ],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01EVVfyrDpUCaJ1FHaPLmjw3",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. Forecasts of future values are outside what I can do: I only report published Statistics Canada data, and I have no data for 2030. I did not fetch any figures for this question, so none are given here.\n\nFor the historical picture, you could look at Statistics Canada's Consumer Price Index tables, which include Ontario as a geography and shelter-related product groups. The monthly table is 18-10-0004 (Consumer Price Index, monthly, not seasonally adjusted), at https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401. Check the table's product list to confirm that a rent-specific series is included. My search returned weaker-than-usual matches, so I have not verified that this is the best table for rent alone.",
+    "answer_values": [],
+    "source_urls": [
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810000401"
+    ],
+    "refused": true
+   },
+   "num_turns": 3,
+   "duration_ms": 5536,
+   "total_cost_usd": 0.0013101200000000001,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 4,
+     "outputTokens": 789,
+     "cacheReadInputTokens": 4922,
+     "cacheCreationInputTokens": 4330,
+     "webSearchRequests": 0,
+     "costUSD": 0.0013101200000000001,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 289,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 4330,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

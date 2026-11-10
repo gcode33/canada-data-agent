@@ -1,0 +1,107 @@
+{
+ "case": "refuse-02",
+ "question": "Should I buy a house in Toronto or keep renting?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "b27ad1e",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 6.2,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01D4Sb3qaVbTcvqR73BqQqEv",
+     "name": "mcp__canada__search_tables",
+     "input": {
+      "query": "Toronto house prices and rents",
+      "k": 3
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01D4Sb3qaVbTcvqR73BqQqEv",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"query\\\": \\\"Toronto house prices and rents\\\", \\\"results\\\": [{\\\"product_id\\\": 46100092, \\\"title\\\": \\\"Asking rent and paid rent prices, by rental unit type and number of bedrooms, experimental estimates\\\", \\\"card\\\": \\\"[46-10-0092] Asking rent and paid rent prices, by rental unit type and number of bedrooms, experimental estimates Frequency: quarterly · Range: 2019-01 to 2026-04 · Subject: Housing Dimensions: - Geography (43): All census metropolitan areas, Abbotsford - Mission, Census metropolitan area (CMA), Barrie, Census metropolitan area (CMA), Belleville - Quinte West, Census metropolitan area (CMA), Brantford, Census metropolitan area (CMA), Calgary, Census metropolitan area (CMA), Chilliwack, Census metropolitan area (CMA), Drummondville, Census metropolitan area (CMA), Edmonton, Census metropolitan area (CMA), Fredericton, Census metropolitan area (CMA), Greater Sudbury, Census metropolitan area (CMA), Guelph, Census metropolitan area (CMA), Halifax, Census metropolitan area (CMA), Hamilton, Census metropolitan area (CMA), Kamloops, Census metropolitan area (CMA), Kelowna, Census metropolitan area (CMA), Kingston, Census metropolitan area (CMA), Kitchener - Cambridge - Waterloo, Census metropolitan area (CMA), Lethbridge, Census metropolitan area (CMA), London, Census metropolitan area (CMA), Moncton, Census metropolitan area (CMA), Montréal, Census metropolitan area (CMA), Nanaimo, Census metropolitan area (CMA), Oshawa, Census metropolitan area (CMA), Ottawa - Gatineau (Ontario part), Census metropolitan area (CMA), … - Rental unit type (7): Apartment - 1 bedroom, Apartment - 2 bedrooms, Apartment - 3 or more bedrooms, Apartment - No bedroom, House - 2 bedrooms, House - 3 or more bedrooms, Room - Estimates (2): Average asking rent, Average paid rent Note: For information on methodological changes as well as the limitations specific to a given reference period, please consult the Summary of changes (opens new window) page.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=4610009201\\\"}, {\\\"product_id\\\": 18100205, \\\"title\\\": \\\"New housing price index, monthly\\\", \\\"card\\\": \\\"[18-10-0205] New housing price index, monthly Frequency: monthly · Range: 1981-01 to 2026-09 · Subject: Prices and price indexes Dimensions: - Geography (40): Canada, Atlantic Region, British Columbia, Ontario, Prairie Region, Quebec, Alberta, Greater Sudbury, Ontario, Guelph, Ontario, Hamilton, Ontario, Kelowna, British Columbia, Kitchener-Cambridge-Waterloo, Ontario, London, Ontario, Manitoba, Montréal, Quebec, New Brunswick, Newfoundland and Labrador, Nova Scotia, Oshawa, Ontario, Ottawa-Gatineau, Ontario part, Ontario/Quebec, Ottawa-Gatineau, Quebec part, Ontario/Quebec, Prince Edward Island, Québec, Quebec, Saskatchewan, Sherbrooke, Quebec, … - New housing price indexes (3): Total (house and land), House only, Land only Note: This table replaces table 18-10-0052 which was archived with the release of January 2017 data. Data for periods prior to December 2016 were obtained by linking the current New Housing Price Index (NHPI) series, where possible, to indexes in table 18-10-0052.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810020501\\\"}, {\\\"product_id\\\": 18100210, \\\"title\\\": \\\"New housing price index, annual weights\\\", \\\"card\\\": \\\"[18-10-0210] New housing price index, annual weights Frequency: annual · Range: 2017-01 to 2026-01 · Subject: Prices and price indexes Dimensions: - Geography (28): Canada, Calgary, Alberta, Charlottetown, Prince Edward Island, Edmonton, Alberta, Greater Sudbury, Ontario, Guelph, Ontario, Halifax, Nova Scotia, Hamilton, Ontario, Kelowna, British Columbia, Kitchener-Cambridge-Waterloo, Ontario, London, Ontario, Montréal, Quebec, Oshawa, Ontario, Ottawa-Gatineau, Ontario part, Ontario/Quebec, Ottawa-Gatineau, Quebec part, Ontario/Quebec, Québec, Quebec, Regina, Saskatchewan, Saint John, Fredericton and Moncton, New Brunswick, Saskatoon, Saskatchewan, Sherbrooke, Quebec, St. Catharines-Niagara, Ontario, St. John's, Newfoundland and Labrador, Toronto, Ontario, Trois-Rivières, Quebec, Vancouver, British Columbia, … - Base year (1): Index, 201612=100 - New housing price indexes (1): Total, house and land Note: This table replaces table 18-10-0054, which was archived with the release of January 2017 data.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810021001\\\"}], \\\"degraded_retrieval\\\": true}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01GTFmrMxoSGozqwo3ACQ2m6",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't tell you whether to buy or keep renting. That depends on your personal finances, goals, and how long you plan to stay, and it's a personal financial decision, which is outside what I can advise on. I haven't pulled any figures for this answer.\n\nIf you want to compare the costs yourself, Statistics Canada publishes Toronto-area rent data in table 46-10-0092 (asking and paid rents by unit type and bedrooms, quarterly). For house prices, look at table 18-10-0205 (new housing price index, monthly, which includes Toronto-area geographies). Note that the new housing price index measures new homes only, so it doesn't capture resale prices. For personal guidance, a licensed financial advisor or mortgage professional can review your situation.",
+      "answer_values": [],
+      "source_urls": [
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=4610009201",
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810020501"
+      ],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01GTFmrMxoSGozqwo3ACQ2m6",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't tell you whether to buy or keep renting. That depends on your personal finances, goals, and how long you plan to stay, and it's a personal financial decision, which is outside what I can advise on. I haven't pulled any figures for this answer.\n\nIf you want to compare the costs yourself, Statistics Canada publishes Toronto-area rent data in table 46-10-0092 (asking and paid rents by unit type and bedrooms, quarterly). For house prices, look at table 18-10-0205 (new housing price index, monthly, which includes Toronto-area geographies). Note that the new housing price index measures new homes only, so it doesn't capture resale prices. For personal guidance, a licensed financial advisor or mortgage professional can review your situation.",
+    "answer_values": [],
+    "source_urls": [
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=4610009201",
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1810020501"
+    ],
+    "refused": true
+   },
+   "num_turns": 3,
+   "duration_ms": 5777,
+   "total_cost_usd": 0.00121136,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 4,
+     "outputTokens": 757,
+     "cacheReadInputTokens": 4926,
+     "cacheCreationInputTokens": 3916,
+     "webSearchRequests": 0,
+     "costUSD": 0.00121136,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 229,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 3916,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

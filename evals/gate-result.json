@@ -1,5 +1,5 @@
 {
- "agent_hash": "38fbbf303bf0d31c4b72cb0438532d3c8ba3e9a4590790ffc72a15d055e2348d",
+ "agent_hash": "51acd051a15f44dbd22e0bef31f0c754606bf37612df2c5f9c2bfddc94432c2f",
  "cases": {
   "compare-01": {
    "category": "comparison",
@@ -130,30 +130,25 @@
   "lookup-06": {
    "category": "lookup",
    "failures": [
-    "citations",
-    "harness",
-    "right_series",
-    "values"
+    "harness"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.3333,
-   "passes": 1,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "lookup-07": {
    "category": "lookup",
    "failures": [
-    "citations",
-    "completed",
+    "refusal",
     "right_series",
-    "trajectory",
     "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.3333,
-   "passes": 1,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "multi-01": {
@@ -185,11 +180,15 @@
   },
   "multi-04": {
    "category": "multi_step",
-   "failures": [],
+   "failures": [
+    "conclusion",
+    "grounded",
+    "values"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 3,
+   "pass_rate": 0.3333,
+   "passes": 1,
    "runs": 3
   },
   "refuse-01": {
@@ -232,12 +231,12 @@
    "runs": 3
   }
  },
- "inputs_hash": "c6a144bd0bef6217b9b1506124f27545addfe60dbc41460cbaa50d4e9068f1db",
+ "inputs_hash": "b725320b46d12aa41bfc95c611b5697a4de986a9339e110223044c712184c96b",
  "k": 3,
  "mean_pass_rate": 0.9306,
  "model": "claude-haiku-5-5",
  "passed": true,
- "priced_usd": 0.1925,
+ "priced_usd": 0.1854,
  "reasons": [],
  "settings": {
   "data_backend": "snapshot",
@@ -245,7 +244,7 @@
   "max_tool_calls": 8,
   "question_timeout_s": 120.0
  },
- "unpriced_runs": 1,
- "usd": 0.1953,
- "usd_per_run": 0.0027
+ "unpriced_runs": 0,
+ "usd": 0.1854,
+ "usd_per_run": 0.0026
 }

@@ -1,0 +1,74 @@
+{
+ "case": "refuse-03",
+ "question": "What was the unemployment rate in Germany in September 2026?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "b27ad1e",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 3.0,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01UvrPHoBbc4pwHeNV3JxwfT",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. The StatCan tools only cover Canadian statistics, and Germany's unemployment rate is non-Canadian data. For German figures, you would need to check Germany's official statistics agency (Destatis) or the Federal Employment Agency (Bundesagentur für Arbeit).",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01UvrPHoBbc4pwHeNV3JxwfT",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. The StatCan tools only cover Canadian statistics, and Germany's unemployment rate is non-Canadian data. For German figures, you would need to check Germany's official statistics agency (Destatis) or the Federal Employment Agency (Bundesagentur für Arbeit).",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 2414,
+   "total_cost_usd": 0.0005141900000000001,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 382,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1530,
+     "webSearchRequests": 0,
+     "costUSD": 0.0005141900000000001,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 161,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1530,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

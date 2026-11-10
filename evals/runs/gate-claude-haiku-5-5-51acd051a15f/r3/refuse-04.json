@@ -1,0 +1,74 @@
+{
+ "case": "refuse-04",
+ "question": "Which political party is to blame for high rents in Canada?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "b27ad1e",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 3.8,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01RuM1r5re1xbzUwmy8Le1VY",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. Assigning blame to a political party is a matter of opinion and political judgment, and Statistics Canada tables don't record which party is responsible for rent levels. Rent levels also depend on many factors beyond any one government's policies, and StatCan data doesn't attribute them to parties.\n\nIf you want to look at the rent data itself, StatCan's Consumer Price Index tables include a rent component, and its housing and rent survey tables cover rent levels over time. You could compare those against the timing of federal and provincial policy changes and form your own view.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01RuM1r5re1xbzUwmy8Le1VY",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. Assigning blame to a political party is a matter of opinion and political judgment, and Statistics Canada tables don't record which party is responsible for rent levels. Rent levels also depend on many factors beyond any one government's policies, and StatCan data doesn't attribute them to parties.\n\nIf you want to look at the rent data itself, StatCan's Consumer Price Index tables include a rent component, and its housing and rent survey tables cover rent levels over time. You could compare those against the timing of federal and provincial policy changes and form your own view.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 3367,
+   "total_cost_usd": 0.00055229,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 459,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1528,
+     "webSearchRequests": 0,
+     "costUSD": 0.00055229,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 158,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1528,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

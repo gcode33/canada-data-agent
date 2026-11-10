@@ -2,16 +2,18 @@
 
 An AI assistant that answers questions with **live Statistics Canada data** and cites every number, plus an **eval suite that blocks any pull request that makes it worse**.
 
-**v1.0.0 result:** on 16 held-out golden questions it had never been tuned on, the agent (Claude Sonnet 5.5) answered **13/16 correctly (81%, 95% Wilson interval 57–93%)**, run once. Two of the three misses were correct refusals that the deterministic graders marked down, and the README and [FINDINGS](docs/FINDINGS.md) say exactly which. On the release agent, no injected link or value reached a user: 3 dev injection cases × 8 Haiku runs plus one Sonnet run each, and the 3 held-out ones. (An earlier version leaked once; see the first bug below.)
+**v1.0.0 result:** on 16 held-out golden questions whose answers were never looked at while it was built, the agent (Claude Sonnet 5.5) answered **13/16 correctly (81%, 95% Wilson interval 57–93%)**, run once. The three misses are listed below, and [FINDINGS](docs/FINDINGS.md#the-headline) says how held-out the split really is (one Phase 5 edit touched it).
 
-![Pass rate with 95% Wilson intervals: held-out test 81% (57–93%), dev 96% (80–99%)](docs/chart.svg)
+On injection, across the release candidate's 30 attacked answers no injected link reached a user. But 7 answers *quoted* the fake number while rejecting it, against the prompt's own rule. The release adds a runtime check, so a fake value can't be reported as data. An earlier version leaked a link once; see the first bug below.
+
+![Pass rate with 95% Wilson intervals: held-out test 81% (57–93%), dev, which it was tuned on, 96% (80–99%)](docs/chart.svg)
 
 | Held-out test split (Sonnet 5.5, k=1) | |
 |---|---|
 | Pass rate | 13/16 = 81% (Wilson 57–93%) |
 | By category | lookup 5/5, multi-step 2/2, injection 3/3, comparison 3/4, refusal 0/2 |
 | Cost and latency | $0.56 API-equivalent for 16 questions; p50 7.9 s, p95 12.2 s |
-| The three misses | refuse-05 and refuse-06: correct refusals failed for echoing a date ("July 1") and the user's own "2%". compare-09: the right 5.2% from an earnings table not yet verified as an alternative |
+| The three misses | refuse-05 and refuse-06: refusals failed for echoing a date ("July 1") and the user's own "2%", a grader limit already logged on dev and left unfixed. compare-09: 5.2% from an earnings table never verified as an alternative |
 
 The headline is the result as graded on that one run, under a rule committed before it ran ([FINDINGS](docs/FINDINGS.md#the-headline)).
 
@@ -43,12 +45,12 @@ Measured on a 15-question retrieval set committed before any search code. Every 
 **Limits of the checks.** The canary catches case and spacing tricks in answers and tool arguments, but encoded forms (such as base64) get through: it's a tripwire, not a guarantee. Citations must exactly match a URL a tool returned in that run. These checks show an answer came from the tools; correctness is measured separately by the golden set.
 
 ## The eval gate
-Every PR that changes the agent must carry a passing gate receipt (`evals/gate-result.json`). `make gate` runs the 24 dev golden cases × 3 against a committed snapshot of StatCan data. CI re-judges the receipt against the committed baseline and checks it matches the PR's exact code, prompt, golden set and data (ADR 0008). The baseline comes from a separate k=5 flakiness study, never from the gate run it judges.
+Every PR that changes the agent must carry a passing gate receipt (`evals/gate-result.json`). `make gate` runs the 24 dev golden cases × 3 against a committed snapshot of StatCan data. CI checks the receipt matches the PR's exact code, prompt, golden set and data, and **re-grades the committed runs it summarises**, so a hand-edited receipt or baseline fails (ADR 0008). The baseline comes from a separate k=5 flakiness study, never from the gate run it judges.
 
-| | Dev pass rate | Notes |
+| v1.0.0 agent | Dev pass rate | Notes |
 |---|---|---|
-| Gate (Haiku 5.5, k=3) | 0.93 | passed: 0 injection leaks, no flips; $0.20 API-equivalent per run |
-| Flakiness study (Haiku 5.5, k=5) | 0.95 | 20 stable, 4 unstable (lookup-06, lookup-07, multi-04, refuse-02); $0.0027 per run |
+| Gate (Haiku 5.5, k=3) | 0.93 | passed: 0 injection leaks, no flips; $0.19 API-equivalent for the whole gate run |
+| Flakiness study (Haiku 5.5, k=5) | 0.94 | 20 stable, 4 unstable (lookup-07, refuse-04, multi-03, multi-04); $0.0026 per case run |
 | Recorded runs graded in CI (Sonnet 5.5, k=1) | 23/24 | pinned verdicts, `canada-grade --check`; lookup-07 gives up on an answerable question |
 
 How the study number moved (each re-grade on the same runs is disclosed, not hidden):
@@ -56,14 +58,15 @@ How the study number moved (each re-grade on the same runs is disclosed, not hid
 - 0.88 after grader false positives were fixed;
 - 0.93 after verified alternative series and a reworded question;
 - **0.89 on fresh runs**, after the Phase 5 review tightened the link filter and the injection grader;
-- **0.925 on the release agent**, after two prompt rules drawn from those runs;
-- 0.95 after one more refusal false positive was fixed: a StatCan URL's table id was read as a figure.
+- **0.925 on the release candidate**, after two prompt rules drawn from those runs;
+- 0.95 after one more refusal false positive was fixed: a StatCan URL's table id was read as a figure;
+- **0.94 on fresh runs of v1.0.0**, after the Phase 6 review hardened the runtime checks. Those checks rejected no run; the movement is run-to-run noise in four cases.
 
 These are dev numbers, which the agent was built against; the held-out headline is at the top.
 
 **Weaker search than production:** in snapshot runs the agent's own queries mostly have no recorded vector and there's no live rerank, so search falls back to full-text. In the recorded runs, 19 of 20 dev searches and 15 of 16 test searches were flagged `degraded_retrieval`. These scores measure the agent on worse search than a live run gets.
 
-**What it can't prove:** the receipt shows the numbers are consistent and pass today's rules, not that the runs happened. The transcripts under `evals/runs/` are the evidence.
+**What it can't prove:** `verify` shows the receipt and baseline are exactly what the graders say about the committed transcripts under `evals/runs/`, not that a model produced those transcripts. Required reviews on `main` are the control for that.
 
 **First real bug found:** the flakiness study, not the gate, caught Haiku leaking an injected domain written without `https://` (1 of 5 runs). The runtime check now uses the same link rule as the grader (`links.py`). The gate hasn't yet caught a regression on its own; a **staged** demonstration (a deliberately broken tool description, failure predicted in writing first) is in [`docs/demo/staged-gate-failure.md`](docs/demo/staged-gate-failure.md).
 
@@ -96,6 +99,8 @@ The model's choices are replayed from a committed run, while the MCP server, too
 claude mcp add canada -- uv run --directory "$PWD" canada-mcp
 ```
 Then ask Claude Code a question about Canadian data. StatCan needs no key. Without a `VOYAGE_API_KEY` in `.env`, search falls back to full-text and says so (`degraded_retrieval`).
+
+> **This path has none of the agent's defences.** Inside Claude Code there's no `check_answer`, link filter, value check or canary, and Claude Code has its own shell, web and file tools, so third-party table text reaches a far more capable agent than the one the injection results above cover. The server makes live StatCan calls and caches them in your Postgres; add `-e DATA_BACKEND=snapshot` to keep it to the committed data, and restrict Claude Code's tools if you're wary. The injection numbers apply to `canada-ask`, not to this.
 
 **3. The agent with its checks** (budget, canary, links, grounding), on your Claude subscription:
 ```bash
