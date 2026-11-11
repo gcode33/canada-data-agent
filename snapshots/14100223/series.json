@@ -1,0 +1,524 @@
+{
+"1.2.2.0.0.0.0.0.0.0": {
+"vector_id": 79311153,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 1225.25,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-02-01",
+"value": 1231.12,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-03-01",
+"value": 1239.28,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-04-01",
+"value": 1242.86,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-05-01",
+"value": 1254.01,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-06-01",
+"value": 1255.72,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-07-01",
+"value": 1264.48,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-08-01",
+"value": 1273.0,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-09-01",
+"value": 1275.17,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-10-01",
+"value": 1283.79,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-11-01",
+"value": 1283.9,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-12-01",
+"value": 1291.58,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-01-01",
+"value": 1294.3,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-02-01",
+"value": 1294.74,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-03-01",
+"value": 1288.12,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-04-01",
+"value": 1295.9,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-05-01",
+"value": 1293.19,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-06-01",
+"value": 1299.68,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-07-01",
+"value": 1305.63,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-08-01",
+"value": 1306.43,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-09-01",
+"value": 1314.65,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-10-01",
+"value": 1309.49,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-11-01",
+"value": 1315.19,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-12-01",
+"value": 1316.48,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-01-01",
+"value": 1319.29,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-02-01",
+"value": 1331.61,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-03-01",
+"value": 1332.83,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-04-01",
+"value": 1343.52,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-05-01",
+"value": 1336.3,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-06-01",
+"value": 1343.77,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-07-01",
+"value": 1347.35,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-08-01",
+"value": 1354.55,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+}
+]
+},
+"11.2.2.0.0.0.0.0.0.0": {
+"vector_id": 79311413,
+"points": [
+{
+"ref_period": "2024-01-01",
+"value": 1245.07,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-02-01",
+"value": 1252.44,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-03-01",
+"value": 1254.84,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-04-01",
+"value": 1253.93,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-05-01",
+"value": 1268.3,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-06-01",
+"value": 1271.74,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-07-01",
+"value": 1280.92,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-08-01",
+"value": 1284.97,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-09-01",
+"value": 1285.71,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-10-01",
+"value": 1289.28,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-11-01",
+"value": 1290.96,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2024-12-01",
+"value": 1292.51,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-01-01",
+"value": 1298.71,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-02-01",
+"value": 1299.76,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-03-01",
+"value": 1302.42,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-04-01",
+"value": 1308.5,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-05-01",
+"value": 1294.59,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-06-01",
+"value": 1302.31,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-07-01",
+"value": 1299.03,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-08-01",
+"value": 1302.02,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-09-01",
+"value": 1309.68,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-10-01",
+"value": 1310.7,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-11-01",
+"value": 1320.73,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2025-12-01",
+"value": 1315.46,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-01-01",
+"value": 1331.01,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-02-01",
+"value": 1349.12,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-03-01",
+"value": 1349.57,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-04-01",
+"value": 1355.98,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-05-01",
+"value": 1351.33,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-06-01",
+"value": 1348.59,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-07-01",
+"value": 1356.61,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+},
+{
+"ref_period": "2026-08-01",
+"value": 1369.91,
+"decimals": 2,
+"scalar_factor_code": 0,
+"symbol_code": 0,
+"status_code": 4
+}
+]
+}
+}

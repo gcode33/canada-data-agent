@@ -1,0 +1,538 @@
+{
+"product_id": 18100268,
+"title": "Raw materials price index, monthly",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "North American Product Classification System (NAPCS)",
+"members": [
+{
+"id": 1,
+"name": "Total, Raw materials price indexes (RMPI)",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Crude energy products",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Crude oil and bitumen",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Conventional crude oil",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Crude and diluted bitumen",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Synthetic crude oil",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Natural gas",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Coal",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Hard coal",
+"parent_id": 8,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Brown coal",
+"parent_id": 8,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Other energy products",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Fuel wood",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Steam and heated or cooled air or water",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Total, excluding crude energy products",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Crop products",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Wheat",
+"parent_id": 15,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Canola (including rapeseed)",
+"parent_id": 15,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Fresh fruit, nuts and vegetables, and pulse crops",
+"parent_id": 15,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Fresh fruit and nuts",
+"parent_id": 18,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Fresh potatoes",
+"parent_id": 18,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Fresh vegetables (except potatoes and pulse crops)",
+"parent_id": 18,
+"terminated": false
+},
+{
+"id": 22,
+"name": "Pulse crops (except soybeans)",
+"parent_id": 18,
+"terminated": false
+},
+{
+"id": 23,
+"name": "Other crop products",
+"parent_id": 15,
+"terminated": false
+},
+{
+"id": 24,
+"name": "Grains (except wheat)",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 76,
+"name": "Corn for grain",
+"parent_id": 24,
+"terminated": false
+},
+{
+"id": 77,
+"name": "Oats",
+"parent_id": 24,
+"terminated": false
+},
+{
+"id": 78,
+"name": "Barley",
+"parent_id": 24,
+"terminated": false
+},
+{
+"id": 25,
+"name": "Oilseeds (except canola)",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 79,
+"name": "Soybeans",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 80,
+"name": "Oilseeds (except canola and soybeans)",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 26,
+"name": "Other miscellaneous crop products",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 27,
+"name": "Floriculture and nursery products, and sod",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 28,
+"name": "Cannabis seeds, plants and fresh flowering tops, in bulk",
+"parent_id": 15,
+"terminated": false
+},
+{
+"id": 29,
+"name": "Cannabis seeds and vegetative plants, in bulk",
+"parent_id": 28,
+"terminated": false
+},
+{
+"id": 30,
+"name": "Fresh cannabis flowering tops (including leaves), in bulk",
+"parent_id": 28,
+"terminated": false
+},
+{
+"id": 31,
+"name": "Animals and animal products",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 32,
+"name": "Live animals",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 33,
+"name": "Cattle and calves",
+"parent_id": 32,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Hogs",
+"parent_id": 32,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Poultry",
+"parent_id": 32,
+"terminated": false
+},
+{
+"id": 81,
+"name": "Chickens",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 36,
+"name": "Other live animals",
+"parent_id": 32,
+"terminated": false
+},
+{
+"id": 37,
+"name": "Other animal products",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 38,
+"name": "Eggs in shell",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 39,
+"name": "Unprocessed milk",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 40,
+"name": "Raw furskins, and animal products n.e.c.",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 41,
+"name": "Fish, crustaceans, shellfish and other fishery products",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 42,
+"name": "Fish, crustaceans, shellfish and other fishery products",
+"parent_id": 41,
+"terminated": false
+},
+{
+"id": 43,
+"name": "Non-metallic minerals",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 44,
+"name": "Potash",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 45,
+"name": "Potash",
+"parent_id": 44,
+"terminated": false
+},
+{
+"id": 46,
+"name": "Stone, sand, gravel, clay, and refractory minerals",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 47,
+"name": "Stone",
+"parent_id": 46,
+"terminated": false
+},
+{
+"id": 82,
+"name": "Crushed stone",
+"parent_id": 47,
+"terminated": false
+},
+{
+"id": 48,
+"name": "Sand, gravel, clay, and refractory minerals",
+"parent_id": 46,
+"terminated": false
+},
+{
+"id": 49,
+"name": "Diamonds and other non-metallic minerals (except cut gemstones)",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 50,
+"name": "Uncut and industrial diamonds",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 51,
+"name": "Non-metallic minerals (except diamonds)",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 52,
+"name": "Logs, pulpwood, natural rubber and other forestry products",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 53,
+"name": "Logs, pulpwood and other forestry products",
+"parent_id": 52,
+"terminated": false
+},
+{
+"id": 54,
+"name": "Logs and bolts",
+"parent_id": 53,
+"terminated": false
+},
+{
+"id": 55,
+"name": "Pulpwood",
+"parent_id": 53,
+"terminated": false
+},
+{
+"id": 56,
+"name": "Rough untreated poles, posts and piling",
+"parent_id": 53,
+"terminated": false
+},
+{
+"id": 57,
+"name": "Natural rubber",
+"parent_id": 52,
+"terminated": false
+},
+{
+"id": 58,
+"name": "Natural rubber",
+"parent_id": 57,
+"terminated": false
+},
+{
+"id": 59,
+"name": "Metal ores, concentrates and scrap",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 60,
+"name": "Iron ores and concentrates",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 61,
+"name": "Iron ores and concentrates",
+"parent_id": 60,
+"terminated": false
+},
+{
+"id": 62,
+"name": "Copper ores and concentrates",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 63,
+"name": "Copper ores and concentrates",
+"parent_id": 62,
+"terminated": false
+},
+{
+"id": 64,
+"name": "Nickel ores and concentrates",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 65,
+"name": "Nickel ores and concentrates",
+"parent_id": 64,
+"terminated": false
+},
+{
+"id": 66,
+"name": "Radioactive ores and concentrates",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 67,
+"name": "Radioactive ores and concentrates",
+"parent_id": 66,
+"terminated": false
+},
+{
+"id": 68,
+"name": "Other metal ores and concentrates",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 69,
+"name": "Gold, silver, and platinum group metal ores and concentrates",
+"parent_id": 68,
+"terminated": false
+},
+{
+"id": 83,
+"name": "Gold ores, concentrates and mill bullion",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 84,
+"name": "Silver ores, concentrates and mill bullion",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 70,
+"name": "Bauxite and aluminum oxide",
+"parent_id": 68,
+"terminated": false
+},
+{
+"id": 71,
+"name": "Lead and zinc ores and concentrates",
+"parent_id": 68,
+"terminated": false
+},
+{
+"id": 72,
+"name": "Other metal ores and concentrates, n.e.c.",
+"parent_id": 68,
+"terminated": false
+},
+{
+"id": 73,
+"name": "Waste and scrap of metal",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 74,
+"name": "Waste and scrap of iron and steel",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 75,
+"name": "Waste and scrap of non-ferrous metals",
+"parent_id": 73,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1981-01-01",
+"end_date": "2026-09-01",
+"footnotes": [
+"This monthly table replaces table 18-10-0034 which has been archived. This table contains monthly data starting from January 1981.",
+"On November 30, 2020, additional series are available upon request.",
+"On February 28, 2022, select 6-digit North American Product Classification System (NAPCS) indexes have been added to this table. Additional series continue to be available upon request.",
+"On September 20, 2024, the Raw Materials Price Index basket was updated to reflect 2019 production values. The new basket was linked to the previous basket at the July 2024 reference period, so movements up to this period reflect previous baskets, while movements for August 2024 onwards reflect the new basket. The index was also updated to reflect the North American Product Classification System (NAPCS) 2022 Version 1.0. For more information, please refer to our <a href=\"https://www.statcan.gc.ca/en/subjects/standard/napcs/2022/index\" rel=\"external noopener noreferrer\" target=\"_blank\">website (opens new window)</a>.",
+"On September 20, 2024, the Raw Materials Price Index was migrated from the North American Product Classification System (NAPCS) 2017 Version 2.0 to the NAPCS 2022 Version 1.0. NAPCS code 14512 was changed to 14512M. "
+]
+}

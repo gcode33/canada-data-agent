@@ -1,0 +1,2436 @@
+{
+"product_id": 18100004,
+"title": "Consumer Price Index, monthly, not seasonally adjusted",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 2,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Newfoundland and Labrador",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "St. John's, Newfoundland and Labrador",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Prince Edward Island",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Charlottetown and Summerside, Prince Edward Island",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Nova Scotia",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Halifax, Nova Scotia",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 9,
+"name": "New Brunswick",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Saint John, New Brunswick",
+"parent_id": 9,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Quebec",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Québec, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Montréal, Quebec",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Ontario",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Ottawa-Gatineau, Ontario part, Ontario/Quebec",
+"parent_id": 14,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Toronto, Ontario",
+"parent_id": 14,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Thunder Bay, Ontario",
+"parent_id": 14,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Manitoba",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Winnipeg, Manitoba",
+"parent_id": 18,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Saskatchewan",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Regina, Saskatchewan",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 22,
+"name": "Saskatoon, Saskatchewan",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 23,
+"name": "Alberta",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 24,
+"name": "Edmonton, Alberta",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 25,
+"name": "Calgary, Alberta",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 26,
+"name": "British Columbia",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 27,
+"name": "Vancouver, British Columbia",
+"parent_id": 26,
+"terminated": false
+},
+{
+"id": 28,
+"name": "Victoria, British Columbia",
+"parent_id": 26,
+"terminated": false
+},
+{
+"id": 29,
+"name": "Whitehorse, Yukon",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 30,
+"name": "Yellowknife, Northwest Territories",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 31,
+"name": "Iqaluit, Nunavut",
+"parent_id": 2,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Products and product groups",
+"members": [
+{
+"id": 2,
+"name": "All-items",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Food",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Food purchased from stores",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Meat",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Fresh or frozen meat (excluding poultry)",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Fresh or frozen beef",
+"parent_id": 6,
+"terminated": false
+},
+{
+"id": 382,
+"name": "Fresh or frozen beef hip cuts (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 383,
+"name": "Fresh or frozen beef loin cuts (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 384,
+"name": "Fresh or frozen beef rib cuts (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 385,
+"name": "Fresh or frozen beef chuck cuts (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 386,
+"name": "Fresh stewing beef (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 387,
+"name": "Fresh or frozen ground beef (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 388,
+"name": "Other fresh or frozen beef (202404=100)",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Fresh or frozen pork",
+"parent_id": 6,
+"terminated": false
+},
+{
+"id": 389,
+"name": "Fresh or frozen pork loin cuts (202404=100)",
+"parent_id": 8,
+"terminated": false
+},
+{
+"id": 390,
+"name": "Fresh or frozen pork shoulder cuts (202404=100)",
+"parent_id": 8,
+"terminated": false
+},
+{
+"id": 391,
+"name": "Other fresh or frozen pork (202404=100)",
+"parent_id": 8,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Other fresh or frozen meat (excluding poultry)",
+"parent_id": 6,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Fresh or frozen poultry",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Fresh or frozen chicken",
+"parent_id": 10,
+"terminated": false
+},
+{
+"id": 392,
+"name": "Fresh or frozen chicken breasts (202404=100)",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 393,
+"name": "Fresh or frozen chicken thighs (202404=100)",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 394,
+"name": "Fresh or frozen chicken drumsticks (202404=100)",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 395,
+"name": "Fresh or frozen whole chicken (202404=100)",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 396,
+"name": "Other fresh or frozen chicken (202404=100)",
+"parent_id": 11,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Other fresh or frozen poultry",
+"parent_id": 10,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Processed meat",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Ham and bacon",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 316,
+"name": "Bacon (2013=100)",
+"parent_id": 14,
+"terminated": false
+},
+{
+"id": 317,
+"name": "Ham excluding deli ham (2013=100)",
+"parent_id": 14,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Other processed meat",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Fish, seafood and other marine products",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Fish",
+"parent_id": 16,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Fresh or frozen fish (including portions and fish sticks)",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Canned and other preserved fish",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 318,
+"name": "Canned salmon (2013=100)",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 319,
+"name": "Canned tuna (2013=100)",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Seafood and other marine products",
+"parent_id": 16,
+"terminated": false
+},
+{
+"id": 320,
+"name": "Shrimps and prawns (2013=100)",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 321,
+"name": "Other shellfish (2013=100)",
+"parent_id": 20,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Dairy products and eggs",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 22,
+"name": "Dairy products",
+"parent_id": 21,
+"terminated": false
+},
+{
+"id": 23,
+"name": "Fresh milk",
+"parent_id": 22,
+"terminated": false
+},
+{
+"id": 322,
+"name": "Whole milk (2013=100)",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 323,
+"name": "Low-fat milk (2013=100)",
+"parent_id": 23,
+"terminated": false
+},
+{
+"id": 24,
+"name": "Butter",
+"parent_id": 22,
+"terminated": false
+},
+{
+"id": 25,
+"name": "Cheese",
+"parent_id": 22,
+"terminated": false
+},
+{
+"id": 324,
+"name": "Cheddar cheese (2013=100)",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 325,
+"name": "Processed cheese (2013=100)",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 326,
+"name": "Unripened or fresh cheese (2013=100)",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 327,
+"name": "Mozzarella cheese (2013=100)",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 26,
+"name": "Ice cream and related products",
+"parent_id": 22,
+"terminated": false
+},
+{
+"id": 27,
+"name": "Other dairy products",
+"parent_id": 22,
+"terminated": false
+},
+{
+"id": 28,
+"name": "Eggs",
+"parent_id": 21,
+"terminated": false
+},
+{
+"id": 29,
+"name": "Bakery and cereal products (excluding baby food)",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 30,
+"name": "Bakery products",
+"parent_id": 29,
+"terminated": false
+},
+{
+"id": 31,
+"name": "Bread, rolls and buns",
+"parent_id": 30,
+"terminated": false
+},
+{
+"id": 32,
+"name": "Cookies and crackers",
+"parent_id": 30,
+"terminated": false
+},
+{
+"id": 328,
+"name": "Crackers and crisp breads (2013=100)",
+"parent_id": 32,
+"terminated": true
+},
+{
+"id": 329,
+"name": "Cookies and sweet biscuits (2013=100)",
+"parent_id": 32,
+"terminated": true
+},
+{
+"id": 33,
+"name": "Other bakery products",
+"parent_id": 30,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Cereal products (excluding baby food)",
+"parent_id": 29,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Rice and rice-based mixes",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 36,
+"name": "Breakfast cereal and other cereal products (excluding baby food)",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 37,
+"name": "Pasta products",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 330,
+"name": "Dry or fresh pasta (2013=100)",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 331,
+"name": "Pasta mixes (2013=100)",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 38,
+"name": "Flour and flour-based mixes",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 39,
+"name": "Fruit, fruit preparations and nuts",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 40,
+"name": "Fresh fruit",
+"parent_id": 39,
+"terminated": false
+},
+{
+"id": 41,
+"name": "Apples",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 42,
+"name": "Oranges",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 43,
+"name": "Bananas",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 373,
+"name": "Citrus (excluding oranges) (202304=100)",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 374,
+"name": "Grapes (202304=100)",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 375,
+"name": "Berries (including cherries) (202304=100)",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 44,
+"name": "Other fresh fruit",
+"parent_id": 40,
+"terminated": false
+},
+{
+"id": 45,
+"name": "Preserved fruit and fruit preparations",
+"parent_id": 39,
+"terminated": false
+},
+{
+"id": 46,
+"name": "Fruit juices",
+"parent_id": 45,
+"terminated": false
+},
+{
+"id": 47,
+"name": "Other preserved fruit and fruit preparations",
+"parent_id": 45,
+"terminated": false
+},
+{
+"id": 332,
+"name": "Canned fruit (2013=100)",
+"parent_id": 47,
+"terminated": false
+},
+{
+"id": 333,
+"name": "Jam, jelly and other preserves (2013=100)",
+"parent_id": 47,
+"terminated": false
+},
+{
+"id": 334,
+"name": "Dried and dehydrated fruit (2013=100)",
+"parent_id": 47,
+"terminated": false
+},
+{
+"id": 335,
+"name": "Frozen fruit (2013=100)",
+"parent_id": 47,
+"terminated": false
+},
+{
+"id": 48,
+"name": "Nuts and seeds",
+"parent_id": 39,
+"terminated": false
+},
+{
+"id": 49,
+"name": "Vegetables and vegetable preparations",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 50,
+"name": "Fresh vegetables",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 51,
+"name": "Potatoes",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 52,
+"name": "Tomatoes",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 53,
+"name": "Lettuce",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 376,
+"name": "Carrots (202304=100)",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 377,
+"name": "Onions (202304=100)",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 378,
+"name": "Peppers (202304=100)",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 379,
+"name": "Cucumber (202304=100)",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 380,
+"name": "Mushrooms (202304=100)",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 54,
+"name": "Other fresh vegetables",
+"parent_id": 50,
+"terminated": false
+},
+{
+"id": 55,
+"name": "Preserved vegetables and vegetable preparations",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 56,
+"name": "Frozen and dried vegetables",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 57,
+"name": "Canned vegetables and other vegetable preparations",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 58,
+"name": "Other food products and non-alcoholic beverages",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 59,
+"name": "Sugar and confectionery",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 60,
+"name": "Sugar and syrup",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 61,
+"name": "Confectionery",
+"parent_id": 59,
+"terminated": false
+},
+{
+"id": 62,
+"name": "Edible fats and oils",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 63,
+"name": "Margarine",
+"parent_id": 62,
+"terminated": false
+},
+{
+"id": 64,
+"name": "Other edible fats and oils",
+"parent_id": 62,
+"terminated": false
+},
+{
+"id": 65,
+"name": "Coffee and tea",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 66,
+"name": "Coffee",
+"parent_id": 65,
+"terminated": false
+},
+{
+"id": 336,
+"name": "Roasted or ground coffee (2013=100)",
+"parent_id": 66,
+"terminated": false
+},
+{
+"id": 337,
+"name": "Instant and other coffee (2013=100)",
+"parent_id": 66,
+"terminated": false
+},
+{
+"id": 67,
+"name": "Tea",
+"parent_id": 65,
+"terminated": false
+},
+{
+"id": 68,
+"name": "Condiments, spices and vinegars",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 338,
+"name": "Fermented or pickled vegetables (2013=100)",
+"parent_id": 68,
+"terminated": true
+},
+{
+"id": 339,
+"name": "Sauces, condiments and dips (2013=100)",
+"parent_id": 68,
+"terminated": true
+},
+{
+"id": 340,
+"name": "Herbs, spices and seasonings (2013=100)",
+"parent_id": 68,
+"terminated": true
+},
+{
+"id": 69,
+"name": "Other food preparations",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 70,
+"name": "Soup",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 71,
+"name": "Baby foods",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 341,
+"name": "Canned infant or junior foods (2013=100)",
+"parent_id": 71,
+"terminated": false
+},
+{
+"id": 342,
+"name": "Infant formula (2013=100)",
+"parent_id": 71,
+"terminated": false
+},
+{
+"id": 72,
+"name": "Frozen food preparations",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 73,
+"name": "All other food preparations",
+"parent_id": 69,
+"terminated": false
+},
+{
+"id": 343,
+"name": "Nut butter (2013=100)",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 344,
+"name": "Potato chips and other snack products n.e.c. (2013=100)",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 345,
+"name": "All other miscellaneous food preparations (2013=100)",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 74,
+"name": "Non-alcoholic beverages",
+"parent_id": 58,
+"terminated": false
+},
+{
+"id": 75,
+"name": "Food purchased from restaurants",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 76,
+"name": "Food purchased from table-service restaurants",
+"parent_id": 75,
+"terminated": false
+},
+{
+"id": 77,
+"name": "Food purchased from fast food and take-out restaurants",
+"parent_id": 75,
+"terminated": false
+},
+{
+"id": 78,
+"name": "Food purchased from cafeterias and other restaurants",
+"parent_id": 75,
+"terminated": false
+},
+{
+"id": 79,
+"name": "Shelter",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 80,
+"name": "Rented accommodation",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 81,
+"name": "Rent",
+"parent_id": 80,
+"terminated": false
+},
+{
+"id": 82,
+"name": "Tenants' insurance premiums",
+"parent_id": 80,
+"terminated": false
+},
+{
+"id": 83,
+"name": "Tenants' maintenance, repairs and other expenses",
+"parent_id": 80,
+"terminated": false
+},
+{
+"id": 84,
+"name": "Owned accommodation",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 85,
+"name": "Mortgage interest cost",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 86,
+"name": "Homeowners' replacement cost",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 87,
+"name": "Property taxes and other special charges",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 88,
+"name": "Homeowners' home and mortgage insurance",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 89,
+"name": "Homeowners' maintenance and repairs",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 90,
+"name": "Other owned accommodation expenses",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 91,
+"name": "Water, fuel and electricity",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 92,
+"name": "Electricity",
+"parent_id": 91,
+"terminated": false
+},
+{
+"id": 93,
+"name": "Water",
+"parent_id": 91,
+"terminated": false
+},
+{
+"id": 94,
+"name": "Natural gas",
+"parent_id": 91,
+"terminated": false
+},
+{
+"id": 95,
+"name": "Fuel oil and other fuels",
+"parent_id": 91,
+"terminated": false
+},
+{
+"id": 96,
+"name": "Household operations, furnishings and equipment",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 97,
+"name": "Household operations",
+"parent_id": 96,
+"terminated": false
+},
+{
+"id": 98,
+"name": "Communications",
+"parent_id": 97,
+"terminated": false
+},
+{
+"id": 99,
+"name": "Telephone services",
+"parent_id": 98,
+"terminated": false
+},
+{
+"id": 368,
+"name": "Cellular services (2017=100)",
+"parent_id": 99,
+"terminated": false
+},
+{
+"id": 381,
+"name": "Cellular services (202304=100)",
+"parent_id": 99,
+"terminated": false
+},
+{
+"id": 100,
+"name": "Postal and other communications services",
+"parent_id": 98,
+"terminated": false
+},
+{
+"id": 297,
+"name": "Internet access services (200212=100)",
+"parent_id": 98,
+"terminated": false
+},
+{
+"id": 313,
+"name": "Telephone equipment (201104=100)",
+"parent_id": 98,
+"terminated": true
+},
+{
+"id": 101,
+"name": "Child care and housekeeping services",
+"parent_id": 97,
+"terminated": false
+},
+{
+"id": 102,
+"name": "Child care services",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 103,
+"name": "Housekeeping services",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 104,
+"name": "Household cleaning products",
+"parent_id": 97,
+"terminated": false
+},
+{
+"id": 105,
+"name": "Detergents and soaps (other than personal care)",
+"parent_id": 104,
+"terminated": false
+},
+{
+"id": 346,
+"name": "Laundry detergents and soaps (2013=100)",
+"parent_id": 105,
+"terminated": false
+},
+{
+"id": 347,
+"name": "Detergents and rinse agents for dish washing (2013=100)",
+"parent_id": 105,
+"terminated": false
+},
+{
+"id": 106,
+"name": "Other household cleaning products",
+"parent_id": 104,
+"terminated": false
+},
+{
+"id": 348,
+"name": "Household cleaning and polishing products (2013=100)",
+"parent_id": 106,
+"terminated": false
+},
+{
+"id": 349,
+"name": "Bleach and other household chemical products (2013=100)",
+"parent_id": 106,
+"terminated": false
+},
+{
+"id": 350,
+"name": "Fabric softener (2013=100)",
+"parent_id": 106,
+"terminated": false
+},
+{
+"id": 107,
+"name": "Paper, plastic and aluminum foil supplies",
+"parent_id": 97,
+"terminated": false
+},
+{
+"id": 108,
+"name": "Paper supplies",
+"parent_id": 107,
+"terminated": false
+},
+{
+"id": 351,
+"name": "Household paper supplies (2013=100)",
+"parent_id": 108,
+"terminated": false
+},
+{
+"id": 352,
+"name": "Stationery (2013=100)",
+"parent_id": 108,
+"terminated": false
+},
+{
+"id": 109,
+"name": "Plastic and aluminum foil supplies",
+"parent_id": 107,
+"terminated": false
+},
+{
+"id": 353,
+"name": "Plastic supplies (2013=100)",
+"parent_id": 109,
+"terminated": true
+},
+{
+"id": 354,
+"name": "Foil supplies (2013=100)",
+"parent_id": 109,
+"terminated": true
+},
+{
+"id": 110,
+"name": "Other household goods and services",
+"parent_id": 97,
+"terminated": false
+},
+{
+"id": 111,
+"name": "Pet food and supplies",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 112,
+"name": "Seeds, plants and cut flowers",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 113,
+"name": "Other horticultural goods",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 114,
+"name": "Other household supplies",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 115,
+"name": "Other household services",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 298,
+"name": "Financial services (200212=100)",
+"parent_id": 110,
+"terminated": false
+},
+{
+"id": 116,
+"name": "Household furnishings and equipment",
+"parent_id": 96,
+"terminated": false
+},
+{
+"id": 117,
+"name": "Furniture and household textiles",
+"parent_id": 116,
+"terminated": false
+},
+{
+"id": 118,
+"name": "Furniture",
+"parent_id": 117,
+"terminated": false
+},
+{
+"id": 119,
+"name": "Upholstered furniture",
+"parent_id": 118,
+"terminated": false
+},
+{
+"id": 120,
+"name": "Wooden furniture",
+"parent_id": 118,
+"terminated": false
+},
+{
+"id": 121,
+"name": "Other furniture",
+"parent_id": 118,
+"terminated": false
+},
+{
+"id": 122,
+"name": "Household textiles",
+"parent_id": 117,
+"terminated": false
+},
+{
+"id": 123,
+"name": "Window coverings",
+"parent_id": 122,
+"terminated": false
+},
+{
+"id": 124,
+"name": "Bedding and other household textiles",
+"parent_id": 122,
+"terminated": false
+},
+{
+"id": 125,
+"name": "Area rugs and mats",
+"parent_id": 122,
+"terminated": true
+},
+{
+"id": 126,
+"name": "Household equipment",
+"parent_id": 116,
+"terminated": false
+},
+{
+"id": 127,
+"name": "Household appliances",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 128,
+"name": "Cooking appliances",
+"parent_id": 127,
+"terminated": false
+},
+{
+"id": 129,
+"name": "Refrigerators and freezers",
+"parent_id": 127,
+"terminated": false
+},
+{
+"id": 130,
+"name": "Laundry and dishwashing appliances",
+"parent_id": 127,
+"terminated": false
+},
+{
+"id": 131,
+"name": "Other household appliances",
+"parent_id": 127,
+"terminated": false
+},
+{
+"id": 132,
+"name": "Non-electric kitchen utensils, tableware and cookware",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 135,
+"name": "Tools and other household equipment",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 136,
+"name": "Household tools (including lawn, garden and snow removal equipment)",
+"parent_id": 135,
+"terminated": false
+},
+{
+"id": 137,
+"name": "Other household equipment",
+"parent_id": 135,
+"terminated": false
+},
+{
+"id": 138,
+"name": "Services related to household furnishings and equipment",
+"parent_id": 116,
+"terminated": false
+},
+{
+"id": 139,
+"name": "Clothing and footwear",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 140,
+"name": "Clothing",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 141,
+"name": "Women's clothing",
+"parent_id": 140,
+"terminated": false
+},
+{
+"id": 148,
+"name": "Men's clothing",
+"parent_id": 140,
+"terminated": false
+},
+{
+"id": 155,
+"name": "Children's clothing",
+"parent_id": 140,
+"terminated": false
+},
+{
+"id": 161,
+"name": "Footwear",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 162,
+"name": "Women's footwear (excluding athletic)",
+"parent_id": 161,
+"terminated": false
+},
+{
+"id": 163,
+"name": "Men's footwear (excluding athletic)",
+"parent_id": 161,
+"terminated": false
+},
+{
+"id": 164,
+"name": "Children's footwear (excluding athletic)",
+"parent_id": 161,
+"terminated": false
+},
+{
+"id": 165,
+"name": "Athletic footwear",
+"parent_id": 161,
+"terminated": false
+},
+{
+"id": 166,
+"name": "Clothing accessories, watches and jewellery",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 167,
+"name": "Leather clothing accessories",
+"parent_id": 166,
+"terminated": true
+},
+{
+"id": 170,
+"name": "Other clothing accessories",
+"parent_id": 166,
+"terminated": true
+},
+{
+"id": 369,
+"name": "Clothing accessories (2013=100)",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 168,
+"name": "Watches",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 169,
+"name": "Jewellery",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 171,
+"name": "Clothing material, notions and services",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 172,
+"name": "Clothing material and notions",
+"parent_id": 171,
+"terminated": true
+},
+{
+"id": 173,
+"name": "Laundry services",
+"parent_id": 171,
+"terminated": true
+},
+{
+"id": 174,
+"name": "Dry cleaning services",
+"parent_id": 171,
+"terminated": true
+},
+{
+"id": 175,
+"name": "Other clothing services",
+"parent_id": 171,
+"terminated": true
+},
+{
+"id": 176,
+"name": "Transportation",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 177,
+"name": "Private transportation",
+"parent_id": 176,
+"terminated": false
+},
+{
+"id": 178,
+"name": "Purchase, leasing and rental of passenger vehicles",
+"parent_id": 177,
+"terminated": false
+},
+{
+"id": 179,
+"name": "Purchase and leasing of passenger vehicles",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 180,
+"name": "Purchase of passenger vehicles",
+"parent_id": 179,
+"terminated": false
+},
+{
+"id": 358,
+"name": "Purchase of automobiles (2013=100)",
+"parent_id": 180,
+"terminated": true
+},
+{
+"id": 359,
+"name": "Purchase of trucks, vans and sport utility vehicles (2013=100)",
+"parent_id": 180,
+"terminated": true
+},
+{
+"id": 371,
+"name": "Purchase of new passenger vehicles (202204=100)",
+"parent_id": 180,
+"terminated": false
+},
+{
+"id": 372,
+"name": "Purchase of used passenger vehicles (202204=100)",
+"parent_id": 180,
+"terminated": false
+},
+{
+"id": 181,
+"name": "Leasing of passenger vehicles",
+"parent_id": 179,
+"terminated": false
+},
+{
+"id": 182,
+"name": "Rental of passenger vehicles",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 183,
+"name": "Operation of passenger vehicles",
+"parent_id": 177,
+"terminated": false
+},
+{
+"id": 184,
+"name": "Gasoline",
+"parent_id": 183,
+"terminated": false
+},
+{
+"id": 185,
+"name": "Passenger vehicle parts, maintenance and repairs",
+"parent_id": 183,
+"terminated": false
+},
+{
+"id": 186,
+"name": "Passenger vehicle parts, accessories and supplies",
+"parent_id": 185,
+"terminated": false
+},
+{
+"id": 187,
+"name": "Passenger vehicle maintenance and repair services",
+"parent_id": 185,
+"terminated": false
+},
+{
+"id": 188,
+"name": "Other passenger vehicle operating expenses",
+"parent_id": 183,
+"terminated": false
+},
+{
+"id": 189,
+"name": "Passenger vehicle insurance premiums",
+"parent_id": 188,
+"terminated": false
+},
+{
+"id": 190,
+"name": "Passenger vehicle registration fees",
+"parent_id": 188,
+"terminated": false
+},
+{
+"id": 191,
+"name": "Drivers' licences",
+"parent_id": 188,
+"terminated": false
+},
+{
+"id": 192,
+"name": "Parking fees",
+"parent_id": 188,
+"terminated": false
+},
+{
+"id": 193,
+"name": "All other passenger vehicle operating expenses",
+"parent_id": 188,
+"terminated": false
+},
+{
+"id": 194,
+"name": "Public transportation",
+"parent_id": 176,
+"terminated": false
+},
+{
+"id": 195,
+"name": "Local and commuter transportation",
+"parent_id": 194,
+"terminated": false
+},
+{
+"id": 196,
+"name": "City bus and subway transportation",
+"parent_id": 195,
+"terminated": false
+},
+{
+"id": 197,
+"name": "Taxi and other local and commuter transportation services",
+"parent_id": 195,
+"terminated": false
+},
+{
+"id": 198,
+"name": "Inter-city transportation",
+"parent_id": 194,
+"terminated": false
+},
+{
+"id": 199,
+"name": "Air transportation",
+"parent_id": 198,
+"terminated": false
+},
+{
+"id": 200,
+"name": "Rail, highway bus and other inter-city transportation",
+"parent_id": 198,
+"terminated": false
+},
+{
+"id": 201,
+"name": "Health and personal care",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 202,
+"name": "Health care",
+"parent_id": 201,
+"terminated": false
+},
+{
+"id": 310,
+"name": "Health care goods",
+"parent_id": 202,
+"terminated": false
+},
+{
+"id": 204,
+"name": "Medicinal and pharmaceutical products",
+"parent_id": 310,
+"terminated": false
+},
+{
+"id": 205,
+"name": "Prescribed medicines (excluding medicinal cannabis)",
+"parent_id": 204,
+"terminated": false
+},
+{
+"id": 366,
+"name": "Medicinal cannabis (201812=100)",
+"parent_id": 204,
+"terminated": false
+},
+{
+"id": 206,
+"name": "Non-prescribed medicines",
+"parent_id": 204,
+"terminated": false
+},
+{
+"id": 209,
+"name": "Eye care goods",
+"parent_id": 310,
+"terminated": false
+},
+{
+"id": 360,
+"name": "Prescription eyeglasses (2013=100)",
+"parent_id": 209,
+"terminated": true
+},
+{
+"id": 361,
+"name": "Contact lenses (2013=100)",
+"parent_id": 209,
+"terminated": true
+},
+{
+"id": 362,
+"name": "Other eye care goods (2013=100)",
+"parent_id": 209,
+"terminated": true
+},
+{
+"id": 207,
+"name": "Other health care goods",
+"parent_id": 310,
+"terminated": false
+},
+{
+"id": 311,
+"name": "Health care services",
+"parent_id": 202,
+"terminated": false
+},
+{
+"id": 301,
+"name": "Eye care services (200704=100)",
+"parent_id": 311,
+"terminated": false
+},
+{
+"id": 210,
+"name": "Dental care services",
+"parent_id": 311,
+"terminated": false
+},
+{
+"id": 211,
+"name": "Other health care services",
+"parent_id": 311,
+"terminated": false
+},
+{
+"id": 212,
+"name": "Personal care",
+"parent_id": 201,
+"terminated": false
+},
+{
+"id": 213,
+"name": "Personal care supplies and equipment",
+"parent_id": 212,
+"terminated": false
+},
+{
+"id": 214,
+"name": "Personal soap",
+"parent_id": 213,
+"terminated": false
+},
+{
+"id": 215,
+"name": "Toiletry items and cosmetics",
+"parent_id": 213,
+"terminated": false
+},
+{
+"id": 363,
+"name": "Creams, lotions and cosmetics (2013=100)",
+"parent_id": 215,
+"terminated": true
+},
+{
+"id": 364,
+"name": "Perfume and cologne (2013=100)",
+"parent_id": 215,
+"terminated": true
+},
+{
+"id": 365,
+"name": "Hair preparations and other toilet preparations (2013=100)",
+"parent_id": 215,
+"terminated": true
+},
+{
+"id": 216,
+"name": "Oral-hygiene products",
+"parent_id": 213,
+"terminated": false
+},
+{
+"id": 217,
+"name": "Other personal care supplies and equipment",
+"parent_id": 213,
+"terminated": false
+},
+{
+"id": 218,
+"name": "Personal care services",
+"parent_id": 212,
+"terminated": false
+},
+{
+"id": 219,
+"name": "Recreation, education and reading",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 220,
+"name": "Recreation",
+"parent_id": 219,
+"terminated": false
+},
+{
+"id": 221,
+"name": "Recreational equipment and services (excluding recreational vehicles)",
+"parent_id": 220,
+"terminated": false
+},
+{
+"id": 222,
+"name": "Sporting and exercise equipment",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 304,
+"name": "Toys, games (excluding video games) and hobby supplies",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 224,
+"name": "Digital computing equipment and devices",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 314,
+"name": "Computer equipment, software and supplies (201104=100)",
+"parent_id": 224,
+"terminated": false
+},
+{
+"id": 315,
+"name": "Multipurpose digital devices (201104=100)",
+"parent_id": 224,
+"terminated": false
+},
+{
+"id": 305,
+"name": "Photographic equipment and supplies",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 227,
+"name": "Other recreational equipment",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 306,
+"name": "Recreational services",
+"parent_id": 221,
+"terminated": false
+},
+{
+"id": 228,
+"name": "Purchase and operation of recreational vehicles",
+"parent_id": 220,
+"terminated": false
+},
+{
+"id": 229,
+"name": "Purchase of recreational vehicles and outboard motors",
+"parent_id": 228,
+"terminated": false
+},
+{
+"id": 230,
+"name": "Operation of recreational vehicles",
+"parent_id": 228,
+"terminated": false
+},
+{
+"id": 231,
+"name": "Fuel, parts and accessories for recreational vehicles",
+"parent_id": 230,
+"terminated": false
+},
+{
+"id": 232,
+"name": "Insurance, licences and other services for recreational vehicles",
+"parent_id": 230,
+"terminated": false
+},
+{
+"id": 233,
+"name": "Home entertainment equipment, parts and services",
+"parent_id": 220,
+"terminated": false
+},
+{
+"id": 234,
+"name": "Audio equipment",
+"parent_id": 233,
+"terminated": false
+},
+{
+"id": 236,
+"name": "Video equipment",
+"parent_id": 233,
+"terminated": false
+},
+{
+"id": 307,
+"name": "Rental of digital media",
+"parent_id": 233,
+"terminated": true
+},
+{
+"id": 308,
+"name": "Purchase of digital media",
+"parent_id": 233,
+"terminated": false
+},
+{
+"id": 239,
+"name": "Other home entertainment equipment, parts and services",
+"parent_id": 233,
+"terminated": true
+},
+{
+"id": 240,
+"name": "Travel services",
+"parent_id": 220,
+"terminated": false
+},
+{
+"id": 241,
+"name": "Traveller accommodation",
+"parent_id": 240,
+"terminated": false
+},
+{
+"id": 242,
+"name": "Travel tours",
+"parent_id": 240,
+"terminated": false
+},
+{
+"id": 243,
+"name": "Other cultural and recreational services",
+"parent_id": 220,
+"terminated": false
+},
+{
+"id": 244,
+"name": "Spectator entertainment (excluding video and audio subscription services)",
+"parent_id": 243,
+"terminated": false
+},
+{
+"id": 245,
+"name": "Video and audio subscription services",
+"parent_id": 243,
+"terminated": false
+},
+{
+"id": 246,
+"name": "Use of recreational facilities and services",
+"parent_id": 243,
+"terminated": false
+},
+{
+"id": 247,
+"name": "Education and reading",
+"parent_id": 219,
+"terminated": false
+},
+{
+"id": 248,
+"name": "Education",
+"parent_id": 247,
+"terminated": false
+},
+{
+"id": 249,
+"name": "Tuition fees",
+"parent_id": 248,
+"terminated": false
+},
+{
+"id": 250,
+"name": "School textbooks and supplies",
+"parent_id": 248,
+"terminated": false
+},
+{
+"id": 251,
+"name": "Other lessons, courses and education services",
+"parent_id": 248,
+"terminated": false
+},
+{
+"id": 252,
+"name": "Reading material (excluding textbooks)",
+"parent_id": 247,
+"terminated": false
+},
+{
+"id": 253,
+"name": "Newspapers",
+"parent_id": 252,
+"terminated": false
+},
+{
+"id": 254,
+"name": "Magazines and periodicals",
+"parent_id": 252,
+"terminated": false
+},
+{
+"id": 255,
+"name": "Books and reading material (excluding textbooks)",
+"parent_id": 252,
+"terminated": false
+},
+{
+"id": 256,
+"name": "Alcoholic beverages, tobacco products and recreational cannabis",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 257,
+"name": "Alcoholic beverages",
+"parent_id": 256,
+"terminated": false
+},
+{
+"id": 258,
+"name": "Alcoholic beverages served in licensed establishments",
+"parent_id": 257,
+"terminated": false
+},
+{
+"id": 259,
+"name": "Beer served in licensed establishments",
+"parent_id": 258,
+"terminated": false
+},
+{
+"id": 260,
+"name": "Wine served in licensed establishments",
+"parent_id": 258,
+"terminated": false
+},
+{
+"id": 261,
+"name": "Liquor served in licensed establishments",
+"parent_id": 258,
+"terminated": false
+},
+{
+"id": 262,
+"name": "Alcoholic beverages purchased from stores",
+"parent_id": 257,
+"terminated": false
+},
+{
+"id": 263,
+"name": "Beer purchased from stores",
+"parent_id": 262,
+"terminated": false
+},
+{
+"id": 264,
+"name": "Wine purchased from stores",
+"parent_id": 262,
+"terminated": false
+},
+{
+"id": 265,
+"name": "Liquor purchased from stores",
+"parent_id": 262,
+"terminated": false
+},
+{
+"id": 266,
+"name": "Tobacco products and smokers' supplies",
+"parent_id": 256,
+"terminated": false
+},
+{
+"id": 267,
+"name": "Cigarettes",
+"parent_id": 266,
+"terminated": false
+},
+{
+"id": 268,
+"name": "Other tobacco products and smokers' supplies",
+"parent_id": 266,
+"terminated": false
+},
+{
+"id": 367,
+"name": "Recreational cannabis (201812=100)",
+"parent_id": 256,
+"terminated": false
+},
+{
+"id": 309,
+"name": "All-items (1992=100)",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 284,
+"name": "All-items excluding food",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 285,
+"name": "All-items excluding food and energy",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 289,
+"name": "All-items excluding mortgage interest cost",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 290,
+"name": "All-items excluding alcoholic beverages, tobacco products and smokers' supplies and recreational cannabis",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 291,
+"name": "All-items excluding alcoholic beverages and recreational cannabis",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 292,
+"name": "All-items excluding tobacco products and smokers' supplies and recreational cannabis",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 293,
+"name": "All-items excluding shelter",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 287,
+"name": "All-items excluding energy",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 302,
+"name": "All-items excluding gasoline",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 303,
+"name": "All-items excluding shelter, insurance and financial services",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 312,
+"name": "Private transportation excluding gasoline",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 286,
+"name": "Food and energy",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 294,
+"name": "Fresh fruit and vegetables",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 288,
+"name": "Energy",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 271,
+"name": "Housing (1986 definition)",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 272,
+"name": "Shelter (1986 definition)",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 273,
+"name": "Goods and services",
+"parent_id": null,
+"terminated": true
+},
+{
+"id": 274,
+"name": "Goods",
+"parent_id": 273,
+"terminated": false
+},
+{
+"id": 275,
+"name": "Durable goods",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 276,
+"name": "Semi-durable goods",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 277,
+"name": "Non-durable goods",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 278,
+"name": "Non-durable goods excluding food purchased from stores",
+"parent_id": 277,
+"terminated": true
+},
+{
+"id": 279,
+"name": "Non-durable goods excluding food purchased from stores and energy",
+"parent_id": 277,
+"terminated": true
+},
+{
+"id": 280,
+"name": "Goods excluding food purchased from stores",
+"parent_id": 274,
+"terminated": true
+},
+{
+"id": 281,
+"name": "Goods excluding food purchased from stores and energy",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 282,
+"name": "Services",
+"parent_id": 273,
+"terminated": false
+},
+{
+"id": 283,
+"name": "Services excluding shelter services",
+"parent_id": 282,
+"terminated": true
+},
+{
+"id": 370,
+"name": "Digital economy services (201812=100)",
+"parent_id": 282,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1914-01-01",
+"end_date": "2026-09-01",
+"footnotes": [
+"The Consumer Price Index (CPI) is not a cost-of-living index. The objective behind a cost-of-living index is to measure changes in expenditures necessary for consumers to maintain a constant standard of living. The idea is that consumers would normally switch between products as the price relationship of goods changes. If, for example, consumers get the same satisfaction from drinking tea as they do from coffee, then it is possible to substitute tea for coffee if the price of tea falls relative to the price of coffee. The cheaper of the interchangeable products may be chosen. We could compute a cost-of-living index for an individual if we had complete information about that person's taste and spending habits. To do this for a large number of people, let alone the total population of Canada, is impossible. For this reason, regularly published price indexes are based on the fixed-basket concept rather than the cost-of-living concept.",
+"This table replaces table 18-10-0008-01 which was archived with the release of April 2007 data.",
+"From April 2020 to November 2021, and from January 2022 to February 2022, certain sub-indexes and components thereof were imputed using special approaches in either one, or more months. The affected indexes include child care services; housekeeping services; air transportation; personal care services; recreational services; travel tours; spectator entertainment; use of recreational facilities and services; beer served in licensed establishments; wine served in licensed establishments, and liquor served in licensed establishments. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. Starting in April 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@statcan.gc.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"Formerly Ottawa (Ottawa-Gatineau, Ontario part), represents Ottawa only.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"With the introduction of the 1992 basket in January 1995, emphasis was shifted from city data to provincial data. City all-items series were continued since many users had come to rely on this service, but the method of calculation was changed. Shelter indexes are calculated for each city. This recognizes the importance of shelter in the basket, the significant and persistent differences in price movements between cities, and the availability of local data. For the other seven major components, the movement of the provincial counterpart is used except in the cases of Montréal, Toronto, and Vancouver, where a sub-provincial counterpart is used. The major components are aggregated using the city's expenditure pattern to arrive at each city's all-items index.",
+"The relatively small size of the housing market in these two cities makes it difficult to construct reliable price indexes for new houses. To compensate, the price movements of rental accommodation are used to approximate the price movements of new houses. The rent information itself is collected using different pricing frequencies and collection methods than in the rest of the country. Because of these problems, the indexes for rented accommodation, and owned accommodation are not published for these two cities. Further, the all-items indexes published for these two cities are not strictly comparable with the same indexes for the provinces or the other 16 cities.",
+"The relatively small size of the housing market in these two cities makes it difficult to construct reliable price indexes for new houses. To compensate, the price movements of rental accommodation are used to approximate the price movements of new houses. The rent information itself is collected using different pricing frequencies and collection methods than in the rest of the country. Because of these problems, the indexes for rented accommodation, and owned accommodation are not published for these two cities. Further, the all-items indexes published for these two cities are not strictly comparable with the same indexes for the provinces or the other 16 cities.",
+"Data for Iqaluit are on a December 2002=100 base (200212=100) and the Standard Geographical Classification (SGC) 2001. Previous to April 1, 1999, the town of Iqaluit formed part of the Northwest Territories. On April 1, 1999, the town of Iqaluit formed part of the newly-created territory of Nunavut.",
+"Food includes non-alcoholic beverages.",
+"With the release of the Consumer Price Index (CPI) of May 2023,  the classification of the fresh fruit category has been updated to provide Canadians with more granular data. Previously included in the other fresh fruit category, citrus (excluding oranges), grapes and berries (including cherries) are now published. As a result, data for other fresh fruit beginning in May 2023 are no longer directly comparable to earlier time periods.",
+"With the release of the Consumer Price Index (CPI) of May 2023, the classification of the fresh vegetables category has been updated to provide Canadians with more granular data. Previously included in the other fresh vegetables category, carrots, onions, peppers, cucumber and mushrooms are now published. As a result, data for other fresh vegetables beginning in May 2023 are no longer directly comparable to earlier time periods.",
+"Food includes non-alcoholic beverages.",
+"Food includes non-alcoholic beverages.",
+"Food includes non-alcoholic beverages.",
+"Food includes non-alcoholic beverages.",
+"Part of the increase first recorded in the shelter index for Yellowknife for December 2004 inadvertently reflected rent increases that actually occurred earlier. As a result, the change in the shelter index was overstated in December 2004, and was understated in the previous two years. The shelter index series for Yellowknife has been corrected from December 2002. In addition, the Yellowknife all-items Consumer Price Index (CPI) and some Yellowknife special aggregate index series have also changed. Data for Canada and all other provinces and territories were not affected.",
+"Revision of the methodology of the <a style=\"padding-left:0!important;\"  href=\"http://www23.statcan.gc.ca/imdb-bmdi/document/2301_D41_T9_V1-eng.pdf\" rel=\"external noopener noreferrer\" target=\"_blank\">rent(opens new window)</a> component of the Consumer Price Index (CPI), beginning with the July 2009 CPI.  New approach for estimating the <a href=\"https://www150.statcan.gc.ca/n1/pub/62f0014m/62f0014m2019002-eng.htm\" rel=\"external noopener noreferrer\" target=\"_blank\">rent(opens new window)</a> component of the Consumer Price Index, beginning with the January 2019 CPI.",
+"Revision of the methodology of the <a style=\"padding-left:0!important;\" href=\"http://www23.statcan.gc.ca/imdb-bmdi/document/2301_D39_T9_V1-eng.pdf\" rel=\"external noopener noreferrer\" target=\"_blank\">home insurance (opens new window)</a> component of the Consumer Price Index (CPI) beginning with the February 2008 CPI.",
+"As access to more granular data has become available, the cellular services index is now published at the provincial level in addition to the national level. Changes over time in the cellular services index at the national level may be calculated using index data from any of the two base periods (2017=100 or 202304=100).",
+"With the release of the Consumer Price Index (CPI) of August 2024, the cellular services price index has been updated to incorporate transaction data from wireless service providers. This enhancement improves the quality of the data, while ensuring the representativeness of prices paid by Canadian consumers. Users should exercise caution when interpreting the year-over-year change for the first 12 months following the implementation of a new methodology and data source. ",
+"As access to more granular data has become available, the cellular services index is now published at the provincial level in addition to the national level. Changes over time in the cellular services index at the national level may be calculated using index data from any of the two base periods (2017=100 or 202304=100).",
+"With the release of the Consumer Price Index (CPI) of August 2024, the cellular services price index has been updated to incorporate transaction data from wireless service providers. This enhancement improves the quality of the data, while ensuring the representativeness of prices paid by Canadian consumers. Users should exercise caution when interpreting the year-over-year change for the first 12 months following the implementation of a new methodology and data source. Users are also advised to exercise caution when making provincial/territorial comparisons. The market shares of the sampled wireless service providers vary across provinces and territories and price changes derived from transaction data may differ from price changes derived from web-collected data as transaction data includes monthly charges for in-market and legacy plans, while web-collected data only contains monthly charges for advertised plans. The hybrid cellular services price index in each province or territory is affected by the market shares of the wireless service providers from which Statistics Canada is receiving transaction data. ",
+"Revision of the methodology of the <a style=\"padding-left:0!important;\" href=\"http://www23.statcan.gc.ca/imdb-bmdi/document/2301_D40_T9_V1-eng.pdf\"  rel=\"external noopener noreferrer\" target=\"_blank\">Internet access services (opens new window)</a> component of the Consumer Price Index (CPI) beginning with the March 2008 CPI. Changes to the <a href=\"https://www.statcan.gc.ca/eng/statistical-programs/document/2301_D60_T9_V1\"  rel=\"external noopener noreferrer\" target=\"_blank\">Internet Access Services (opens new window)</a> Index of the Consumer Price Index (CPI) beginning with the November 2015 CPI.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments for April 2020 are provided in a technical supplement available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments for April 2020 are provided in a technical supplement available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>.",
+"The timing for the introduction of new model year vehicles into the <a href=\"https://www.statcan.gc.ca/eng/statistical-programs/document/2301_D51_T9_V1\" rel=\"external noopener noreferrer\" target=\"_blank\">purchase of passenger vehicles (opens new window)</a> index of the Consumer Price Index (CPI) has changed in 2012.",
+"Available starting April 2022. In order to have historical data prior to April 2022, users can use the purchase of passenger vehicles index values as proxies. Please note that the purchase of passenger vehicles index values are based on 2002=100 while this series is 2022-04=100. Therefore, users should rebase the purchase of passenger vehicles index values that are based on 2002=100, to 2022-04=100 in order to make the series continuous. For more information on rebasing, you can consult section 8.25 of <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62-553-X\" rel=\"external noopener noreferrer\" target=\"_blank\">The Consumer Price Index Reference Paper (opens new window)</a>.",
+"Available starting April 2022. In order to have historical data prior to April 2022, users can use the purchase of passenger vehicles index values as proxies. Please note that the purchase of passenger vehicles index values are based on 2002=100 while this series is 2022-04=100. Therefore, users should rebase the purchase of passenger vehicles index values that are based on 2002=100, to 2022-04=100 in order to make the series continuous. For more information on rebasing, you can consult section 8.25 of <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62-553-X\" rel=\"external noopener noreferrer\" target=\"_blank\">The Consumer Price Index Reference Paper (opens new window)</a>.",
+"In previous years, Statistics Canada updated, by province, the model year of passenger vehicles used in the calculation of the passenger vehicle insurance premiums index over a three month period. Since 2008, this quality adjustment exercise is reflected in the month of May for all provinces.",
+"From April 2020 to July 2021, price movements for this sub-index were imputed using special approaches. In August 2021, adjustments were introduced to remove the impact of all imputations performed. Users are advised to exercise caution in interpreting the 1-month change for August 2021 and the 12-month change for the next 12 months for the air transportation index. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. Starting in April 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Revision of the methodology of the <a href=\"https://www.statcan.gc.ca/eng/statistical-programs/document/2301_D50_V2 \" rel=\"external noopener noreferrer\" target=\"_blank\">prescribed medicines (opens new window)</a> index of the Consumer Price Index (CPI), beginning with the September 2012 CPI.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to June 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"About two thirds (4.7%) of the 7.4% decrease registered between September and October 2004 in the digital computing equipment and devices index series represents a revision to source data.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to July 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"In April 2006, Statistics Canada changed its implementation of the price index formula used for traveler accommodation. As a result, data from April 2006 are not strictly comparable to earlier time periods.",
+"From April 2020 to July 2021, price movements for this sub-index were imputed using special approaches. In August 2021, adjustments were introduced on a major component of this sub-index to remove the impact of these imputations. In November 2021, an adjustment was introduced on the remaining imputed component to remove the impact of the imputations on that component. Users are advised to exercise caution in interpreting the 1-month change for August 2021 and November 2021, and the 12-month change for the next 12 months for the travel tours index. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. Starting in April 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@statcan.gc.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to July 2021, and from January 2022 to February 2022, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to July 2021, and January 2022, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to June 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. From April 2021 to June 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"Price movements for this sub-index were imputed using special approaches in either one, or more months. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series(opens new window)</a>. From April 2021 to June 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@canada.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"The 1986 basket content was divided into seven major components. With the introduction of the 1992 basket, the housing component from the 1986 basket definition was split into two components: shelter and household operations, furnishings and equipment. This brought the number of major components to a total of eight. Also, the definition of shelter was changed. The traveler accommodation category, which was part of the 1986 definition of shelter, was moved to recreation with the introduction of the 1992 basket. To provide some continuity certain aggregates were reconstructed using their 1986 basket definitions.",
+"The 1986 basket content was divided into seven major components. With the introduction of the 1992 basket, the housing component from the 1986 basket definition was split into two components: shelter and household operations, furnishings and equipment. This brought the number of major components to a total of eight. Also, the definition of shelter was changed. The traveler accommodation category, which was part of the 1986 definition of shelter, was moved to recreation with the introduction of the 1992 basket. To provide some continuity certain aggregates were reconstructed using their 1986 basket definitions.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"The special aggregate energy includes electricity; natural gas; fuel oil and other fuels; gasoline; and fuel, parts and accessories for recreational vehicles.",
+"Goods are physical or tangible commodities usually classified according to their life span into non-durable goods, semi-durable goods and durable goods. Non-durable goods are those goods that can be used up entirely in less than a year, assuming normal usage. For example, fresh food products, disposable cameras and gasoline are non-durable goods. Semi-durable goods are those goods that may last less than 12 months or greater than 12 months depending on the purpose to which they are put. For example, clothing, footwear and household textiles are semi-durable goods. Durable goods are those goods which may be used repeatedly or continuously over more than a year, assuming normal usage. For example, cars, audio and video equipment and furniture are durable goods.",
+"A service in the Consumer Price Index (CPI) is characterized by valuable work performed by an individual or organization on behalf of a consumer, for example, car tune-ups, haircuts and city public transportation. Transactions classified as a service may include the cost of goods by their nature. Examples include food in restaurant food services and materials in clothing repair services.",
+"The 1986 basket content was divided into seven major components. With the introduction of the 1992 basket, the housing component from the 1986 basket definition was split into two components: shelter and household operations, furnishings and equipment. This brought the number of major components to a total of eight. Also, the definition of shelter was changed. The traveler accommodation category, which was part of the 1986 definition of shelter, was moved to recreation with the introduction of the 1992 basket. To provide some continuity certain aggregates were reconstructed using their 1986 basket definitions.",
+"A service in the Consumer Price Index (CPI) is characterized by valuable work performed by an individual or organization on behalf of a consumer, for example, car tune-ups, haircuts and city public transportation. Transactions classified as a service may include the cost of goods by their nature. Examples include food in restaurant food services and materials in clothing repair services.",
+"The goods and services that make up the Consumer Price Index (CPI) are organized according to a hierarchical structure with the all-items CPI as the top level. Eight major components of goods and services make up the all-items CPI. They are food; shelter; household operations, furnishings and equipment; clothing and footwear; transportation; health and personal care; recreation, education and reading; and alcoholic beverages, tobacco products and recreational cannabis. These eight components are broken down into a varying number of sub-groups which are in turn broken down into other sub-groups. Indents are used to identify the components that make up each level of aggregation. For example, the eight major components appear with one indent relative to the all-items CPI to show that they are combined to obtain the all-items CPI. NOTE: Some items are recombined outside the main structure of the CPI to obtain special aggregates such as all-items excluding food and energy; energy; goods; services; or fresh fruit and vegetables. They are listed after the components of the main structure of the CPI following the last major component entitled alcoholic beverages, tobacco products and recreational cannabis.",
+"From April 2020 to November 2021, and from January 2022 to February 2022, certain sub-indexes and components thereof were imputed using special approaches in either one, or more months. The affected indexes include child care services; housekeeping services; air transportation; personal care services; recreational services; travel tours; spectator entertainment; use of recreational facilities and services; beer served in licensed establishments; wine served in licensed establishments, and liquor served in licensed establishments. The details of these treatments from April 2020 to March 2021 are provided in technical supplements available through the <a href=\"https://www150.statcan.gc.ca/n1/en/catalogue/62F0014M\" rel=\"external noopener noreferrer\" target=\"_blank\">Prices Analytical Series (opens new window)</a>. Starting in April 2021, details and treatments are available upon request by contacting the <a href=\"mailto:statcan.cpddisseminationunit-dpcunitedediffusion.statcan@statcan.gc.ca\" rel=\"external noopener noreferrer\" target=\"_blank\">Consumer Prices Division (opens new window)</a>."
+]
+}

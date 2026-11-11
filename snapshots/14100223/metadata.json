@@ -1,0 +1,304 @@
+{
+"product_id": 14100223,
+"title": "Employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Newfoundland and Labrador",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Prince Edward Island",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Nova Scotia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 5,
+"name": "New Brunswick",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Manitoba",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Saskatchewan",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Alberta",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 11,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Yukon",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Northwest Territories",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Nunavut",
+"parent_id": 1,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Estimate",
+"members": [
+{
+"id": 1,
+"name": "Employment for all employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Average weekly earnings including overtime for all employees",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 3,
+"name": "North American Industry Classification System (NAICS)",
+"members": [
+{
+"id": 1,
+"name": "Industrial aggregate including unclassified businesses",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Industrial aggregate excluding unclassified businesses",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Goods producing industries",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Forestry, logging and support",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Mining, quarrying, and oil and gas extraction",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Utilities",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Construction",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Manufacturing",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Non-durable goods",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 84,
+"name": "Durable goods",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 143,
+"name": "Service producing industries",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 144,
+"name": "Trade",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 145,
+"name": "Wholesale trade",
+"parent_id": 144,
+"terminated": false
+},
+{
+"id": 178,
+"name": "Retail trade",
+"parent_id": 144,
+"terminated": false
+},
+{
+"id": 215,
+"name": "Transportation and warehousing",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 253,
+"name": "Information and cultural industries",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 267,
+"name": "Finance and insurance",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 284,
+"name": "Real estate and rental and leasing",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 295,
+"name": "Professional, scientific and technical services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 306,
+"name": "Management of companies and enterprises",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 307,
+"name": "Administrative and support, waste management and remediation services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 321,
+"name": "Educational services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 331,
+"name": "Health care and social assistance",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 354,
+"name": "Arts, entertainment and recreation",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 367,
+"name": "Accommodation and food services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 377,
+"name": "Other services (except public administration)",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 393,
+"name": "Public administration",
+"parent_id": 143,
+"terminated": false
+}
+]
+}
+],
+"start_date": "2001-01-01",
+"end_date": "2026-08-01",
+"footnotes": [
+"The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - Too unreliable to publish or sample size is too small to produce reliable estimates.",
+"Some series exhibit no clear seasonal pattern. In such cases the data are not adjusted.",
+"The introduction of administrative data in 2001 and the associated change in methodology resulted in level shifts for some series. This affects the comparability of pre- and post-2001 estimates.",
+"Estimates for the latest reference month are preliminary.",
+"Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS) Version 1.0.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Goods producing industries (11-33N) includes the following sectors: forestry, logging and support (11N), mining, quarrying, and oil and gas extraction (21), utilities (22), construction (23) and manufacturing (31-33).",
+"Forestry, logging and support (11N) includes the following industries: forestry and logging (113) and support activities for forestry (1153).",
+"Non-durable goods (311N) of the manufacturing sector includes the following industries: food manufacturing (311), beverage and tobacco products manufacturing (312), textiles mills (313), textile products mills (314), clothing manufacturing (315), leather and allied products manufacturing (316), paper manufacturing (322), printing and related support activities (323), petroleum and coal products manufacturing (324), chemical manufacturing (325) and plastics and rubber products manufacturing (326).",
+"Durable goods (321N) of the manufacturing sector includes the following industries: wood products manufacturing (321), non-metallic mineral products manufacturing (327), primary metal manufacturing (331), fabricated metal products manufacturing (332), machinery manufacturing (333), computer and electronic products manufacturing (334), electrical equipment, appliances and components manufacturing (335), transportation equipment manufacturing (336), furniture and related product manufacturing (337) and miscellaneous manufacturing (339).",
+"Service producing industries (41-91N) includes the following industries: trade (41-45N), transportation and warehousing (48-49), information and cultural industries (51), finance and insurance (52), real estate and rental and leasing (53), professional, scientific and technical services (54), management of companies and enterprises (55), administrative and support, waste management and remediation services (56), educational services (61), health care and social assistance (62), arts, entertainment and recreation (71), accommodation and food services (72), other services (except public administration) (81) and public administration (91).",
+"Trade (41-45N) industry includes the following sectors: wholesale trade (41) and retail trade (44-45).",
+"Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS) Version 1.0."
+]
+}
