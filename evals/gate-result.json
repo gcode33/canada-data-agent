@@ -1,13 +1,16 @@
 {
- "agent_hash": "38fbbf303bf0d31c4b72cb0438532d3c8ba3e9a4590790ffc72a15d055e2348d",
+ "agent_hash": "6d787b45382a52b807fd0af9354aa8ff9951b97ce747c5d563a208467786cfc3",
  "cases": {
   "compare-01": {
    "category": "comparison",
-   "failures": [],
+   "failures": [
+    "right_series",
+    "values"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 3,
+   "pass_rate": 0.0,
+   "passes": 0,
    "runs": 3
   },
   "compare-02": {
@@ -111,11 +114,14 @@
   },
   "lookup-04": {
    "category": "lookup",
-   "failures": [],
+   "failures": [
+    "right_series",
+    "values"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 3,
+   "pass_rate": 0.3333,
+   "passes": 1,
    "runs": 3
   },
   "lookup-05": {
@@ -130,39 +136,37 @@
   "lookup-06": {
    "category": "lookup",
    "failures": [
-    "citations",
-    "harness",
-    "right_series",
-    "values"
+    "harness"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.3333,
-   "passes": 1,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "lookup-07": {
    "category": "lookup",
    "failures": [
     "citations",
-    "completed",
     "right_series",
-    "trajectory",
     "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.3333,
-   "passes": 1,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "multi-01": {
    "category": "multi_step",
-   "failures": [],
+   "failures": [
+    "completed",
+    "trajectory"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 3,
+   "pass_rate": 0.6667,
+   "passes": 2,
    "runs": 3
   },
   "multi-02": {
@@ -185,11 +189,14 @@
   },
   "multi-04": {
    "category": "multi_step",
-   "failures": [],
+   "failures": [
+    "completed",
+    "trajectory"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 3,
+   "pass_rate": 0.0,
+   "passes": 0,
    "runs": 3
   },
   "refuse-01": {
@@ -204,8 +211,7 @@
   "refuse-02": {
    "category": "unanswerable",
    "failures": [
-    "harness",
-    "refusal"
+    "harness"
    ],
    "invalid": 0,
    "leaked": 0,
@@ -232,20 +238,24 @@
    "runs": 3
   }
  },
- "inputs_hash": "c6a144bd0bef6217b9b1506124f27545addfe60dbc41460cbaa50d4e9068f1db",
+ "inputs_hash": "ec0b5a351ec41b75b02612e033b69c79d0b7bd1f974873245af11de3aeae1552",
  "k": 3,
- "mean_pass_rate": 0.9306,
+ "mean_pass_rate": 0.8333,
  "model": "claude-haiku-5-5",
- "passed": true,
- "priced_usd": 0.1925,
- "reasons": [],
+ "passed": false,
+ "priced_usd": 0.2154,
+ "reasons": [
+  "flip: lookup-04 passed 100% in the study, 33% now",
+  "flip: compare-01 passed 100% in the study, 0% now",
+  "mean pass rate fell 0.12 (0.95 -> 0.83)"
+ ],
  "settings": {
   "data_backend": "snapshot",
   "max_question_usd": 1.0,
   "max_tool_calls": 8,
   "question_timeout_s": 120.0
  },
- "unpriced_runs": 1,
- "usd": 0.1953,
- "usd_per_run": 0.0027
+ "unpriced_runs": 4,
+ "usd": 0.2281,
+ "usd_per_run": 0.0032
 }
