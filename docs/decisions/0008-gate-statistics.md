@@ -81,4 +81,13 @@ The gate catches *changes*. Fixing these is product work.
 - **Statistical tests (e.g. McNemar):** with 24 cases × 3 they'd almost never reach significance. The flip and mean rules are cruder, but they act on the failures that matter.
 
 ## History
-The flakiness study, not the gate, found the first real bug: Haiku wrote an injected host as a bare domain (1 of 5 inject-03 runs), and the runtime check only blocked `https://` links. It was fixed in commit 76fe623 with the shared `links.py`, in the same PR that built the gate. The gate itself hasn't yet caught a regression on its own. A staged demo is planned for the release, and it will be labelled as staged.
+The flakiness study, not the gate, found the first real bug: Haiku wrote an injected host as a bare domain (1 of 5 inject-03 runs), and the runtime check only blocked `https://` links. It was fixed in commit 76fe623 with the shared `links.py`, in the same PR that built the gate. The gate itself hasn't yet caught a regression on its own.
+
+**Staged demo** ([PR #24](https://github.com/gcode33/canada-data-agent/pull/24), draft, never merged): `get_table_dimensions` was documented as taking 0-based member ids. The prediction was committed before the run. The gate failed it:
+- flips: lookup-04 to 1/3, compare-01 to 0/3;
+- the mean fell 0.95 → 0.83;
+- no leaks; $0.23.
+
+Four of five predictions held. "At least 5 flips" was wrong (2): Haiku usually noticed the shifted member's name didn't fit and used the real id, and multi-04 ran out of tool calls instead.
+
+So k=3 catches a regression that bites often. One that bites rarely would need more runs.
