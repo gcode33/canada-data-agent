@@ -62,7 +62,7 @@ Both refusal misses are a grader limit I already knew about. A dev refusal had f
 | Sonnet dev, k=1: 23/24 | `evals/transcripts/dev/`, `evals/grades/dev.json` | `uv run canada-grade --split dev --check` |
 | Test cost $0.56, p50 7.9 s, p95 12.2 s | `evals/history.jsonl` (split=test) | read the entry |
 | Every golden value matches StatCan's own CSV | `evals/verify_golden.py`, 47 values incl. alternatives | `make verify-golden` (downloads CSVs) |
-| A fresh clone answers with no keys in under 10 minutes | `.github/workflows/fresh-clone.yml` (job timeout 10 min), FRESH_CLONE_RUN | Actions → fresh-clone |
+| A fresh clone answers with no keys in under 10 minutes | `.github/workflows/fresh-clone.yml` (job timeout 10 min); first run [42828273614](https://github.com/gcode33/canada-data-agent/actions/runs/42828273614): 33 s, no secrets | Actions → fresh-clone |
 | Rerank lifts MRR 0.41 → 0.63 | `evals/ablation.md`, retrieval set committed before search code | `uv run canada-eval-retrieval --method hybrid-rerank` |
 | Retrieval can't silently regress | CI floors per method | `.github/workflows/ci.yml` |
 
