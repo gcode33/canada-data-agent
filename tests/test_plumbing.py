@@ -78,6 +78,7 @@ def test_error_codes_match_the_spec():
         "RATE_LIMITED",
         "SNAPSHOT_MISS",
         "BUDGET_EXCEEDED",
+        "ANSWER_REJECTED",
     }
 
 

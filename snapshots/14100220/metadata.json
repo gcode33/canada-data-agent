@@ -1,0 +1,2721 @@
+{
+"product_id": 14100220,
+"title": "Employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted, Canada",
+"frequency_code": 6,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Estimate",
+"members": [
+{
+"id": 1,
+"name": "Employment for all employees",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Average weekly earnings including overtime for all employees",
+"parent_id": null,
+"terminated": false
+}
+]
+},
+{
+"position": 3,
+"name": "North American Industry Classification System (NAICS)",
+"members": [
+{
+"id": 1,
+"name": "Industrial aggregate including unclassified businesses",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Industrial aggregate excluding unclassified businesses",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Goods producing industries",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Forestry, logging and support",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 5,
+"name": "Forestry and logging",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 482,
+"name": "Timber tract operations",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Forest nurseries and gathering of forest products",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Logging",
+"parent_id": 5,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Support activities for forestry",
+"parent_id": 4,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Mining, quarrying, and oil and gas extraction",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 11,
+"name": "Oil and gas extraction",
+"parent_id": 10,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Mining and quarrying (except oil and gas)",
+"parent_id": 10,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Coal mining",
+"parent_id": 12,
+"terminated": false
+},
+{
+"id": 14,
+"name": "Metal ore mining",
+"parent_id": 12,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Non-metallic mineral mining and quarrying",
+"parent_id": 12,
+"terminated": false
+},
+{
+"id": 16,
+"name": "Support activities for mining, and oil and gas extraction",
+"parent_id": 10,
+"terminated": false
+},
+{
+"id": 17,
+"name": "Utilities",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 18,
+"name": "Electric power generation, transmission and distribution",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 19,
+"name": "Natural gas distribution",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 20,
+"name": "Water, sewage and other systems",
+"parent_id": 17,
+"terminated": false
+},
+{
+"id": 21,
+"name": "Construction",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 451,
+"name": "Construction of buildings",
+"parent_id": 21,
+"terminated": false
+},
+{
+"id": 452,
+"name": "Residential building construction",
+"parent_id": 451,
+"terminated": false
+},
+{
+"id": 453,
+"name": "Non-residential building construction",
+"parent_id": 451,
+"terminated": false
+},
+{
+"id": 454,
+"name": "Heavy and civil engineering construction",
+"parent_id": 21,
+"terminated": false
+},
+{
+"id": 455,
+"name": "Utility system construction",
+"parent_id": 454,
+"terminated": false
+},
+{
+"id": 456,
+"name": "Land subdivision",
+"parent_id": 454,
+"terminated": false
+},
+{
+"id": 457,
+"name": "Highway, street and bridge construction",
+"parent_id": 454,
+"terminated": false
+},
+{
+"id": 458,
+"name": "Other heavy and civil engineering construction",
+"parent_id": 454,
+"terminated": false
+},
+{
+"id": 459,
+"name": "Specialty trade contractors",
+"parent_id": 21,
+"terminated": false
+},
+{
+"id": 460,
+"name": "Foundation, structure, and building exterior contractors",
+"parent_id": 459,
+"terminated": false
+},
+{
+"id": 461,
+"name": "Building equipment contractors",
+"parent_id": 459,
+"terminated": false
+},
+{
+"id": 462,
+"name": "Building finishing contractors",
+"parent_id": 459,
+"terminated": false
+},
+{
+"id": 463,
+"name": "Other specialty trade contractors",
+"parent_id": 459,
+"terminated": false
+},
+{
+"id": 34,
+"name": "Manufacturing",
+"parent_id": 3,
+"terminated": false
+},
+{
+"id": 35,
+"name": "Non-durable goods",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 36,
+"name": "Food manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 37,
+"name": "Animal food manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 38,
+"name": "Grain and oilseed milling",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 401,
+"name": "Sugar and confectionery product manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 40,
+"name": "Fruit and vegetable preserving and specialty food manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 41,
+"name": "Dairy product manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 42,
+"name": "Meat product manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 43,
+"name": "Seafood product preparation and packaging",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 44,
+"name": "Bakeries and tortilla manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 45,
+"name": "Other food manufacturing",
+"parent_id": 36,
+"terminated": false
+},
+{
+"id": 402,
+"name": "Beverage and tobacco product manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 47,
+"name": "Beverage manufacturing",
+"parent_id": 402,
+"terminated": false
+},
+{
+"id": 48,
+"name": "Tobacco manufacturing",
+"parent_id": 402,
+"terminated": false
+},
+{
+"id": 533,
+"name": "Cannabis product manufacturing",
+"parent_id": 402,
+"terminated": false
+},
+{
+"id": 403,
+"name": "Textile mills",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 50,
+"name": "Fibre, yarn and thread mills",
+"parent_id": 403,
+"terminated": false
+},
+{
+"id": 51,
+"name": "Fabric mills",
+"parent_id": 403,
+"terminated": false
+},
+{
+"id": 52,
+"name": "Textile and fabric finishing and fabric coating",
+"parent_id": 403,
+"terminated": false
+},
+{
+"id": 404,
+"name": "Textile product mills",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 54,
+"name": "Textile furnishings mills",
+"parent_id": 404,
+"terminated": false
+},
+{
+"id": 55,
+"name": "Other textile product mills",
+"parent_id": 404,
+"terminated": false
+},
+{
+"id": 56,
+"name": "Apparel manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 57,
+"name": "Apparel knitting mills",
+"parent_id": 56,
+"terminated": false
+},
+{
+"id": 58,
+"name": "Cut and sew clothing manufacturing",
+"parent_id": 56,
+"terminated": false
+},
+{
+"id": 405,
+"name": "Clothing accessories and other clothing manufacturing",
+"parent_id": 56,
+"terminated": false
+},
+{
+"id": 406,
+"name": "Leather and allied product manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 61,
+"name": "Leather and hide tanning and finishing",
+"parent_id": 406,
+"terminated": false
+},
+{
+"id": 62,
+"name": "Footwear manufacturing",
+"parent_id": 406,
+"terminated": false
+},
+{
+"id": 63,
+"name": "Other leather and allied product manufacturing",
+"parent_id": 406,
+"terminated": false
+},
+{
+"id": 64,
+"name": "Paper manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 65,
+"name": "Pulp, paper and paperboard mills",
+"parent_id": 64,
+"terminated": false
+},
+{
+"id": 66,
+"name": "Converted paper product manufacturing",
+"parent_id": 64,
+"terminated": false
+},
+{
+"id": 67,
+"name": "Printing and related support activities",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 407,
+"name": "Petroleum and coal product manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 70,
+"name": "Chemical manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 71,
+"name": "Basic chemical manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 72,
+"name": "Resin, synthetic rubber, and artificial and synthetic fibres and filaments manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 73,
+"name": "Pesticide, fertilizer and other agricultural chemical manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 74,
+"name": "Pharmaceutical and medicine manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 75,
+"name": "Paint, coating and adhesive manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 76,
+"name": "Soap, cleaning compound and toilet preparation manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 77,
+"name": "Other chemical product manufacturing",
+"parent_id": 70,
+"terminated": false
+},
+{
+"id": 78,
+"name": "Plastics and rubber products manufacturing",
+"parent_id": 35,
+"terminated": false
+},
+{
+"id": 79,
+"name": "Plastic product manufacturing",
+"parent_id": 78,
+"terminated": false
+},
+{
+"id": 80,
+"name": "Rubber product manufacturing",
+"parent_id": 78,
+"terminated": false
+},
+{
+"id": 84,
+"name": "Durable goods",
+"parent_id": 34,
+"terminated": false
+},
+{
+"id": 85,
+"name": "Wood product manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 86,
+"name": "Sawmills and wood preservation",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 87,
+"name": "Veneer, plywood and engineered wood product manufacturing",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 88,
+"name": "Other wood product manufacturing",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 409,
+"name": "Non-metallic mineral product manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 90,
+"name": "Clay product and refractory manufacturing",
+"parent_id": 409,
+"terminated": false
+},
+{
+"id": 91,
+"name": "Glass and glass product manufacturing",
+"parent_id": 409,
+"terminated": false
+},
+{
+"id": 92,
+"name": "Cement and concrete product manufacturing",
+"parent_id": 409,
+"terminated": false
+},
+{
+"id": 410,
+"name": "Lime and gypsum product manufacturing",
+"parent_id": 409,
+"terminated": false
+},
+{
+"id": 94,
+"name": "Other non-metallic mineral product manufacturing",
+"parent_id": 409,
+"terminated": false
+},
+{
+"id": 95,
+"name": "Primary metal manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 96,
+"name": "Iron and steel mills and ferro-alloy manufacturing",
+"parent_id": 95,
+"terminated": false
+},
+{
+"id": 97,
+"name": "Steel product manufacturing from purchased steel",
+"parent_id": 95,
+"terminated": false
+},
+{
+"id": 98,
+"name": "Alumina and aluminum production and processing",
+"parent_id": 95,
+"terminated": false
+},
+{
+"id": 99,
+"name": "Non-ferrous metal (except aluminum) production and processing",
+"parent_id": 95,
+"terminated": false
+},
+{
+"id": 100,
+"name": "Foundries",
+"parent_id": 95,
+"terminated": false
+},
+{
+"id": 101,
+"name": "Fabricated metal product manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 102,
+"name": "Forging and stamping",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 411,
+"name": "Cutlery and hand tool manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 104,
+"name": "Architectural and structural metals manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 105,
+"name": "Boiler, tank and shipping container manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 412,
+"name": "Hardware manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 413,
+"name": "Spring and wire product manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 108,
+"name": "Machine shops, turned product, and screw, nut and bolt manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 109,
+"name": "Coating, engraving, cold and heat treating and allied activities",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 110,
+"name": "Other fabricated metal product manufacturing",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 111,
+"name": "Machinery manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 112,
+"name": "Agricultural, construction and mining machinery manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 113,
+"name": "Industrial machinery manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 114,
+"name": "Commercial and service industry machinery manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 115,
+"name": "Ventilation, heating, air-conditioning and commercial refrigeration equipment manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 116,
+"name": "Metalworking machinery manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 117,
+"name": "Engine, turbine and power transmission equipment manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 118,
+"name": "Other general-purpose machinery manufacturing",
+"parent_id": 111,
+"terminated": false
+},
+{
+"id": 119,
+"name": "Computer and electronic product manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 120,
+"name": "Computer and peripheral equipment manufacturing",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 121,
+"name": "Communications equipment manufacturing",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 414,
+"name": "Audio and video equipment manufacturing",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 123,
+"name": "Semiconductor and other electronic component manufacturing",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 124,
+"name": "Navigational, measuring, medical and control instruments manufacturing",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 415,
+"name": "Manufacturing and reproducing magnetic and optical media",
+"parent_id": 119,
+"terminated": false
+},
+{
+"id": 416,
+"name": "Electrical equipment, appliance and component manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 127,
+"name": "Electric lighting equipment manufacturing",
+"parent_id": 416,
+"terminated": false
+},
+{
+"id": 128,
+"name": "Household appliance manufacturing",
+"parent_id": 416,
+"terminated": false
+},
+{
+"id": 129,
+"name": "Electrical equipment manufacturing",
+"parent_id": 416,
+"terminated": false
+},
+{
+"id": 130,
+"name": "Other electrical equipment and component manufacturing",
+"parent_id": 416,
+"terminated": false
+},
+{
+"id": 131,
+"name": "Transportation equipment manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 132,
+"name": "Motor vehicle manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 133,
+"name": "Motor vehicle body and trailer manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 134,
+"name": "Motor vehicle parts manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 135,
+"name": "Aerospace product and parts manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 417,
+"name": "Railroad rolling stock manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 137,
+"name": "Ship and boat building",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 138,
+"name": "Other transportation equipment manufacturing",
+"parent_id": 131,
+"terminated": false
+},
+{
+"id": 139,
+"name": "Furniture and related product manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 140,
+"name": "Household and institutional furniture and kitchen cabinet manufacturing",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 141,
+"name": "Office furniture (including fixtures) manufacturing",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 142,
+"name": "Other furniture-related product manufacturing",
+"parent_id": 139,
+"terminated": false
+},
+{
+"id": 408,
+"name": "Miscellaneous manufacturing",
+"parent_id": 84,
+"terminated": false
+},
+{
+"id": 82,
+"name": "Medical equipment and supplies manufacturing",
+"parent_id": 408,
+"terminated": false
+},
+{
+"id": 83,
+"name": "Other miscellaneous manufacturing",
+"parent_id": 408,
+"terminated": false
+},
+{
+"id": 143,
+"name": "Service producing industries",
+"parent_id": 2,
+"terminated": false
+},
+{
+"id": 144,
+"name": "Trade",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 145,
+"name": "Wholesale trade",
+"parent_id": 144,
+"terminated": false
+},
+{
+"id": 418,
+"name": "Farm product merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 147,
+"name": "Petroleum, petroleum products, and other hydrocarbons merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 148,
+"name": "Food, beverage and tobacco merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 149,
+"name": "Food merchant wholesalers",
+"parent_id": 148,
+"terminated": false
+},
+{
+"id": 150,
+"name": "Beverage merchant wholesalers",
+"parent_id": 148,
+"terminated": false
+},
+{
+"id": 419,
+"name": "Cigarette and tobacco product merchant wholesalers",
+"parent_id": 148,
+"terminated": false
+},
+{
+"id": 534,
+"name": "Cannabis merchant wholesalers",
+"parent_id": 148,
+"terminated": false
+},
+{
+"id": 152,
+"name": "Personal and household goods merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 153,
+"name": "Textile, clothing and footwear merchant wholesalers",
+"parent_id": 152,
+"terminated": false
+},
+{
+"id": 154,
+"name": "Home entertainment equipment and household appliance merchant wholesalers",
+"parent_id": 152,
+"terminated": false
+},
+{
+"id": 155,
+"name": "Home furnishings merchant wholesalers",
+"parent_id": 152,
+"terminated": false
+},
+{
+"id": 156,
+"name": "Personal goods merchant wholesalers",
+"parent_id": 152,
+"terminated": false
+},
+{
+"id": 157,
+"name": "Pharmaceuticals, toiletries, cosmetics and sundries merchant wholesalers",
+"parent_id": 152,
+"terminated": false
+},
+{
+"id": 158,
+"name": "Motor vehicle and motor vehicle parts and accessories merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 159,
+"name": "Motor vehicle merchant wholesalers",
+"parent_id": 158,
+"terminated": false
+},
+{
+"id": 160,
+"name": "New motor vehicle parts and accessories merchant wholesalers",
+"parent_id": 158,
+"terminated": false
+},
+{
+"id": 420,
+"name": "Used motor vehicle parts and accessories merchant wholesalers",
+"parent_id": 158,
+"terminated": false
+},
+{
+"id": 162,
+"name": "Building material and supplies merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 163,
+"name": "Electrical, plumbing, heating and air-conditioning equipment and supplies merchant wholesalers",
+"parent_id": 162,
+"terminated": false
+},
+{
+"id": 164,
+"name": "Metal service centres",
+"parent_id": 162,
+"terminated": false
+},
+{
+"id": 165,
+"name": "Lumber, millwork, hardware and other building supplies merchant wholesalers",
+"parent_id": 162,
+"terminated": false
+},
+{
+"id": 166,
+"name": "Machinery, equipment and supplies merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 167,
+"name": "Farm, lawn and garden machinery and equipment merchant wholesalers",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 168,
+"name": "Construction, forestry, mining, and industrial machinery, equipment and supplies merchant wholesalers",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 169,
+"name": "Computer and communications equipment and supplies merchant wholesalers",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 170,
+"name": "Other machinery, equipment and supplies merchant wholesalers",
+"parent_id": 166,
+"terminated": false
+},
+{
+"id": 171,
+"name": "Miscellaneous merchant wholesalers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 172,
+"name": "Recyclable material merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 173,
+"name": "Paper, paper product and disposable plastic product merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 174,
+"name": "Agricultural supplies merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 175,
+"name": "Chemical (except agricultural) and allied product merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 535,
+"name": "Mineral, ore and precious metal merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 536,
+"name": "Log, wood chips, and other wood products merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 176,
+"name": "Other miscellaneous merchant wholesalers",
+"parent_id": 171,
+"terminated": false
+},
+{
+"id": 177,
+"name": "Business-to-business electronic markets, and agents and brokers",
+"parent_id": 145,
+"terminated": false
+},
+{
+"id": 178,
+"name": "Retail trade",
+"parent_id": 144,
+"terminated": false
+},
+{
+"id": 179,
+"name": "Motor vehicle and parts dealers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 180,
+"name": "Automobile dealers",
+"parent_id": 179,
+"terminated": false
+},
+{
+"id": 181,
+"name": "Other motor vehicle dealers",
+"parent_id": 179,
+"terminated": false
+},
+{
+"id": 182,
+"name": "Automotive parts, accessories and tire retailers",
+"parent_id": 179,
+"terminated": false
+},
+{
+"id": 421,
+"name": "Furniture and home furnishings stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 184,
+"name": "Furniture stores",
+"parent_id": 421,
+"terminated": true
+},
+{
+"id": 185,
+"name": "Home furnishings stores",
+"parent_id": 421,
+"terminated": true
+},
+{
+"id": 422,
+"name": "Electronics and appliance stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 423,
+"name": "Building material and garden equipment and supplies dealers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 188,
+"name": "Building material and supplies dealers",
+"parent_id": 423,
+"terminated": false
+},
+{
+"id": 189,
+"name": "Lawn and garden equipment and supplies retailers",
+"parent_id": 423,
+"terminated": false
+},
+{
+"id": 190,
+"name": "Food and beverage retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 191,
+"name": "Grocery and convenience retailers",
+"parent_id": 190,
+"terminated": false
+},
+{
+"id": 192,
+"name": "Specialty food retailers",
+"parent_id": 190,
+"terminated": false
+},
+{
+"id": 424,
+"name": "Beer, wine and liquor retailers",
+"parent_id": 190,
+"terminated": false
+},
+{
+"id": 194,
+"name": "Health and personal care stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 195,
+"name": "Gasoline stations",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 196,
+"name": "Clothing and clothing accessories stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 197,
+"name": "Clothing stores",
+"parent_id": 196,
+"terminated": true
+},
+{
+"id": 198,
+"name": "Shoe stores",
+"parent_id": 196,
+"terminated": true
+},
+{
+"id": 199,
+"name": "Jewellery, luggage and leather goods stores",
+"parent_id": 196,
+"terminated": true
+},
+{
+"id": 537,
+"name": "Furniture, home furnishings, electronics and appliances retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 538,
+"name": "Furniture, floor covering, window treatment and other home furnishings retailers",
+"parent_id": 537,
+"terminated": false
+},
+{
+"id": 539,
+"name": "Electronics and appliances retailers",
+"parent_id": 537,
+"terminated": false
+},
+{
+"id": 200,
+"name": "Sporting goods, hobby, book and music stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 201,
+"name": "Sporting goods, hobby and musical instrument stores",
+"parent_id": 200,
+"terminated": true
+},
+{
+"id": 202,
+"name": "Book, periodical and music stores",
+"parent_id": 200,
+"terminated": true
+},
+{
+"id": 530,
+"name": "Book stores and news dealers",
+"parent_id": 200,
+"terminated": true
+},
+{
+"id": 203,
+"name": "General merchandise stores",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 204,
+"name": "Department stores",
+"parent_id": 203,
+"terminated": true
+},
+{
+"id": 205,
+"name": "Other general merchandise stores",
+"parent_id": 203,
+"terminated": true
+},
+{
+"id": 206,
+"name": "Miscellaneous store retailers",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 207,
+"name": "Florists",
+"parent_id": 206,
+"terminated": true
+},
+{
+"id": 208,
+"name": "Office supplies, stationery and gift stores",
+"parent_id": 206,
+"terminated": true
+},
+{
+"id": 209,
+"name": "Used merchandise stores",
+"parent_id": 206,
+"terminated": true
+},
+{
+"id": 210,
+"name": "Other miscellaneous store retailers",
+"parent_id": 206,
+"terminated": true
+},
+{
+"id": 425,
+"name": "Non-store retailers",
+"parent_id": 178,
+"terminated": true
+},
+{
+"id": 212,
+"name": "Electronic shopping and mail-order houses",
+"parent_id": 425,
+"terminated": true
+},
+{
+"id": 213,
+"name": "Vending machine operators",
+"parent_id": 425,
+"terminated": true
+},
+{
+"id": 214,
+"name": "Direct selling establishments",
+"parent_id": 425,
+"terminated": true
+},
+{
+"id": 540,
+"name": "General merchandise retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 541,
+"name": "Department stores",
+"parent_id": 540,
+"terminated": false
+},
+{
+"id": 542,
+"name": "Warehouse clubs, Supercentres and other general merchandise retailers",
+"parent_id": 540,
+"terminated": false
+},
+{
+"id": 543,
+"name": "Health and personal care retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 544,
+"name": "Health and personal care retailers",
+"parent_id": 543,
+"terminated": false
+},
+{
+"id": 545,
+"name": "Gasoline stations and fuel vendors",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 546,
+"name": "Gasoline stations",
+"parent_id": 545,
+"terminated": false
+},
+{
+"id": 547,
+"name": "Fuel dealers",
+"parent_id": 545,
+"terminated": false
+},
+{
+"id": 548,
+"name": "Clothing, clothing accessories, shoes, jewelry, luggage and leather goods retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 549,
+"name": "Clothing and clothing accessories retailers",
+"parent_id": 548,
+"terminated": false
+},
+{
+"id": 550,
+"name": "Shoe retailers",
+"parent_id": 548,
+"terminated": false
+},
+{
+"id": 551,
+"name": "Jewellery, luggage and leather goods retailers",
+"parent_id": 548,
+"terminated": false
+},
+{
+"id": 552,
+"name": "Sporting goods, hobby, musical instrument, book, and miscellaneous retailers",
+"parent_id": 178,
+"terminated": false
+},
+{
+"id": 553,
+"name": "Sporting goods, hobby and musical instrument retailers",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 554,
+"name": "Book retailers and news dealers",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 555,
+"name": "Florists",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 556,
+"name": "Office supplies, stationery and gift retailers",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 557,
+"name": "Used merchandise retailers",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 558,
+"name": "Other miscellaneous store retailers",
+"parent_id": 552,
+"terminated": false
+},
+{
+"id": 215,
+"name": "Transportation and warehousing",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 216,
+"name": "Air transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 217,
+"name": "Scheduled air transportation",
+"parent_id": 216,
+"terminated": false
+},
+{
+"id": 218,
+"name": "Non-scheduled air transportation",
+"parent_id": 216,
+"terminated": false
+},
+{
+"id": 219,
+"name": "Rail transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 426,
+"name": "Water transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 221,
+"name": "Deep sea, coastal and Great Lakes water transportation",
+"parent_id": 426,
+"terminated": false
+},
+{
+"id": 567,
+"name": "Inland water transportation",
+"parent_id": 426,
+"terminated": false
+},
+{
+"id": 223,
+"name": "Truck transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 224,
+"name": "General freight trucking",
+"parent_id": 223,
+"terminated": false
+},
+{
+"id": 225,
+"name": "Specialized freight trucking",
+"parent_id": 223,
+"terminated": false
+},
+{
+"id": 226,
+"name": "Transit and ground passenger transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 227,
+"name": "Urban transit systems",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 427,
+"name": "Interurban and rural bus transportation",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 229,
+"name": "Taxi and limousine service",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 230,
+"name": "School and employee bus transportation",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 231,
+"name": "Charter bus industry",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 428,
+"name": "Other transit and ground passenger transportation",
+"parent_id": 226,
+"terminated": false
+},
+{
+"id": 429,
+"name": "Pipeline transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 234,
+"name": "Pipeline transportation of crude oil",
+"parent_id": 429,
+"terminated": false
+},
+{
+"id": 568,
+"name": "Pipeline transportation of natural gas",
+"parent_id": 429,
+"terminated": false
+},
+{
+"id": 569,
+"name": "Other pipeline transportation",
+"parent_id": 429,
+"terminated": false
+},
+{
+"id": 430,
+"name": "Scenic and sightseeing transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 238,
+"name": "Scenic and sightseeing transportation, land",
+"parent_id": 430,
+"terminated": false
+},
+{
+"id": 239,
+"name": "Scenic and sightseeing transportation, water",
+"parent_id": 430,
+"terminated": false
+},
+{
+"id": 570,
+"name": "Scenic and sightseeing transportation, other",
+"parent_id": 430,
+"terminated": false
+},
+{
+"id": 241,
+"name": "Support activities for transportation",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 242,
+"name": "Support activities for air transportation",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 447,
+"name": "Support activities for rail transportation",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 244,
+"name": "Support activities for water transportation",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 245,
+"name": "Support activities for road transportation",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 246,
+"name": "Freight transportation arrangement",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 448,
+"name": "Other support activities for transportation",
+"parent_id": 241,
+"terminated": false
+},
+{
+"id": 248,
+"name": "Postal service",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 249,
+"name": "Couriers and messengers",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 250,
+"name": "Couriers",
+"parent_id": 249,
+"terminated": false
+},
+{
+"id": 251,
+"name": "Local messengers and local delivery",
+"parent_id": 249,
+"terminated": false
+},
+{
+"id": 252,
+"name": "Warehousing and storage",
+"parent_id": 215,
+"terminated": false
+},
+{
+"id": 253,
+"name": "Information and cultural industries",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 254,
+"name": "Publishing industries",
+"parent_id": 253,
+"terminated": true
+},
+{
+"id": 255,
+"name": "Newspaper, periodical, book and directory publishers",
+"parent_id": 254,
+"terminated": true
+},
+{
+"id": 256,
+"name": "Software publishers",
+"parent_id": 254,
+"terminated": true
+},
+{
+"id": 257,
+"name": "Motion picture and sound recording industries",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 258,
+"name": "Motion picture and video industries",
+"parent_id": 257,
+"terminated": false
+},
+{
+"id": 259,
+"name": "Sound recording industries",
+"parent_id": 257,
+"terminated": false
+},
+{
+"id": 559,
+"name": "Publishing industries",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 560,
+"name": "Newspaper, periodical, book and directory publishers",
+"parent_id": 559,
+"terminated": false
+},
+{
+"id": 561,
+"name": "Software publishers",
+"parent_id": 559,
+"terminated": false
+},
+{
+"id": 464,
+"name": "Broadcasting (except Internet)",
+"parent_id": 253,
+"terminated": true
+},
+{
+"id": 465,
+"name": "Radio and television broadcasting",
+"parent_id": 464,
+"terminated": true
+},
+{
+"id": 466,
+"name": "Pay and specialty television",
+"parent_id": 464,
+"terminated": true
+},
+{
+"id": 562,
+"name": "Broadcasting and content providers",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 563,
+"name": "Radio and television broadcasting stations",
+"parent_id": 562,
+"terminated": false
+},
+{
+"id": 564,
+"name": "Media streaming distribution services, and other media networks and content providers",
+"parent_id": 562,
+"terminated": false
+},
+{
+"id": 468,
+"name": "Telecommunications",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 469,
+"name": "Wired telecommunications carriers",
+"parent_id": 468,
+"terminated": true
+},
+{
+"id": 470,
+"name": "Wireless telecommunications carriers (except satellite)",
+"parent_id": 468,
+"terminated": true
+},
+{
+"id": 532,
+"name": "Wired and wireless telecommunications carriers (except satellite)",
+"parent_id": 468,
+"terminated": false
+},
+{
+"id": 472,
+"name": "Satellite telecommunications",
+"parent_id": 468,
+"terminated": false
+},
+{
+"id": 474,
+"name": "Other telecommunications",
+"parent_id": 468,
+"terminated": false
+},
+{
+"id": 475,
+"name": "Computing infrastructure providers, data processing, web hosting, and related services",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 478,
+"name": "Other information services",
+"parent_id": 253,
+"terminated": true
+},
+{
+"id": 565,
+"name": "Web search portals, libraries, archives, and all other information services",
+"parent_id": 253,
+"terminated": false
+},
+{
+"id": 566,
+"name": "Web search portals, libraries and archives, and all other information services",
+"parent_id": 565,
+"terminated": false
+},
+{
+"id": 267,
+"name": "Finance and insurance",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 571,
+"name": "Monetary authorities - central bank",
+"parent_id": 267,
+"terminated": false
+},
+{
+"id": 572,
+"name": "Monetary authorities - central bank",
+"parent_id": 571,
+"terminated": false
+},
+{
+"id": 270,
+"name": "Credit intermediation and related activities",
+"parent_id": 267,
+"terminated": false
+},
+{
+"id": 271,
+"name": "Depository credit intermediation",
+"parent_id": 270,
+"terminated": false
+},
+{
+"id": 272,
+"name": "Non-depository credit intermediation",
+"parent_id": 270,
+"terminated": false
+},
+{
+"id": 449,
+"name": "Activities related to credit intermediation",
+"parent_id": 270,
+"terminated": false
+},
+{
+"id": 274,
+"name": "Securities, commodity contracts, and other financial investment and related activities",
+"parent_id": 267,
+"terminated": false
+},
+{
+"id": 275,
+"name": "Securities and commodity contracts intermediation and brokerage",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 507,
+"name": "Securities and commodity exchanges",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 277,
+"name": "Other financial investment activities",
+"parent_id": 274,
+"terminated": false
+},
+{
+"id": 278,
+"name": "Insurance carriers and related activities",
+"parent_id": 267,
+"terminated": false
+},
+{
+"id": 279,
+"name": "Insurance carriers",
+"parent_id": 278,
+"terminated": false
+},
+{
+"id": 280,
+"name": "Agencies, brokerages and other insurance related activities",
+"parent_id": 278,
+"terminated": false
+},
+{
+"id": 573,
+"name": "Funds and other financial vehicles",
+"parent_id": 267,
+"terminated": false
+},
+{
+"id": 574,
+"name": "Pension funds",
+"parent_id": 573,
+"terminated": false
+},
+{
+"id": 575,
+"name": "Other funds and financial vehicles",
+"parent_id": 573,
+"terminated": false
+},
+{
+"id": 284,
+"name": "Real estate and rental and leasing",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 285,
+"name": "Real estate",
+"parent_id": 284,
+"terminated": false
+},
+{
+"id": 286,
+"name": "Lessors of real estate",
+"parent_id": 285,
+"terminated": false
+},
+{
+"id": 287,
+"name": "Offices of real estate agents and brokers",
+"parent_id": 285,
+"terminated": false
+},
+{
+"id": 288,
+"name": "Activities related to real estate",
+"parent_id": 285,
+"terminated": false
+},
+{
+"id": 289,
+"name": "Rental and leasing services",
+"parent_id": 284,
+"terminated": false
+},
+{
+"id": 290,
+"name": "Automotive equipment rental and leasing",
+"parent_id": 289,
+"terminated": false
+},
+{
+"id": 291,
+"name": "Consumer goods rental",
+"parent_id": 289,
+"terminated": false
+},
+{
+"id": 431,
+"name": "General rental centres",
+"parent_id": 289,
+"terminated": false
+},
+{
+"id": 293,
+"name": "Commercial and industrial machinery and equipment rental and leasing",
+"parent_id": 289,
+"terminated": false
+},
+{
+"id": 294,
+"name": "Lessors of non-financial intangible assets (except copyrighted works)",
+"parent_id": 284,
+"terminated": false
+},
+{
+"id": 295,
+"name": "Professional, scientific and technical services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 297,
+"name": "Legal services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 298,
+"name": "Accounting, tax preparation, bookkeeping and payroll services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 299,
+"name": "Architectural, engineering and related services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 432,
+"name": "Specialized design services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 301,
+"name": "Computer systems design and related services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 302,
+"name": "Management, scientific and technical consulting services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 450,
+"name": "Scientific research and development services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 433,
+"name": "Advertising, public relations, and related services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 305,
+"name": "Other professional, scientific and technical services",
+"parent_id": 295,
+"terminated": false
+},
+{
+"id": 306,
+"name": "Management of companies and enterprises",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 307,
+"name": "Administrative and support, waste management and remediation services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 308,
+"name": "Administrative and support services",
+"parent_id": 307,
+"terminated": false
+},
+{
+"id": 309,
+"name": "Office administrative services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 310,
+"name": "Facilities support services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 311,
+"name": "Employment services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 312,
+"name": "Business support services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 313,
+"name": "Travel arrangement and reservation services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 314,
+"name": "Investigation and security services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 315,
+"name": "Services to buildings and dwellings",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 434,
+"name": "Other support services",
+"parent_id": 308,
+"terminated": false
+},
+{
+"id": 317,
+"name": "Waste management and remediation services",
+"parent_id": 307,
+"terminated": false
+},
+{
+"id": 318,
+"name": "Waste collection",
+"parent_id": 317,
+"terminated": false
+},
+{
+"id": 319,
+"name": "Waste treatment and disposal",
+"parent_id": 317,
+"terminated": false
+},
+{
+"id": 320,
+"name": "Remediation and other waste management services",
+"parent_id": 317,
+"terminated": false
+},
+{
+"id": 321,
+"name": "Educational services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 323,
+"name": "Education special",
+"parent_id": 321,
+"terminated": false
+},
+{
+"id": 324,
+"name": "Elementary and secondary schools",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 325,
+"name": "Community colleges and C.E.G.E.P.s",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 326,
+"name": "Universities",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 435,
+"name": "Business schools and computer and management training",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 436,
+"name": "Technical and trade schools",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 437,
+"name": "Other schools and instruction",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 438,
+"name": "Educational support services",
+"parent_id": 323,
+"terminated": false
+},
+{
+"id": 331,
+"name": "Health care and social assistance",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 332,
+"name": "Ambulatory health care services",
+"parent_id": 331,
+"terminated": false
+},
+{
+"id": 333,
+"name": "Offices of physicians",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 334,
+"name": "Offices of dentists",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 335,
+"name": "Offices of other health practitioners",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 336,
+"name": "Out-patient care centres",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 439,
+"name": "Medical and diagnostic laboratories",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 338,
+"name": "Home health care services",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 440,
+"name": "Other ambulatory health care services",
+"parent_id": 332,
+"terminated": false
+},
+{
+"id": 340,
+"name": "Hospitals",
+"parent_id": 331,
+"terminated": false
+},
+{
+"id": 341,
+"name": "General medical and surgical hospitals",
+"parent_id": 340,
+"terminated": false
+},
+{
+"id": 441,
+"name": "Psychiatric and substance use hospitals",
+"parent_id": 340,
+"terminated": false
+},
+{
+"id": 343,
+"name": "Specialty hospitals (except psychiatric and substance use)",
+"parent_id": 340,
+"terminated": false
+},
+{
+"id": 344,
+"name": "Nursing and residential care facilities",
+"parent_id": 331,
+"terminated": false
+},
+{
+"id": 345,
+"name": "Nursing care facilities",
+"parent_id": 344,
+"terminated": false
+},
+{
+"id": 346,
+"name": "Residential facilities for persons with an intellectual or developmental disability, a mental health or substance use condition",
+"parent_id": 344,
+"terminated": false
+},
+{
+"id": 347,
+"name": "Community care facilities for the elderly",
+"parent_id": 344,
+"terminated": false
+},
+{
+"id": 348,
+"name": "Other residential care facilities",
+"parent_id": 344,
+"terminated": false
+},
+{
+"id": 349,
+"name": "Social assistance",
+"parent_id": 331,
+"terminated": false
+},
+{
+"id": 350,
+"name": "Individual and family services",
+"parent_id": 349,
+"terminated": false
+},
+{
+"id": 442,
+"name": "Community food and housing, and emergency and other relief services",
+"parent_id": 349,
+"terminated": false
+},
+{
+"id": 352,
+"name": "Vocational rehabilitation services",
+"parent_id": 349,
+"terminated": false
+},
+{
+"id": 353,
+"name": "Child day-care services",
+"parent_id": 349,
+"terminated": false
+},
+{
+"id": 354,
+"name": "Arts, entertainment and recreation",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 355,
+"name": "Performing arts, spectator sports and related industries",
+"parent_id": 354,
+"terminated": false
+},
+{
+"id": 356,
+"name": "Performing arts companies",
+"parent_id": 355,
+"terminated": false
+},
+{
+"id": 357,
+"name": "Spectator sports",
+"parent_id": 355,
+"terminated": false
+},
+{
+"id": 358,
+"name": "Promoters (presenters) of performing arts, sports and similar events",
+"parent_id": 355,
+"terminated": false
+},
+{
+"id": 443,
+"name": "Agents and managers for artists, athletes, entertainers and other public figures",
+"parent_id": 355,
+"terminated": false
+},
+{
+"id": 360,
+"name": "Independent artists, writers and performers",
+"parent_id": 355,
+"terminated": false
+},
+{
+"id": 361,
+"name": "Heritage institutions",
+"parent_id": 354,
+"terminated": false
+},
+{
+"id": 363,
+"name": "Amusement, gambling and recreation industries",
+"parent_id": 354,
+"terminated": false
+},
+{
+"id": 364,
+"name": "Amusement parks and arcades",
+"parent_id": 363,
+"terminated": false
+},
+{
+"id": 365,
+"name": "Gambling industries",
+"parent_id": 363,
+"terminated": false
+},
+{
+"id": 366,
+"name": "Other amusement and recreation industries",
+"parent_id": 363,
+"terminated": false
+},
+{
+"id": 367,
+"name": "Accommodation and food services",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 368,
+"name": "Accommodation services",
+"parent_id": 367,
+"terminated": false
+},
+{
+"id": 369,
+"name": "Traveller accommodation",
+"parent_id": 368,
+"terminated": false
+},
+{
+"id": 370,
+"name": "Recreational vehicle (RV) parks and recreational camps",
+"parent_id": 368,
+"terminated": false
+},
+{
+"id": 444,
+"name": "Rooming and boarding houses",
+"parent_id": 368,
+"terminated": false
+},
+{
+"id": 372,
+"name": "Food services and drinking places",
+"parent_id": 367,
+"terminated": false
+},
+{
+"id": 373,
+"name": "Full-service restaurants",
+"parent_id": 372,
+"terminated": true
+},
+{
+"id": 374,
+"name": "Limited-service eating places",
+"parent_id": 372,
+"terminated": true
+},
+{
+"id": 445,
+"name": "Special food services",
+"parent_id": 372,
+"terminated": false
+},
+{
+"id": 376,
+"name": "Drinking places (alcoholic beverages)",
+"parent_id": 372,
+"terminated": false
+},
+{
+"id": 531,
+"name": "Full-service restaurants and limited-service eating places",
+"parent_id": 372,
+"terminated": false
+},
+{
+"id": 377,
+"name": "Other services (except public administration)",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 378,
+"name": "Repair and maintenance",
+"parent_id": 377,
+"terminated": false
+},
+{
+"id": 379,
+"name": "Automotive repair and maintenance",
+"parent_id": 378,
+"terminated": false
+},
+{
+"id": 380,
+"name": "Electronic and precision equipment repair and maintenance",
+"parent_id": 378,
+"terminated": false
+},
+{
+"id": 381,
+"name": "Commercial and industrial machinery and equipment (except automotive and electronic) repair and maintenance",
+"parent_id": 378,
+"terminated": false
+},
+{
+"id": 382,
+"name": "Personal and household goods repair and maintenance",
+"parent_id": 378,
+"terminated": false
+},
+{
+"id": 383,
+"name": "Personal and laundry services",
+"parent_id": 377,
+"terminated": false
+},
+{
+"id": 384,
+"name": "Personal care services",
+"parent_id": 383,
+"terminated": false
+},
+{
+"id": 385,
+"name": "Funeral services",
+"parent_id": 383,
+"terminated": false
+},
+{
+"id": 386,
+"name": "Dry cleaning and laundry services",
+"parent_id": 383,
+"terminated": false
+},
+{
+"id": 387,
+"name": "Other personal services",
+"parent_id": 383,
+"terminated": false
+},
+{
+"id": 388,
+"name": "Religious, grant-making, civic, and professional and similar organizations",
+"parent_id": 377,
+"terminated": false
+},
+{
+"id": 446,
+"name": "Grant-making and giving services",
+"parent_id": 388,
+"terminated": false
+},
+{
+"id": 390,
+"name": "Social advocacy organizations",
+"parent_id": 388,
+"terminated": false
+},
+{
+"id": 391,
+"name": "Civic and social organizations",
+"parent_id": 388,
+"terminated": false
+},
+{
+"id": 392,
+"name": "Business, professional, labour and other membership organizations",
+"parent_id": 388,
+"terminated": false
+},
+{
+"id": 393,
+"name": "Public administration",
+"parent_id": 143,
+"terminated": false
+},
+{
+"id": 394,
+"name": "Federal government public administration",
+"parent_id": 393,
+"terminated": false
+},
+{
+"id": 395,
+"name": "Provincial and territorial public administration",
+"parent_id": 393,
+"terminated": false
+},
+{
+"id": 396,
+"name": "Local, municipal and regional public administration",
+"parent_id": 393,
+"terminated": false
+},
+{
+"id": 529,
+"name": "Indigenous public administration",
+"parent_id": 393,
+"terminated": false
+},
+{
+"id": 397,
+"name": "Unclassified businesses",
+"parent_id": 1,
+"terminated": false
+}
+]
+}
+],
+"start_date": "2001-01-01",
+"end_date": "2026-08-01",
+"footnotes": [
+"The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - Too unreliable to publish or sample size is too small to produce reliable estimates.",
+"Some series exhibit no clear seasonal pattern. In such cases the data are not adjusted.",
+"The introduction of administrative data in 2001 and the associated change in methodology resulted in level shifts for some series. This affects the comparability of pre- and post-2001 estimates.",
+"Estimates for the latest reference month are preliminary.",
+"Earnings data are based on gross payroll before source deductions.",
+"Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS) Version 1.0.",
+"Average weekly earnings is not available for the industrial aggregate including unclassified businesses.",
+"Average weekly earnings is not available for the industrial aggregate including unclassified businesses.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Industrial aggregate covers all industrial sectors except those primarily involved in agriculture, fishing and trapping, private household services, religious organisations and the military personnel of the defence services.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Goods producing industries (11-33N) includes the following sectors: forestry, logging and support (11N), mining, quarrying, and oil and gas extraction (21), utilities (22), construction (23) and manufacturing (31-33).",
+"Forestry, logging and support (11N) includes the following industries: forestry and logging (113) and support activities for forestry (1153).",
+"Non-durable goods (311N) of the manufacturing sector includes the following industries: food manufacturing (311), beverage and tobacco products manufacturing (312), textiles mills (313), textile products mills (314), clothing manufacturing (315), leather and allied products manufacturing (316), paper manufacturing (322), printing and related support activities (323), petroleum and coal products manufacturing (324), chemical manufacturing (325) and plastics and rubber products manufacturing (326).",
+"Durable goods (321N) of the manufacturing sector includes the following industries: wood products manufacturing (321), non-metallic mineral products manufacturing (327), primary metal manufacturing (331), fabricated metal products manufacturing (332), machinery manufacturing (333), computer and electronic products manufacturing (334), electrical equipment, appliances and components manufacturing (335), transportation equipment manufacturing (336), furniture and related product manufacturing (337) and miscellaneous manufacturing (339).",
+"Service producing industries (41-91N) includes the following industries: trade (41-45N), transportation and warehousing (48-49), information and cultural industries (51), finance and insurance (52), real estate and rental and leasing (53), professional, scientific and technical services (54), management of companies and enterprises (55), administrative and support, waste management and remediation services (56), educational services (61), health care and social assistance (62), arts, entertainment and recreation (71), accommodation and food services (72), other services (except public administration) (81) and public administration (91).",
+"Trade (41-45N) industry includes the following sectors: wholesale trade (41) and retail trade (44-45).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the North American Industry Classification System (NAICS) 2007.",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"The content of this series is different from the terminated series 516 Internet publishing and broadcasting.",
+"This terminated series is based on the 2012 North American Industry Classification System (NAICS).",
+"This terminated series is based on the 2012 North American Industry Classification System (NAICS).",
+"This series includes the content of the NAICS 2012 codes 5171 Wired telecommunications carriers and 5172 Wireless telecommunications carriers (except satellite). The content of this series is different from the terminated series 5173 Telecommunications resellers.",
+"These terminated series are based on the 2017 North American Industry Classification System (NAICS).",
+"Education special (611N) industry includes the following industries: elementary and secondary schools (6111), community colleges and C.E.G.E.P.s (6112), universities (6113), business schools and computer and management training (6114) and technical and trade schools (6115).",
+"As of July 2020, routine updates to the Business Register resulted in changes to the industry classification of some establishments. This in turn resulted in changes in the level of employment in British Columbia in the General Medical and Surgical Hospitals (NAICS  6221) and Out-Patient Care Centres (NAICS 6214). Total employment in the broader Health Care and Social Assistance sector (NAICS 62) was not affected. Employment for all SEPH industry series will be revised back to 2001 as part of a standard historical revision process planned for March 2023. Until then, trends in these industries should be interpreted with caution.",
+"As of July 2020, routine updates to the Business Register resulted in changes to the industry classification of some establishments. This in turn resulted in changes in the level of employment in British Columbia in the General Medical and Surgical Hospitals (NAICS  6221) and Out-Patient Care Centres (NAICS 6214). Total employment in the broader Health Care and Social Assistance sector (NAICS 62) was not affected. Employment for all SEPH industry series will be revised back to 2001 as part of a standard historical revision process planned for March 2023. Until then, trends in these industries should be interpreted with caution.",
+"With the release of January 2026 estimates, a temporary level shift may be observed. This will be adjusted with the release of revised estimates in March 2027 as part of the standard historical revision process undertaken each year. In the interim, use caution when comparing estimates to January 2026. For more information, contact statcan.labour-travail.statcan@statcan.gc.ca. ",
+"With the release of January 2026 estimates, a temporary level shift may be observed. This will be adjusted with the release of revised estimates in March 2027 as part of the standard historical revision process undertaken each year. In the interim, use caution when comparing estimates to January 2026. For more information, contact statcan.labour-travail.statcan@statcan.gc.ca. ",
+"These terminated series are based on the North American Industry Classification System (NAICS) 2007.",
+"These terminated series are based on the North American Industry Classification System (NAICS) 2007.",
+"Unclassified businesses (00) are businesses for which the industrial classification (North American Industry Classification System [NAICS] 2022 Version 1.0) has yet to be determined.",
+"Industry estimates in this table are based on the 2022 North American Industry Classification System (NAICS) Version 1.0."
+]
+}

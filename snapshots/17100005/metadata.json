@@ -1,0 +1,981 @@
+{
+"product_id": 17100005,
+"title": "Population estimates on July 1, by age and gender",
+"frequency_code": 12,
+"dimensions": [
+{
+"position": 1,
+"name": "Geography",
+"members": [
+{
+"id": 1,
+"name": "Canada",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Newfoundland and Labrador",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Prince Edward Island",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 4,
+"name": "Nova Scotia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 5,
+"name": "New Brunswick",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 6,
+"name": "Quebec",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 7,
+"name": "Ontario",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "Manitoba",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 9,
+"name": "Saskatchewan",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 10,
+"name": "Alberta",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 11,
+"name": "British Columbia",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 12,
+"name": "Yukon",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 13,
+"name": "Northwest Territories including Nunavut",
+"parent_id": 1,
+"terminated": true
+},
+{
+"id": 14,
+"name": "Northwest Territories",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 15,
+"name": "Nunavut",
+"parent_id": 1,
+"terminated": false
+}
+]
+},
+{
+"position": 2,
+"name": "Gender",
+"members": [
+{
+"id": 1,
+"name": "Total - gender",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 2,
+"name": "Men+",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 3,
+"name": "Women+",
+"parent_id": 1,
+"terminated": false
+}
+]
+},
+{
+"position": 3,
+"name": "Age group",
+"members": [
+{
+"id": 1,
+"name": "All ages",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 7,
+"name": "0 to 4 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 2,
+"name": "0 years",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 3,
+"name": "1 year",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 4,
+"name": "2 years",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 5,
+"name": "3 years",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 6,
+"name": "4 years",
+"parent_id": 7,
+"terminated": false
+},
+{
+"id": 13,
+"name": "5 to 9 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 8,
+"name": "5 years",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 9,
+"name": "6 years",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 10,
+"name": "7 years",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 11,
+"name": "8 years",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 12,
+"name": "9 years",
+"parent_id": 13,
+"terminated": false
+},
+{
+"id": 19,
+"name": "10 to 14 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 14,
+"name": "10 years",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 15,
+"name": "11 years",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 16,
+"name": "12 years",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 17,
+"name": "13 years",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 18,
+"name": "14 years",
+"parent_id": 19,
+"terminated": false
+},
+{
+"id": 25,
+"name": "15 to 19 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 20,
+"name": "15 years",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 21,
+"name": "16 years",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 22,
+"name": "17 years",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 23,
+"name": "18 years",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 24,
+"name": "19 years",
+"parent_id": 25,
+"terminated": false
+},
+{
+"id": 31,
+"name": "20 to 24 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 26,
+"name": "20 years",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 27,
+"name": "21 years",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 28,
+"name": "22 years",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 29,
+"name": "23 years",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 30,
+"name": "24 years",
+"parent_id": 31,
+"terminated": false
+},
+{
+"id": 37,
+"name": "25 to 29 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 32,
+"name": "25 years",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 33,
+"name": "26 years",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 34,
+"name": "27 years",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 35,
+"name": "28 years",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 36,
+"name": "29 years",
+"parent_id": 37,
+"terminated": false
+},
+{
+"id": 43,
+"name": "30 to 34 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 38,
+"name": "30 years",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 39,
+"name": "31 years",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 40,
+"name": "32 years",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 41,
+"name": "33 years",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 42,
+"name": "34 years",
+"parent_id": 43,
+"terminated": false
+},
+{
+"id": 49,
+"name": "35 to 39 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 44,
+"name": "35 years",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 45,
+"name": "36 years",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 46,
+"name": "37 years",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 47,
+"name": "38 years",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 48,
+"name": "39 years",
+"parent_id": 49,
+"terminated": false
+},
+{
+"id": 55,
+"name": "40 to 44 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 50,
+"name": "40 years",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 51,
+"name": "41 years",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 52,
+"name": "42 years",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 53,
+"name": "43 years",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 54,
+"name": "44 years",
+"parent_id": 55,
+"terminated": false
+},
+{
+"id": 61,
+"name": "45 to 49 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 56,
+"name": "45 years",
+"parent_id": 61,
+"terminated": false
+},
+{
+"id": 57,
+"name": "46 years",
+"parent_id": 61,
+"terminated": false
+},
+{
+"id": 58,
+"name": "47 years",
+"parent_id": 61,
+"terminated": false
+},
+{
+"id": 59,
+"name": "48 years",
+"parent_id": 61,
+"terminated": false
+},
+{
+"id": 60,
+"name": "49 years",
+"parent_id": 61,
+"terminated": false
+},
+{
+"id": 67,
+"name": "50 to 54 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 62,
+"name": "50 years",
+"parent_id": 67,
+"terminated": false
+},
+{
+"id": 63,
+"name": "51 years",
+"parent_id": 67,
+"terminated": false
+},
+{
+"id": 64,
+"name": "52 years",
+"parent_id": 67,
+"terminated": false
+},
+{
+"id": 65,
+"name": "53 years",
+"parent_id": 67,
+"terminated": false
+},
+{
+"id": 66,
+"name": "54 years",
+"parent_id": 67,
+"terminated": false
+},
+{
+"id": 73,
+"name": "55 to 59 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 68,
+"name": "55 years",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 69,
+"name": "56 years",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 70,
+"name": "57 years",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 71,
+"name": "58 years",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 72,
+"name": "59 years",
+"parent_id": 73,
+"terminated": false
+},
+{
+"id": 79,
+"name": "60 to 64 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 74,
+"name": "60 years",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 75,
+"name": "61 years",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 76,
+"name": "62 years",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 77,
+"name": "63 years",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 78,
+"name": "64 years",
+"parent_id": 79,
+"terminated": false
+},
+{
+"id": 85,
+"name": "65 to 69 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 80,
+"name": "65 years",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 81,
+"name": "66 years",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 82,
+"name": "67 years",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 83,
+"name": "68 years",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 84,
+"name": "69 years",
+"parent_id": 85,
+"terminated": false
+},
+{
+"id": 86,
+"name": "70 to 74 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 106,
+"name": "70 years",
+"parent_id": 86,
+"terminated": false
+},
+{
+"id": 107,
+"name": "71 years",
+"parent_id": 86,
+"terminated": false
+},
+{
+"id": 108,
+"name": "72 years",
+"parent_id": 86,
+"terminated": false
+},
+{
+"id": 109,
+"name": "73 years",
+"parent_id": 86,
+"terminated": false
+},
+{
+"id": 110,
+"name": "74 years",
+"parent_id": 86,
+"terminated": false
+},
+{
+"id": 87,
+"name": "75 to 79 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 111,
+"name": "75 years",
+"parent_id": 87,
+"terminated": false
+},
+{
+"id": 112,
+"name": "76 years",
+"parent_id": 87,
+"terminated": false
+},
+{
+"id": 113,
+"name": "77 years",
+"parent_id": 87,
+"terminated": false
+},
+{
+"id": 114,
+"name": "78 years",
+"parent_id": 87,
+"terminated": false
+},
+{
+"id": 115,
+"name": "79 years",
+"parent_id": 87,
+"terminated": false
+},
+{
+"id": 88,
+"name": "80 to 84 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 116,
+"name": "80 years",
+"parent_id": 88,
+"terminated": false
+},
+{
+"id": 117,
+"name": "81 years",
+"parent_id": 88,
+"terminated": false
+},
+{
+"id": 118,
+"name": "82 years",
+"parent_id": 88,
+"terminated": false
+},
+{
+"id": 119,
+"name": "83 years",
+"parent_id": 88,
+"terminated": false
+},
+{
+"id": 120,
+"name": "84 years",
+"parent_id": 88,
+"terminated": false
+},
+{
+"id": 89,
+"name": "85 to 89 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 121,
+"name": "85 years",
+"parent_id": 89,
+"terminated": false
+},
+{
+"id": 122,
+"name": "86 years",
+"parent_id": 89,
+"terminated": false
+},
+{
+"id": 123,
+"name": "87 years",
+"parent_id": 89,
+"terminated": false
+},
+{
+"id": 124,
+"name": "88 years",
+"parent_id": 89,
+"terminated": false
+},
+{
+"id": 125,
+"name": "89 years",
+"parent_id": 89,
+"terminated": false
+},
+{
+"id": 126,
+"name": "90 to 94 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 127,
+"name": "90 years",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 128,
+"name": "91 years",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 129,
+"name": "92 years",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 130,
+"name": "93 years",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 131,
+"name": "94 years",
+"parent_id": 126,
+"terminated": false
+},
+{
+"id": 132,
+"name": "95 to 99 years",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 133,
+"name": "95 years",
+"parent_id": 132,
+"terminated": false
+},
+{
+"id": 134,
+"name": "96 years",
+"parent_id": 132,
+"terminated": false
+},
+{
+"id": 135,
+"name": "97 years",
+"parent_id": 132,
+"terminated": false
+},
+{
+"id": 136,
+"name": "98 years",
+"parent_id": 132,
+"terminated": false
+},
+{
+"id": 137,
+"name": "99 years",
+"parent_id": 132,
+"terminated": false
+},
+{
+"id": 138,
+"name": "100 years and older",
+"parent_id": 1,
+"terminated": false
+},
+{
+"id": 91,
+"name": "0 to 14 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 92,
+"name": "0 to 15 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 93,
+"name": "0 to 16 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 94,
+"name": "0 to 17 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 95,
+"name": "15 to 49 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 96,
+"name": "15 to 64 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 97,
+"name": "16 to 64 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 98,
+"name": "17 to 64 years",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 101,
+"name": "18 years and older",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 100,
+"name": "18 to 64 years",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 99,
+"name": "18 to 24 years",
+"parent_id": 100,
+"terminated": false
+},
+{
+"id": 102,
+"name": "25 to 44 years",
+"parent_id": 100,
+"terminated": false
+},
+{
+"id": 103,
+"name": "45 to 64 years",
+"parent_id": 100,
+"terminated": false
+},
+{
+"id": 104,
+"name": "65 years and older",
+"parent_id": 101,
+"terminated": false
+},
+{
+"id": 90,
+"name": "90 years and older",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 105,
+"name": "Median age",
+"parent_id": null,
+"terminated": false
+},
+{
+"id": 139,
+"name": "Average age",
+"parent_id": null,
+"terminated": false
+}
+]
+}
+],
+"start_date": "1971-01-01",
+"end_date": "2026-01-01",
+"footnotes": [
+"Postcensal estimates are based on the 2021 Census counts adjusted for census net undercoverage (CNU) (including adjustment for incompletely enumerated reserves and settlements (IERS)) and the components of demographic growth that occurred since that census. Intercensal estimates are produced using counts from two consecutive censuses adjusted for CNU (including IERS) and postcensal estimates.",
+"Estimates are final intercensal up to 2020, final postcensal for 2021, 2022 and 2023, updated postcensal for 2024 and 2025, and preliminary postcensal for 2026.",
+"Data for persons aged 90 to 100 years and older will be available from 2001.",
+"The population growth, which is used to calculate population estimates, is comprised of natural increase (Tables 17100006 and 17100016), international migration (Table 17100014) and interprovincial migration (Table 17100015).",
+"The demographic estimates now incorporate the concept of gender, which was first introduced in the 2021 Census of Population. Gender refers to an individual's personal and social identity as a man, woman or non-binary person (a person who is not exclusively a man or a woman). Demographic estimates are available for the gender category \"Men+\", which includes men (and/or boys), as well as some non-binary persons, and for the gender category “Women+\" category, which includes women (and/or girls), as well as some non-binary persons. For the sake of uniformity, all data products from the Demographic Estimates Program now adopt the term ‘gender’ for all years and periods. Prior to 2021, the demographic estimates are based on the concept of sex at birth. Although gender and sex at birth are two different concepts, this change does not cause a significant break in the trend because the two concepts produce very similar distributions. Population estimates by age and sex at birth are available upon request (please contact statcan.demography-demographie.statcan@statcan.gc.ca).",
+"Population estimates for Northwest Territories and Nunavut are presented separately from 1991.",
+"Prior to 1991, only estimates of population for Northwest Territories and Nunavut combined are available.",
+"Prior to 1991, only estimates of population for Northwest Territories and Nunavut combined are available.",
+"Age at last birthday in years.",
+"Data for persons aged 90 to 100 years and older will be available from 2001."
+]
+}

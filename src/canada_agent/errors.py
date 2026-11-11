@@ -11,3 +11,4 @@ class ErrorCode(StrEnum):
     RATE_LIMITED = "RATE_LIMITED"
     SNAPSHOT_MISS = "SNAPSHOT_MISS"
     BUDGET_EXCEEDED = "BUDGET_EXCEEDED"
+    ANSWER_REJECTED = "ANSWER_REJECTED"  # check_answer refused it: the user sees no answer

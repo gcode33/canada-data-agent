@@ -23,6 +23,7 @@ from typing import Any
 from canada_agent import ask as agent
 from canada_agent.config import Settings
 from canada_agent.evals.lint import GOLDEN, load
+from canada_agent.evals.poison import spec_for as poison_spec
 
 TRANSCRIPTS = GOLDEN.parents[1] / "transcripts"
 
@@ -73,8 +74,9 @@ def record(
         "poison": poison,
     }
     started = time.monotonic()
+    run_settings = settings.model_copy(update={"poison": poison or ""})
     try:
-        agent.ask(case["question"], model=model, settings=settings, capture=events)
+        agent.ask(case["question"], model=model, settings=run_settings, capture=events)
         outcome["error"] = None
     except agent.UsageLimitError:
         raise
@@ -91,6 +93,17 @@ def write_atomic(path: Path, data: dict[str, Any]) -> None:
     os.replace(tmp, path)  # a kill mid-write can't leave a half-written transcript
 
 
+def matches(path: Path, case: dict[str, Any]) -> bool:
+    """A recording still belongs to this case: same question and same poison."""
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    return old.get("question") == case.get("question") and (old.get("poison") or None) == (
+        poison_spec(case)
+    )
+
+
 def recorded_ok(path: Path) -> bool:
     try:
         return json.loads(path.read_text(encoding="utf-8")).get("error") is None
@@ -105,12 +118,14 @@ def record_cases(
     model: str,
     settings: Settings,
     force: bool = False,
-    poison_for: Any = lambda case: None,
+    poison_for: Any = poison_spec,
+    retry_errors: bool = True,
 ) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     for case in cases:
         path = folder / f"{case['id']}.json"
-        if not force and recorded_ok(path):
+        reusable = recorded_ok(path) or (not retry_errors and path.exists())
+        if not force and reusable and matches(path, case):
             continue
         try:
             outcome = record(case, model, settings, poison_for(case))
@@ -136,4 +151,5 @@ def main() -> None:
         model=args.model or settings.agent_model,
         settings=settings,
         force=args.force or bool(only),
+        poison_for=poison_spec,
     )

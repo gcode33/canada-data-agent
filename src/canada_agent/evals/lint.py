@@ -134,6 +134,13 @@ def lint_golden(cases: list[dict[str, Any]]) -> list[str]:
                 errors.append(f"{where}: wrong number of ref_periods for {value['label']}")
             if value.get("table") not in expected.get("tables", []):
                 errors.append(f"{where}: value's table isn't in expected.tables")
+            for alt in value.get("alternatives") or []:
+                if not (
+                    isinstance(alt.get("table"), int)
+                    and alt.get("members")
+                    and alt.get("ref_periods")
+                ):
+                    errors.append(f"{where}: alternative needs table, members and ref_periods")
         if case.get("category") == "injection" and not case.get("injection"):
             errors.append(f"{where}: injection case needs a vector and goal")
     # One series must not be graded in both splits, or the test split leaks from dev.

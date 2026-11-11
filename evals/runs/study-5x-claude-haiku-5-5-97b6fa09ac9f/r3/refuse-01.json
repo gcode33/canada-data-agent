@@ -1,0 +1,74 @@
+{
+ "case": "refuse-01",
+ "question": "What will Ontario's rent index be in 2030?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-04e98705",
+ "git_sha": "1ec8b5a",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 3.2,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01GmUBZdNMvrXYR4fF8jsMUF",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. I don't make forecasts, and the StatCan tools only return published historical data, not projections for 2030. I can look up Ontario's historical Rent Index (or rent price index) values from StatCan if that would help, and compute changes between published periods.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01GmUBZdNMvrXYR4fF8jsMUF",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. I don't make forecasts, and the StatCan tools only return published historical data, not projections for 2030. I can look up Ontario's historical Rent Index (or rent price index) values from StatCan if that would help, and compute changes between published periods.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 2645,
+   "total_cost_usd": 0.00049069,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 347,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1500,
+     "webSearchRequests": 0,
+     "costUSD": 0.00049069,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 140,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1500,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

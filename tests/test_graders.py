@@ -340,3 +340,91 @@ def test_quarterly_and_annual_periods_match():
 def test_committed_dev_verdicts_match_the_pinned_manifest():
     pinned = json.loads((GRADES / "dev.json").read_text())
     assert verdicts(grade_split("dev")) == pinned
+
+
+# --- false positives the flakiness study found ---
+
+
+def test_a_refusal_may_name_a_table_and_a_year():
+    note = (
+        "I can't: Germany isn't in StatCan's tables "
+        "(e.g. Table 14-10-0287, 14100287) for 2026, or any year."
+    )
+    run = mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=note))
+    assert failed(run, REFUSE) == set()
+
+
+def test_arithmetic_beside_an_entity_is_not_a_swap():
+    text = ("Ontario's rate was higher. Ontario was 7.0% and Quebec 6.0%. "
+            "Ontario was 7.0 - 6.0 = 1.0 points above Quebec, "
+            "or 1.0 / 6.0 = 17% higher than Quebec.")  # fmt: skip
+    run = mutate(GOOD_MULTI, lambda a, _: a.update(answer=text))
+    assert failed(run, MULTI) == set()
+
+
+# --- verified alternative series (same published number in another table) ---
+
+ALT = {"table": 14100220, "members": {1: 1, 2: 2, 3: 2}, "ref_periods": ["2026-08"]}
+EARN = case([{"table": 14100223, "members": {1: 1, 2: 2, 3: 2}, "label": "level",
+              "value": 1354.55, "tolerance_abs": 0.05, "ref_periods": ["2026-08"],
+              "alternatives": [ALT]}], [14100223])  # fmt: skip
+
+
+def earnings_run(table):
+    return transcript(
+        answer("Average weekly earnings were $1,354.55 in August 2026.",
+               [value("level", 1354.55, 77, "2026-08")], [URL.format(table)]),
+        fetched=[series(table, {1: 1, 2: 2, 3: 2}, 77, [("2026-08", 1354.55)])],
+    )  # fmt: skip
+
+
+def test_a_verified_alternative_series_is_accepted():
+    assert failed(earnings_run(14100220), EARN) == set()
+    assert failed(earnings_run(14100223), EARN) == set()
+
+
+def test_an_unlisted_table_with_the_same_number_is_not():
+    assert {"right_series", "values", "citations"} <= failed(earnings_run(14100222), EARN)
+
+
+def test_a_series_stored_in_thousands_may_be_written_in_thousands():
+    jobs = {1: 1, 2: 3, 3: 1, 4: 1, 5: 1, 6: 1}
+    want = {"table": 14100287, "members": jobs, "label": "change_abs", "value": -68.3,
+            "tolerance_abs": 0.5, "ref_periods": ["2026-08", "2026-09"]}  # fmt: skip
+    fetched = series(14100287, jobs, 8, [("2026-08", 21173.1), ("2026-09", 21104.8)])
+    fetched["scalar_factor"] = "thousands"
+    run = transcript(
+        answer("Canada lost about 68.3 thousand jobs.",
+               [value("change_abs", -68.3, 8, "2026-08/2026-09")], [URL.format(14100287)]),
+        fetched=[fetched],
+    )  # fmt: skip
+    assert failed(run, case([want], [14100287])) == set()
+
+
+# --- Phase 5 review: grader leniency ---
+
+
+@pytest.mark.parametrize("sep", [" - ", " = "])
+def test_a_swap_written_with_dashes_or_equals_still_fails(sep):
+    text = f"Ontario's rate was higher. Ontario{sep}6.0%; Quebec{sep}7.0%."
+    assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
+
+
+def test_a_refusal_may_not_hide_a_figure_as_an_eight_digit_number():
+    text = "I can't, but it was 41288599 people."
+    assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
+
+
+def test_a_refusal_may_cite_a_product_id_and_a_period():
+    text = "I can't forecast; table pid 14100287 only runs to 2026-09."
+    assert failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE) == set()
+
+
+def test_the_thousands_rule_uses_the_matched_series_only():
+    other = series(14100287, {1: 2, 2: 3, 3: 1, 4: 1, 5: 1, 6: 1}, 99, [("2026-08", 1.0)])
+    other["scalar_factor"] = "thousands"
+    run = earnings_run(14100223)
+    run["events"][-1]["structured_output"]["answer"] = "Average weekly earnings were $1,354,550."
+    extra = transcript(run["events"][-1]["structured_output"], fetched=[other])["events"][:2]
+    run["events"] = extra + run["events"]
+    assert "values" in failed(run, EARN)

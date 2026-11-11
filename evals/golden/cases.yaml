@@ -90,6 +90,14 @@
       ref_periods:
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 11
+          2: 1
+          3: 1
+        ref_periods:
+        - '2026'
     should_refuse: false
   verified_against_csv: true
 - id: lookup-05
@@ -153,9 +161,16 @@
       label: level
       value: 1354.55
       tolerance_abs: 0.05
-      ref_periods:
+      ref_periods: &id001
       - 2026-08
       uom: Dollars
+      alternatives:
+      - table: 14100220
+        members:
+          1: 1
+          2: 2
+          3: 2
+        ref_periods: *id001
     should_refuse: false
   verified_against_csv: true
 - id: lookup-08
@@ -267,6 +282,14 @@
       ref_periods:
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 1
+          2: 1
+          3: 1
+        ref_periods:
+        - '2026'
     should_refuse: false
   verified_against_csv: true
 - id: compare-01
@@ -286,7 +309,7 @@
       label: change_pct
       value: 1.985
       tolerance_abs: 0.1
-      ref_periods: &id001
+      ref_periods: &id002
       - 2025-09
       - 2026-09
       uom: 2002=100
@@ -309,15 +332,16 @@
       label: change_pct
       value: 3.093
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: 2002=100
     should_refuse: false
   verified_against_csv: true
 - id: compare-03
   category: comparison
   split: dev
-  phrasing: own
-  question: By what percent did prices at the pump change in Canada from September 2025 to September 2026?
+  phrasing: title
+  question: By what percent did the gasoline index of Canada's consumer price index change from September
+    2025 to September 2026?
   expected:
     tables:
     - 18100004
@@ -329,7 +353,7 @@
       label: change_pct
       value: 27.794
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: 2002=100
     should_refuse: false
   verified_against_csv: true
@@ -350,7 +374,7 @@
       label: change_pct
       value: 2.177
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: 2002=100
     should_refuse: false
   verified_against_csv: true
@@ -375,7 +399,7 @@
       label: change_abs
       value: -0.6
       tolerance_abs: 0.05
-      ref_periods: *id001
+      ref_periods: *id002
       uom: Percent
     should_refuse: false
   verified_against_csv: true
@@ -423,7 +447,7 @@
       label: change_pct
       value: 26.551
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: Cents per litre
     should_refuse: false
   verified_against_csv: true
@@ -444,7 +468,7 @@
       label: change_pct
       value: -2.037
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: Index, 201612=100
     should_refuse: false
   verified_against_csv: true
@@ -492,6 +516,15 @@
       - 2025-07
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 9
+          2: 1
+          3: 1
+        ref_periods:
+        - '2025'
+        - '2026'
     should_refuse: false
   verified_against_csv: true
 - id: multi-01
@@ -591,6 +624,14 @@
       ref_periods:
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 10
+          2: 1
+          3: 1
+        ref_periods:
+        - '2026'
       entity: Alberta
     - table: 17100009
       members:
@@ -601,6 +642,14 @@
       ref_periods:
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 11
+          2: 1
+          3: 1
+        ref_periods:
+        - '2026'
       entity: British Columbia
     should_refuse: false
     answer_entity: British Columbia
@@ -622,7 +671,7 @@
       label: change_pct
       value: 1.753
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: 2002=100
       entity: shelter
     - table: 18100004
@@ -632,7 +681,7 @@
       label: change_pct
       value: 2.177
       tolerance_abs: 0.1
-      ref_periods: *id001
+      ref_periods: *id002
       uom: 2002=100
       entity: food
     should_refuse: false
@@ -921,5 +970,13 @@
       ref_periods:
       - 2026-07
       uom: Persons
+      alternatives:
+      - table: 17100005
+        members:
+          1: 6
+          2: 1
+          3: 1
+        ref_periods:
+        - '2026'
     should_refuse: false
   verified_against_csv: true

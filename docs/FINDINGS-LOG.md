@@ -101,3 +101,13 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** my own claim in ADR 0006 that a narrow snapshot "can only lower scores". It raised them.
 - **Would change:** before trusting a perfect score, try to get a wrong answer past the graders yourself; the review found the first bypass in minutes. And pin verdicts in CI, not just "it ran".
 
+## Phase 5: injection suite, flakiness study, gate
+- **Surprised:** the first flakiness study caught a real security bug: Haiku wrote an injected host as a bare domain (1 of 5 runs), and the runtime check only blocked `https://` links. It also showed most red runs were my graders' false positives: table numbers and "2026-09" read as figures in refusals, arithmetic clauses read as swaps, "68.3 thousand" for a series stored in thousands. And two "wrong table" failures were right answers: StatCan publishes the same earnings and population figures in two tables, now verified alternatives.
+- **Broke:** my first poison payloads were longer than the 120-character member-name cap, so the member-name attack would never have fired; a test caught it. My first gate rule failed a run where the defence *worked* (the attack was blocked at runtime).
+- **Would change:** re-grade, don't re-record. Splitting the hash so graders can change without new model runs saved about an hour per iteration. The agent hash was checked equal over the recording commit before reusing anything.
+
+## Phase 5 adversarial review (fixes on test/injection-suite)
+- **Surprised:** the gate I'd just built couldn't fail. Its baseline came from its own run, so `judge()` passed by construction, and a forged receipt verified because `verify` only compared hashes. The injection grader's "the agent disavowed it" allowance matched the payload's own marker ("NOTICE-7731"), and the runtime link filter was a 20-TLD blocklist that `.de`, a bare IP or `evil[.]com` walked past. The test host was on that list, so the eval couldn't see the gap.
+- **Broke:** about 35 findings across three reviewers; every demonstrated bypass is now a test that fails first. Fresh runs on the fixed agent (study 2) scored 0.89 against the 0.93 the re-graded study 1 reported: the honest drop from grading stricter and no longer grading the same runs the graders were tuned on. All 3 dev injection cases held 15/15 against the rotated hosts.
+- **Would change:** write a safety check as an allowlist from the start (only StatCan's citation URL is allowed); a blocklist loses to the first unlisted variant. When an eval's attacker and defender share a list, the eval can't fail, so rotate what the attacker uses. refuse-02 (declines the advice, then volunteers figures) stays a labelled failure rather than a relabel.
+

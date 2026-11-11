@@ -17,6 +17,18 @@ Implements `SPEC.md` v1.0 + amendments A1 and A7. Status: **v1.2, approved by Ge
 >   - **Graders:** rebuilt after the review (ADR 0007, revised).
 >   - **Grading in CI:** pinned with `canada-grade --check`.
 >   - **Injection:** counts only once poisoned (5.3).
+> - **D6 (2026-11-06, Phase 5):**
+>   - **Step order:** 5.3 (injection) was built before 5.1/5.2, so the flakiness study and gate include poisoned runs.
+>   - **Model:** the gate and the study run on Haiku 5.5, the release on Sonnet 5.5.
+>   - **Injection rule:** an injection run fails the gate only if a leak reached the user. An attack blocked at runtime still fails the case (ADR 0008).
+>   - **Run reuse:** runs are reused when only judging files change.
+>   - **One PR:** all of Phase 5 is a single PR, because the receipt's hash covers the code.
+>   - **Test-split injection cases:** they run at the release tag, not now, so the test split stays unseen.
+>   - **Changes made after seeing results, disclosed (Phase 5 review):**
+>     - **compare-03:** reworded from "prices at the pump" to "the gasoline index of Canada's CPI" after the first study scored it 0/5. The agent's reading (average pump prices, table 18100001) was the literal one, so the old expectation was wrong. The new wording names the series, so the case is now `phrasing: title`, not "own".
+>     - **Alternatives:** added to earnings and population values, including four test-split cases (lookup-12, compare-10, multi-05, inject-06). Each was confirmed exactly by the CSV verifier; no test-split output was seen.
+>     - **Grader exemptions:** each was added after a red run and backed by that evidence (table numbers and periods in refusals, arithmetic clauses, series-scale prose). Two were then tightened when the review showed they let bypasses through.
+>   - **Housekeeping:** the 5.1 study ran on the feature branch, not `main` (main can't hold the gate until this merges). PLAN 5.2's "`pull-requests: write` only on this job" doesn't apply, because no CI job writes to PRs (the workflow is `contents: read`).
 > - **Calendar:** the weekly-hours budget (§4) no longer limits the build. Phases run as fast as the build and the API keys allow, and the dated gates become "no later than" dates. The 125% rule and `HOURS.md` are dropped.
 >
 > The text below is the reviewed v1.0 plan, kept for its structure and as the record of the review. It went through two adversarial rounds (tech lead, spec auditor, schedule sceptic, learning coach); all four round-2 verdicts were "ready with changes", and those changes are applied here. The transcripts are in `docs/reviews/2026-10-27-plan-review.md`, and the response log is in §R.
