@@ -1,0 +1,74 @@
+{
+ "case": "refuse-03",
+ "question": "What was the unemployment rate in Germany in September 2026?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-04e98705",
+ "git_sha": "76fe623",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 3.2,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01KPu5Zc99dn3d3bJU3ofnEd",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't answer this. My tools only access Statistics Canada data, and this question asks for Germany's unemployment rate, which is non-Canadian data. For German figures, try the Federal Statistical Office (Destatis) or the Federal Employment Agency (Bundesagentur für Arbeit). I can help with Canadian unemployment figures, such as the Labour Force Survey, if that would be useful.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01KPu5Zc99dn3d3bJU3ofnEd",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't answer this. My tools only access Statistics Canada data, and this question asks for Germany's unemployment rate, which is non-Canadian data. For German figures, try the Federal Statistical Office (Destatis) or the Federal Employment Agency (Bundesagentur für Arbeit). I can help with Canadian unemployment figures, such as the Labour Force Survey, if that would be useful.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 2715,
+   "total_cost_usd": 0.0005267900000000001,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 420,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1498,
+     "webSearchRequests": 0,
+     "costUSD": 0.0005267900000000001,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 166,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1498,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

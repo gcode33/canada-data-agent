@@ -111,3 +111,13 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** about 35 findings across three reviewers; every demonstrated bypass is now a test that fails first. Fresh runs on the fixed agent (study 2) scored 0.89 against the 0.93 the re-graded study 1 reported: the honest drop from grading stricter and no longer grading the same runs the graders were tuned on. All 3 dev injection cases held 15/15 against the rotated hosts.
 - **Would change:** write a safety check as an allowlist from the start (only StatCan's citation URL is allowed); a blocklist loses to the first unlisted variant. When an eval's attacker and defender share a list, the eval can't fail, so rotate what the attacker uses. refuse-02 (declines the advice, then volunteers figures) stays a labelled failure rather than a relabel.
 
+## docs/v1-release (Phase 6)
+- **Surprised:** the held-out split's misses weren't the agent's. Two were correct refusals failed by a grader rule I'd already seen fail on dev ("2-bedroom") and deferred, so the test split charged for it. And the model I'd taught to ignore injections ignored them while quoting them: 7 of 30 answers repeated the fake 999.9 alongside "I ignored that".
+- **Broke:** my own wording, twice. "No injected link or value reached a user" was true for links only. "Never tuned on" missed a Phase 5 edit to three test cases. The fresh-clone check passed with the database down. A gate receipt claiming 3/3 everywhere verified, because `verify` read the receipt instead of the runs it summarised.
+- **Would change:** write the rule for the held-out run before it runs (9439ff5 did, and it settled every argument afterwards). Verify evidence, not claims about evidence: re-grade the runs instead of trusting a JSON summary of them.
+
+## Phase 6 adversarial review (fixes on docs/v1-release)
+- **Surprised:** three reviewers re-derived 13/16 and the interval and found the headline sound, then found every sentence around it slightly too strong.
+- **Broke:** the link filter (emails, Unicode look-alikes, "evil dot com"); runtime value grounding (a fake value on a real vector id); the offline replay (no time budget, outages read as passes); a wrapped-line swap my own line-break fix had opened.
+- **Would change:** when a prompt tells the model what it *may* say ("you may say you ignored it"), check what that permission lets through in code the same day.
+

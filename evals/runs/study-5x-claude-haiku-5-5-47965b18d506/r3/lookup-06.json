@@ -1,0 +1,180 @@
+{
+ "case": "lookup-06",
+ "question": "What share of jobs across Canada were sitting unfilled in August 2026, as a job vacancy rate?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-04e98705",
+ "git_sha": "76fe623",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 9.0,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01KTZn2uBwVRWXRiZpBMbP19",
+     "name": "mcp__canada__search_tables",
+     "input": {
+      "query": "job vacancy rate Canada monthly 2026"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01KTZn2uBwVRWXRiZpBMbP19",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"query\\\": \\\"job vacancy rate Canada monthly 2026\\\", \\\"results\\\": [{\\\"product_id\\\": 14100371, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, unadjusted for seasonality\\\", \\\"card\\\": \\\"[14-10-0371] Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, unadjusted for seasonality Frequency: monthly · Range: 2015-04 to 2026-07 · Subject: Labour Dimensions: - Geography (14): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon - Statistics (3): Job vacancies, Job vacancy rate, Payroll employees Note: Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037101\\\"}, {\\\"product_id\\\": 14100372, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate by industry sector, monthly, unadjusted for seasonality\\\", \\\"card\\\": \\\"[14-10-0372] Job vacancies, payroll employees, and job vacancy rate by industry sector, monthly, unadjusted for seasonality Frequency: monthly · Range: 2015-04 to 2026-07 · Subject: Labour Dimensions: - Geography (1): Canada - North American Industry Classification System (NAICS) (21): Total, all industries, Accommodation and food services, Administrative and support, waste management and remediation services, Agriculture, forestry, fishing and hunting, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Retail trade, Transportation and warehousing, Utilities, Wholesale trade - Statistics (3): Job vacancies, Job vacancy rate, Payroll employees Note: Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037201\\\"}, {\\\"product_id\\\": 14100406, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate by industry sector, monthly, adjusted for seasonality\\\", \\\"card\\\": \\\"[14-10-0406] Job vacancies, payroll employees, and job vacancy rate by industry sector, monthly, adjusted for seasonality Frequency: monthly · Range: 2015-04 to 2026-07 · Subject: Labour Dimensions: - Geography (1): Canada - North American Industry Classification System (NAICS) (21): Total, all industries, Accommodation and food services, Administrative and support, waste management and remediation services, Agriculture, forestry, fishing and hunting, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Retail trade, Transportation and warehousing, Utilities, Wholesale trade - Statistics (3): Job vacancies, Job vacancy rate, Payroll employees Note: Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410040601\\\"}, {\\\"product_id\\\": 14100432, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, adjusted for seasonality\\\", \\\"card\\\": \\\"[14-10-0432] Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, adjusted for seasonality Frequency: monthly · Range: 2015-04 to 2026-07 · Subject: Labour Dimensions: - Geography (14): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon - Statistics (3): Job vacancies, Job vacancy rate, Payroll employees Note: Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410043201\\\"}, {\\\"product_id\\\": 14100398, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate, by economic regions, quarterly, adjusted for seasonality\\\", \\\"card\\\": \\\"[14-10-0398] Job vacancies, payroll employees, and job vacancy rate, by economic regions, quarterly, adjusted for seasonality Frequency: quarterly · Range: 2015-01 to 2026-04 · Subject: Labour Dimensions: - Geography (83): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon, Abitibi-Témiscamingue, Quebec, Annapolis Valley, Nova Scotia, Avalon Peninsula, Newfoundland and Labrador, Banff-Jasper-Rocky Mountain House and Athabasca-Grande Prairie-Peace [truncated], Bas-Saint-Laurent, Quebec, Calgary, Alberta, Campbellton-Miramichi, New Brunswick, Camrose-Drumheller, Alberta, Cape Breton, Nova Scotia, Capitale-Nationale, Quebec, Cariboo, British Columbia, … - Statistics (3): Job vacancies, Job vacancy rate, Payroll employees Note: Data quality indicators are based on the coefficient of variation (CV), the non-response errors, the imputation errors, and subject matter expertise: A – Excellent; B - Very good; C - Good; D – Acceptable; E - Use with caution; F - Too unreliable to publish.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410039801\\\"}], \\\"degraded_retrieval\\\": true}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01UqTiSU3Z8JtUXUub6MnD4c",
+     "name": "mcp__canada__get_table_dimensions",
+     "input": {
+      "product_id": 14100371
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01UqTiSU3Z8JtUXUub6MnD4c",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 14100371, \\\"title\\\": \\\"Job vacancies, payroll employees, and job vacancy rate by provinces and territories, monthly, unadjusted for seasonality\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037101\\\", \\\"dimensions\\\": [{\\\"position\\\": 1, \\\"name\\\": \\\"Geography\\\", \\\"member_count\\\": 14, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Canada\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 2, \\\"name\\\": \\\"Newfoundland and Labrador\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 3, \\\"name\\\": \\\"Prince Edward Island\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 4, \\\"name\\\": \\\"Nova Scotia\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 5, \\\"name\\\": \\\"New Brunswick\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 6, \\\"name\\\": \\\"Quebec\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 7, \\\"name\\\": \\\"Ontario\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 8, \\\"name\\\": \\\"Manitoba\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 9, \\\"name\\\": \\\"Saskatchewan\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 10, \\\"name\\\": \\\"Alberta\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 11, \\\"name\\\": \\\"British Columbia\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 12, \\\"name\\\": \\\"Yukon\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 13, \\\"name\\\": \\\"Northwest Territories\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 14, \\\"name\\\": \\\"Nunavut\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}], \\\"truncated\\\": false}, {\\\"position\\\": 2, \\\"name\\\": \\\"Statistics\\\", \\\"member_count\\\": 3, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Job vacancies\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 3, \\\"name\\\": \\\"Payroll employees\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 4, \\\"name\\\": \\\"Job vacancy rate\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}]}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01RDsLu1DWzWFvf4JDkJDuka",
+     "name": "mcp__canada__get_series",
+     "input": {
+      "product_id": 14100371,
+      "members": {
+       "1": 1,
+       "2": 4
+      },
+      "start": "2026-06",
+      "end": "2026-08"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01RDsLu1DWzWFvf4JDkJDuka",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 14100371, \\\"vector_id\\\": 1212389365, \\\"coordinate\\\": \\\"1.4.0.0.0.0.0.0.0.0\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037101\\\", \\\"scalar_factor\\\": \\\"units\\\", \\\"points\\\": [{\\\"ref_period\\\": \\\"2026-06\\\", \\\"value\\\": 2.9}, {\\\"ref_period\\\": \\\"2026-07\\\", \\\"value\\\": 2.8}, {\\\"ref_period\\\": \\\"2026-08\\\", \\\"value\\\": 2.9}], \\\"first_period_returned\\\": \\\"2026-06\\\", \\\"truncated\\\": false, \\\"no_data_in_range\\\": false}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01JTgspPf3iUSCjHbr2qvYTJ",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "The job vacancy rate for Canada was 2.9% in August 2026, meaning about 2.9 of every 100 jobs (payroll positions) were unfilled. This is the unadjusted monthly figure from StatCan table 14-10-0371. For comparison, July 2026 was 2.8% and June 2026 was 2.9%. The change from July to August is +0.1 percentage points.",
+      "answer_values": [
+       {
+        "label": "level",
+        "description": "Job vacancy rate, Canada, August 2026 (unadjusted for seasonality)",
+        "value": 2.9,
+        "unit": "percent",
+        "vector_id": 1212389365,
+        "ref_period": "2026-08"
+       }
+      ],
+      "source_urls": [
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037101"
+      ],
+      "refused": false
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01JTgspPf3iUSCjHbr2qvYTJ",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "The job vacancy rate for Canada was 2.9% in August 2026, meaning about 2.9 of every 100 jobs (payroll positions) were unfilled. This is the unadjusted monthly figure from StatCan table 14-10-0371. For comparison, July 2026 was 2.8% and June 2026 was 2.9%. The change from July to August is +0.1 percentage points.",
+    "answer_values": [
+     {
+      "label": "level",
+      "description": "Job vacancy rate, Canada, August 2026 (unadjusted for seasonality)",
+      "value": 2.9,
+      "unit": "percent",
+      "vector_id": 1212389365,
+      "ref_period": "2026-08"
+     }
+    ],
+    "source_urls": [
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410037101"
+    ],
+    "refused": false
+   },
+   "num_turns": 5,
+   "duration_ms": 8596,
+   "total_cost_usd": 0.00191003,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 8,
+     "outputTokens": 1021,
+     "cacheReadInputTokens": 18273,
+     "cacheCreationInputTokens": 6080,
+     "webSearchRequests": 0,
+     "costUSD": 0.00191003,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 376,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 6080,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

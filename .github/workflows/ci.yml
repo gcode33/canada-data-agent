@@ -2,6 +2,8 @@ name: ci
 
 on:
   pull_request:
+  push: # main is re-checked after every merge: two PRs with valid receipts can merge into
+    branches: [main] # a main whose receipt is stale (Phase 6 security review)
 
 permissions:
   contents: read
@@ -11,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       db:
-        image: pgvector/pgvector:pg17
+        image: pgvector/pgvector@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d # pg17
         env:
           POSTGRES_USER: canada
           POSTGRES_PASSWORD: canada
@@ -35,13 +37,21 @@ jobs:
       - run: uv run pytest
       # Graders over the committed transcripts: no model, no network (PLAN 4.4)
       - run: uv run canada-grade --split dev --check
+      # The held-out test split ran once at the release; its verdicts are pinned too.
+      - run: uv run canada-grade --split test --check
       # The eval gate runs locally (no model in CI, ADR 0009); CI checks its receipt matches
       # exactly this code, prompt, golden set and data (PLAN 5.2).
       - run: uv run canada-gate verify
       - name: Flag changes to eval inputs (SPEC 10.5)
+        if: github.event_name == 'pull_request'
         run: |
           changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- evals/baseline.json evals/golden snapshots)
           if [ -n "$changed" ]; then echo "::warning title=Eval inputs changed::$(echo $changed | tr '\n' ' ')"; fi
+      - name: The held-out test split ran once; its recordings never change
+        if: github.event_name == 'pull_request'
+        run: |
+          rerun=$(git diff --name-only --diff-filter=MD "origin/${{ github.base_ref }}...HEAD" -- evals/transcripts/test)
+          if [ -n "$rerun" ]; then echo "::error title=Test split re-recorded::$rerun"; exit 1; fi
       # Retrieval eval from the committed index: no Voyage key, no StatCan call (PLAN 2.2/2.3).
       # Floors = evals/ablation.md rows; raise them when a PR improves a row.
       - run: uv run canada-migrate

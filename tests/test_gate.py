@@ -185,6 +185,49 @@ def test_verify_without_a_receipt_fails():
     ]
 
 
+# --- the evidence: verify re-grades the committed runs (Phase 6 security review) ---
+
+
+def committed_runs(tmp_path, agent="a" * 64):
+    """Empty run folders: every case grades 'no transcript', which is enough to compare."""
+    runs = tmp_path / "runs"
+    gate_runs = [runs / f"gate-claude-haiku-5-5-{agent[:12]}" / f"r{r}" for r in (1, 2, 3)]
+    study_runs = [runs / f"study-5x-claude-haiku-5-5-{agent[:12]}" / f"r{r}" for r in range(1, 6)]
+    for folder in gate_runs + study_runs:
+        folder.mkdir(parents=True)
+    cases, study = gate.per_case("dev", gate_runs), gate.per_case("dev", study_runs)
+    receipt = {"agent_hash": agent, "model": "claude-haiku-5-5", "k": gate.K, "cases": cases,
+               **gate.run_cost(gate_runs)}  # fmt: skip
+    baseline = {"from_study_agent_hash": agent, "model": "claude-haiku-5-5", "k": 5,
+                "pass_rates": {c: v["pass_rate"] for c, v in study.items()},
+                "stable": sorted(c for c, v in study.items() if v["pass_rate"] == 1)}  # fmt: skip
+    return runs, receipt, baseline
+
+
+def test_a_receipt_and_baseline_that_match_their_runs_verify(tmp_path):
+    runs, receipt, baseline = committed_runs(tmp_path)
+    assert gate.check_evidence(receipt, baseline, runs) == []
+
+
+@pytest.mark.parametrize(
+    ("forge", "message"),
+    [
+        (lambda r, b: r["cases"][gate.dev_ids()[0]].update(pass_rate=1.0), "pass_rate"),
+        (lambda r, b: r["cases"][gate.dev_ids()[0]].update(invalid=1), "invalid"),
+        (lambda r, b: r.update(usd=float("nan")), "finite"),
+        (lambda r, b: r.update(usd=0.5), "doesn't match its runs"),
+        (lambda r, b: b["pass_rates"].update({gate.dev_ids()[0]: 0.2}), "baseline pass rates"),
+        (lambda r, b: b.update(stable=gate.dev_ids()), "stable cases"),
+        (lambda r, b: b.update(from_study_agent_hash="b" * 64), "different agent"),
+        (lambda r, b: r.update(agent_hash="c" * 64), "aren't committed"),
+    ],
+)
+def test_receipts_and_baselines_that_disagree_with_their_runs_fail(tmp_path, forge, message):
+    runs, receipt, baseline = committed_runs(tmp_path)
+    forge(receipt, baseline)
+    assert any(message in p for p in gate.check_evidence(receipt, baseline, runs))
+
+
 # --- the run ---
 
 
@@ -197,14 +240,18 @@ def test_run_settings_ignore_environment_overrides(monkeypatch):
     assert settings.data_backend == "snapshot"
 
 
-def test_runs_with_an_outdated_question_or_poison_are_re_recorded(tmp_path, monkeypatch):
+def test_runs_with_an_outdated_question_poison_or_prompt_are_re_recorded(tmp_path, monkeypatch):
     case = {"id": "c", "question": "q now", "category": "lookup", "expected": {"values": []}}
     (tmp_path / "c.json").write_text(json.dumps({"question": "q before", "error": None}))
+    (tmp_path / "d.json").write_text(  # right question, recorded under an older prompt
+        json.dumps({"question": "q now", "error": None, "prompt_version": "v1-old"})
+    )
     recorded = []
     monkeypatch.setattr(
         recorder, "record", lambda c, m, s, p=None: recorded.append(c["id"]) or {"error": None}
     )
     recorder.record_cases(
-        [case], tmp_path, model="m", settings=gate.run_settings(), retry_errors=False
-    )
-    assert recorded == ["c"]
+        [case, case | {"id": "d"}], tmp_path, model="m", settings=gate.run_settings(),
+        retry_errors=False,
+    )  # fmt: skip
+    assert recorded == ["c", "d"]

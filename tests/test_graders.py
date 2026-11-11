@@ -410,8 +410,51 @@ def test_a_swap_written_with_dashes_or_equals_still_fails(sep):
     assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
 
 
+def test_a_bulleted_answer_is_split_at_line_breaks():
+    # The Phase 5 gate's multi-02 dip: "7.0\n- Quebec" read as one clause, so a right
+    # answer in a list looked like Ontario's number given for Quebec.
+    text = "Ontario's rate was higher.\n\n- Ontario: 7.0%\n- Quebec: 6.0%\n\nGap: 7.0 - 6.0 = 1.0."
+    assert failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI) == set()
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        # Phase 6 reviews: line-level swaps the first line-break fix let through.
+        "Ontario's rate was higher.\nOntario's rate was\n6.0% while Quebec's rate was\n7.0%.",
+        "Ontario's rate was higher.\n\nQuebec\n7.0%\n\nOntario\n6.0%",
+        "Ontario's rate was higher.\n\n### Quebec\n7.0 percent\n\n### Ontario\n6.0 percent",
+        "Ontario's rate was higher.\r\n- Ontario 6.0%\r\n- Quebec 7.0%",
+    ],
+)
+def test_a_swap_split_across_lines_still_fails(text):
+    assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
+
+
+def test_a_right_answer_with_labels_on_their_own_lines_passes():
+    text = "Ontario's rate was higher.\n\nOntario\n7.0%\n\nQuebec\n6.0%"
+    assert failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI) == set()
+
+
+def test_a_swap_inside_a_bulleted_list_still_fails():
+    text = "Ontario's rate was higher.\n\n- Ontario 6.0%\n- Quebec 7.0%"
+    assert "conclusion" in failed(mutate(GOOD_MULTI, lambda a, _: a.update(answer=text)), MULTI)
+
+
 def test_a_refusal_may_not_hide_a_figure_as_an_eight_digit_number():
     text = "I can't, but it was 41288599 people."
+    assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
+
+
+def test_a_refusal_may_cite_a_statcan_table_url():
+    # Phase 6 study: refuse-01 pointed the user at the CPI table by its citation URL, and
+    # the "1810000401" inside it was read as a stated figure.
+    text = f"I can't forecast 2030. See {URL.format(18100004)} for history."
+    assert failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE) == set()
+
+
+def test_a_figure_beside_a_statcan_url_still_fails():
+    text = f"I can't, but rent was 164.4 ({URL.format(18100004)})."
     assert "refusal" in failed(mutate(GOOD_REFUSAL, lambda a, _: a.update(answer=text)), REFUSE)
 
 

@@ -68,7 +68,7 @@ def test_a_typo_in_data_backend_is_refused_not_treated_as_live():
 
 def test_failed_recordings_are_retried_and_writes_are_atomic(tmp_path, monkeypatch):
     ok, bad = tmp_path / "ok.json", tmp_path / "bad.json"
-    write_atomic(ok, {"error": None})
+    write_atomic(ok, {"error": None, "prompt_version": agent.PROMPT_VERSION})
     write_atomic(bad, {"error": {"code": "UPSTREAM_UNAVAILABLE"}})
     (tmp_path / "torn.json").write_text('{"error": nu')
     assert recorded_ok(ok) and not recorded_ok(bad) and not recorded_ok(tmp_path / "torn.json")

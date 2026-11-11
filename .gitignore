@@ -9,7 +9,5 @@ __pycache__/
 .DS_Store
 logs/
 data/csv/
-evals/runs/*
-# The runs behind the published numbers are evidence: committed (ADR 0008).
-!evals/runs/study-5x-claude-haiku-5-5-97b6fa09ac9f/
-!evals/runs/gate-claude-haiku-5-5-97b6fa09ac9f/
+# evals/runs/ is committed, not ignored: `canada-gate verify` re-grades the receipt and the
+# baseline from these runs, so they're the evidence behind every published number (ADR 0008).

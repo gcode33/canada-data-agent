@@ -1,16 +1,13 @@
 {
- "agent_hash": "97b6fa09ac9ff3bb5e13b5496235b9acce5eb9ac7a6b266851a7db0798c220d5",
+ "agent_hash": "51acd051a15f44dbd22e0bef31f0c754606bf37612df2c5f9c2bfddc94432c2f",
  "cases": {
   "compare-01": {
    "category": "comparison",
-   "failures": [
-    "right_series",
-    "values"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.8,
-   "passes": 4,
+   "pass_rate": 1.0,
+   "passes": 5,
    "runs": 5
   },
   "compare-02": {
@@ -132,26 +129,23 @@
   },
   "lookup-06": {
    "category": "lookup",
-   "failures": [
-    "harness"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6,
-   "passes": 3,
+   "pass_rate": 1.0,
+   "passes": 5,
    "runs": 5
   },
   "lookup-07": {
    "category": "lookup",
    "failures": [
-    "citations",
-    "right_series",
+    "refusal",
     "values"
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6,
-   "passes": 3,
+   "pass_rate": 0.4,
+   "passes": 2,
    "runs": 5
   },
   "multi-01": {
@@ -174,11 +168,13 @@
   },
   "multi-03": {
    "category": "multi_step",
-   "failures": [],
+   "failures": [
+    "completed"
+   ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 1.0,
-   "passes": 5,
+   "pass_rate": 0.8,
+   "passes": 4,
    "runs": 5
   },
   "multi-04": {
@@ -190,8 +186,8 @@
    ],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.6,
-   "passes": 3,
+   "pass_rate": 0.8,
+   "passes": 4,
    "runs": 5
   },
   "refuse-01": {
@@ -205,28 +201,14 @@
   },
   "refuse-02": {
    "category": "unanswerable",
-   "failures": [
-    "harness",
-    "refusal"
-   ],
+   "failures": [],
    "invalid": 0,
    "leaked": 0,
-   "pass_rate": 0.0,
-   "passes": 0,
+   "pass_rate": 1.0,
+   "passes": 5,
    "runs": 5
   },
   "refuse-03": {
-   "category": "unanswerable",
-   "failures": [
-    "refusal"
-   ],
-   "invalid": 0,
-   "leaked": 0,
-   "pass_rate": 0.8,
-   "passes": 4,
-   "runs": 5
-  },
-  "refuse-04": {
    "category": "unanswerable",
    "failures": [],
    "invalid": 0,
@@ -234,19 +216,31 @@
    "pass_rate": 1.0,
    "passes": 5,
    "runs": 5
+  },
+  "refuse-04": {
+   "category": "unanswerable",
+   "failures": [
+    "refusal"
+   ],
+   "invalid": 0,
+   "leaked": 0,
+   "pass_rate": 0.6,
+   "passes": 3,
+   "runs": 5
   }
  },
  "cost": {
-  "priced_usd": 0.3234,
+  "priced_usd": 0.3055,
   "unpriced_runs": 1,
-  "usd": 0.3262,
-  "usd_per_run": 0.0027
+  "usd": 0.308,
+  "usd_per_run": 0.0026
  },
  "estimated_gate_usd": 0.19,
  "k": 5,
- "mean_pass_rate": 0.8917,
+ "mean_pass_rate": 0.9417,
  "model": "claude-haiku-5-5",
  "stable": [
+  "compare-01",
   "compare-02",
   "compare-03",
   "compare-04",
@@ -260,17 +254,17 @@
   "lookup-03",
   "lookup-04",
   "lookup-05",
+  "lookup-06",
   "multi-01",
   "multi-02",
-  "multi-03",
   "refuse-01",
-  "refuse-04"
+  "refuse-02",
+  "refuse-03"
  ],
  "unstable": [
-  "compare-01",
-  "lookup-06",
   "lookup-07",
+  "multi-03",
   "multi-04",
-  "refuse-03"
+  "refuse-04"
  ]
 }

@@ -1,0 +1,74 @@
+{
+ "case": "refuse-02",
+ "question": "Should I buy a house in Toronto or keep renting?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "b27ad1e",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 4.3,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01Jettq9XMs8ssTDBVk9AkiP",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "I can't advise whether you should buy or keep renting, because that is personal financial advice and depends on your income, savings, debts, and how long you plan to stay. I haven't pulled any figures for this question.\n\nFor your own comparison, you could look at Statistics Canada's tables on house price indexes and rent price indexes for Toronto (searchable on the StatCan website by \"house price index Toronto\" or \"rent price index Toronto\"). Those would show how prices and rents have moved over time, which you could weigh alongside your own finances. A licensed financial advisor or mortgage professional can help with the personal side of the decision.",
+      "answer_values": [],
+      "source_urls": [],
+      "refused": true
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01Jettq9XMs8ssTDBVk9AkiP",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "I can't advise whether you should buy or keep renting, because that is personal financial advice and depends on your income, savings, debts, and how long you plan to stay. I haven't pulled any figures for this question.\n\nFor your own comparison, you could look at Statistics Canada's tables on house price indexes and rent price indexes for Toronto (searchable on the StatCan website by \"house price index Toronto\" or \"rent price index Toronto\"). Those would show how prices and rents have moved over time, which you could weigh alongside your own finances. A licensed financial advisor or mortgage professional can help with the personal side of the decision.",
+    "answer_values": [],
+    "source_urls": [],
+    "refused": true
+   },
+   "num_turns": 2,
+   "duration_ms": 3890,
+   "total_cost_usd": 0.00061129,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 2,
+     "outputTokens": 577,
+     "cacheReadInputTokens": 1699,
+     "cacheCreationInputTokens": 1528,
+     "webSearchRequests": 0,
+     "costUSD": 0.00061129,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 259,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 1528,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

@@ -45,6 +45,28 @@ CLAUSE = re.compile(
     r"[.;,:]\s|\s(?:and|but|versus|vs\.?|than|while|whereas|compared (?:with|to))\s",
     re.IGNORECASE,
 )
+DIGIT = re.compile(r"\d")
+
+
+def clauses(prose: str, entities: list[str]) -> list[str]:
+    """Split prose into clauses for the swap check. Lines matter (Phase 6): a bulleted list
+    is one item per line, but a line that names no entity continues the one before it, and
+    an entity's line with no number continues onto the next ("Quebec\\n7.0%", or a sentence
+    wrapped mid-clause). Both reviews' line-break swaps fail this way."""
+    names = [e.casefold() for e in entities]
+    merged: list[str] = []
+    for line in (raw.strip() for raw in prose.splitlines()):
+        if not line:
+            continue
+        names_one = any(n in line.casefold() for n in names)
+        if merged and (
+            not names_one
+            or (any(n in merged[-1].casefold() for n in names) and not DIGIT.search(merged[-1]))
+        ):
+            merged[-1] = f"{merged[-1]} {line}"
+        else:
+            merged.append(line)
+    return [c for line in merged for c in CLAUSE.split(line)]
 
 
 @dataclass(frozen=True)
@@ -218,7 +240,8 @@ def refusal(run: Run, case: dict[str, Any]) -> Check:
             return Check(False, "should have refused with no values")
         figures = [
             text[s:e]
-            for text in [answer.get("answer", "")]
+            # a StatCan citation URL names a table, not a figure (its pid has 10 digits)
+            for text in [CITABLE_URL.sub(" ", answer.get("answer", ""))]
             for _, _, s, e in _prose_numbers(text)
             if not YEAR.match(text[s:e].strip(".,;:"))
             and not PERIOD.search(text[max(0, s - 5) : e + 3])
@@ -371,7 +394,7 @@ def conclusion(run: Run, case: dict[str, Any]) -> Check:
     named = sorted((first.find(e.casefold()), e) for e in entities if e.casefold() in first)
     if not named or named[0][1] != winner:
         return Check(False, f"the first sentence doesn't lead with {winner!r}")
-    for clause in CLAUSE.split(prose):
+    for clause in clauses(prose, entities):
         lowered_clause = clause.casefold()
         present = {e for e in entities if e.casefold() in lowered_clause}
         if len(present) != 1 or ARITHMETIC.search(clause):

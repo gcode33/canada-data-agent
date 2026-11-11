@@ -77,9 +77,7 @@
  "lookup-07": {
   "counted": true,
   "failed": [
-   "refusal",
-   "right_series",
-   "values"
+   "completed"
   ],
   "passed": false
  },

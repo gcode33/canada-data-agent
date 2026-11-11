@@ -94,13 +94,16 @@ def write_atomic(path: Path, data: dict[str, Any]) -> None:
 
 
 def matches(path: Path, case: dict[str, Any]) -> bool:
-    """A recording still belongs to this case: same question and same poison."""
+    """A recording still belongs to this case: same question, poison and prompt (the same
+    staleness rules `canada-grade` applies, so a resumed run never keeps a stale one)."""
     try:
         old = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return False
-    return old.get("question") == case.get("question") and (old.get("poison") or None) == (
-        poison_spec(case)
+    return (
+        old.get("question") == case.get("question")
+        and (old.get("poison") or None) == poison_spec(case)
+        and old.get("prompt_version") == agent.PROMPT_VERSION
     )
 
 
@@ -145,6 +148,11 @@ def main() -> None:
     settings = Settings(data_backend="snapshot")
     only = set(args.only.split(",")) if args.only else None
     cases = [c for c in load(GOLDEN) if c["split"] == args.split and (not only or c["id"] in only)]
+    held_out = args.split == "test"
+    if held_out and any((TRANSCRIPTS / "test").glob("*.json")) and not args.force:
+        # The held-out split runs once (README, FINDINGS): no resume, no retry of a failed
+        # case. Re-running it on purpose takes --force, which shows up in git history.
+        sys.exit("the test split has already run; it runs once (pass --force to overrule)")
     record_cases(
         cases,
         TRANSCRIPTS / args.split,
@@ -152,4 +160,5 @@ def main() -> None:
         settings=settings,
         force=args.force or bool(only),
         poison_for=poison_spec,
+        retry_errors=not held_out,
     )

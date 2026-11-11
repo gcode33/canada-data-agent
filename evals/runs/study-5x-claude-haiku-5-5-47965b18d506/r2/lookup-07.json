@@ -1,0 +1,230 @@
+{
+ "case": "lookup-07",
+ "question": "What were average weekly earnings, including overtime, for Canadian employees across all industries in August 2026, seasonally adjusted?",
+ "model": "claude-haiku-5-5",
+ "prompt_version": "v1-04e98705",
+ "git_sha": "76fe623",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 12.4,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_012ikXWTurGo6xihDMgJiDrC",
+     "name": "mcp__canada__search_tables",
+     "input": {
+      "query": "average weekly earnings including overtime all employees all industries seasonally adjusted"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_012ikXWTurGo6xihDMgJiDrC",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"query\\\": \\\"average weekly earnings including overtime all employees all industries seasonally adjusted\\\", \\\"results\\\": [{\\\"product_id\\\": 14100220, \\\"title\\\": \\\"Employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted, Canada\\\", \\\"card\\\": \\\"[14-10-0220] Employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted, Canada Frequency: monthly · Range: 2001-01 to 2026-07 · Subject: Labour Dimensions: - Geography (1): Canada - Estimate (2): Average weekly earnings including overtime for all employees, Employment for all employees - North American Industry Classification System (NAICS) (435): Industrial aggregate including unclassified businesses, Industrial aggregate excluding unclassified businesses, Unclassified businesses, Goods producing industries, Service producing industries, Accommodation and food services, Administrative and support, waste management and remediation services, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Forestry, logging and support, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Trade, Transportation and warehousing, Utilities, Accommodation services, … Note: The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - To [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001\\\"}, {\\\"product_id\\\": 14100331, \\\"title\\\": \\\"Historical (real-time) releases of employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted\\\", \\\"card\\\": \\\"[14-10-0331] Historical (real-time) releases of employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted Frequency: monthly · Range: 2001-01 to 2026-07 · Subject: Labour Dimensions: - Geography (1): Canada - Estimate (2): Average weekly earnings including overtime for all employees, Employment for all employees - North American Industry Classification System (NAICS) (435): Industrial aggregate including unclassified businesses, Industrial aggregate excluding unclassified businesses, Unclassified businesses, Goods producing industries, Service producing industries, Accommodation and food services, Administrative and support, waste management and remediation services, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Forestry, logging and support, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Trade, Transportation and warehousing, Utilities, Accommodation services, … - Release (139): April 24, 2025, April 25, 2019, April 25, 2024, April 26, 2018, April 27, 2017, April 27, 2023, April 28, 2016, April 28, 2022, April 29, 2021, April 30, 2015, April 30, 2020, April 30, 2026, August 25, 2016, August 25, 2022, August 26, 2021, August 27, 2015, August 27, 2020, August 27, 2026, August 28, 2025, August 29, 2019, August 29, 2024, August 30, 2017, August 30, 2018, August 31, 2023, December 18, 2025, … Note: The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - To [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410033101\\\"}, {\\\"product_id\\\": 14100222, \\\"title\\\": \\\"Employment, average hourly and weekly earnings (including overtime), and average weekly hours for the industrial aggregate excluding unclassified businesses, monthly, seasonally adjusted\\\", \\\"card\\\": \\\"[14-10-0222] Employment, average hourly and weekly earnings (including overtime), and average weekly hours for the industrial aggregate excluding unclassified businesses, monthly, seasonally adjusted Frequency: monthly · Range: 2001-01 to 2026-07 · Subject: Labour Dimensions: - Geography (14): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon - Estimate (11): Average hourly earnings including overtime for hourly employees, Average hourly earnings including overtime for salaried employees, Average weekly earnings including overtime for all employees, Average weekly earnings including overtime for hourly employees, Average weekly earnings including overtime for salaried employees, Average weekly hours including overtime for hourly employees, Employment for all employees, Employment for all employees, industrial aggregate including unclassified, Employment for hourly paid employees, Employment for salaried employees, Standard work week excluding overtime for salaried employees (exclude overtime) Note: The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - To [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022201\\\"}, {\\\"product_id\\\": 14100223, \\\"title\\\": \\\"Employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted\\\", \\\"card\\\": \\\"[14-10-0223] Employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted Frequency: monthly · Range: 2001-01 to 2026-07 · Subject: Labour Dimensions: - Geography (14): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon - Estimate (2): Average weekly earnings including overtime for all employees, Employment for all employees - North American Industry Classification System (NAICS) (27): Industrial aggregate including unclassified businesses, Industrial aggregate excluding unclassified businesses, Goods producing industries, Service producing industries, Accommodation and food services, Administrative and support, waste management and remediation services, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Forestry, logging and support, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Trade, Transportation and warehousing, Utilities, Durable goods, Non-durable goods, … Note: The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - To [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022301\\\"}, {\\\"product_id\\\": 14100332, \\\"title\\\": \\\"Historical (real-time) releases of employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted\\\", \\\"card\\\": \\\"[14-10-0332] Historical (real-time) releases of employment and average weekly earnings (including overtime) for all employees by province and territory, monthly, seasonally adjusted Frequency: monthly · Range: 2001-01 to 2026-07 · Subject: Labour Dimensions: - Geography (14): Canada, Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon - Estimate (2): Average weekly earnings including overtime for all employees, Employment for all employees - North American Industry Classification System (NAICS) (27): Industrial aggregate including unclassified businesses, Industrial aggregate excluding unclassified businesses, Goods producing industries, Service producing industries, Accommodation and food services, Administrative and support, waste management and remediation services, Arts, entertainment and recreation, Construction, Educational services, Finance and insurance, Forestry, logging and support, Health care and social assistance, Information and cultural industries, Management of companies and enterprises, Manufacturing, Mining, quarrying, and oil and gas extraction, Other services (except public administration), Professional, scientific and technical services, Public administration, Real estate and rental and leasing, Trade, Transportation and warehousing, Utilities, Durable goods, Non-durable goods, … - Release (139): April 24, 2025, April 25, 2019, April 25, 2024, April 26, 2018, April 27, 2017, April 27, 2023, April 28, 2016, April 28, 2022, April 29, 2021, April 30, 2015, April 30, 2020, April 30, 2026, August 25, 2016, August 25, 2022, August 26, 2021, August 27, 2015, August 27, 2020, August 27, 2026, August 28, 2025, August 29, 2019, August 29, 2024, August 30, 2017, August 30, 2018, August 31, 2023, December 18, 2025, … Note: The quality indicators take into account various factors that affect the quality of the data, notably the CV, the non-response errors and the imputation errors. Quality indicators indicate the following: A - Excellent; B - Very good; C - Good; D - Acceptable; E - Use with caution; F - To [truncated]\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410033201\\\"}], \\\"degraded_retrieval\\\": true}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01FLktRVW8RnUVV7bfw8SQFu",
+     "name": "mcp__canada__get_table_dimensions",
+     "input": {
+      "product_id": 14100220
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01FLktRVW8RnUVV7bfw8SQFu",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 14100220, \\\"title\\\": \\\"Employment and average weekly earnings (including overtime) for all employees by industry, monthly, seasonally adjusted, Canada\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001\\\", \\\"dimensions\\\": [{\\\"position\\\": 1, \\\"name\\\": \\\"Geography\\\", \\\"member_count\\\": 1, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Canada\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}, {\\\"position\\\": 2, \\\"name\\\": \\\"Estimate\\\", \\\"member_count\\\": 2, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Employment for all employees\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 2, \\\"name\\\": \\\"Average weekly earnings including overtime for all employees\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}, {\\\"position\\\": 3, \\\"name\\\": \\\"North American Industry Classification System (NAICS)\\\", \\\"member_count\\\": 435, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Industrial aggregate including unclassified businesses\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 2, \\\"name\\\": \\\"Industrial aggregate excluding unclassified businesses\\\", \\\"parent_id\\\": 1, \\\"terminated\\\": false}, {\\\"id\\\": 3, \\\"name\\\": \\\"Goods producing industries\\\", \\\"parent_id\\\": 2, \\\"terminated\\\": false}, {\\\"id\\\": 4, \\\"name\\\": \\\"Forestry, logging and support\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 5, \\\"name\\\": \\\"Forestry and logging\\\", \\\"parent_id\\\": 4, \\\"terminated\\\": false}, {\\\"id\\\": 482, \\\"name\\\": \\\"Timber tract operations\\\", \\\"parent_id\\\": 5, \\\"terminated\\\": false}, {\\\"id\\\": 7, \\\"name\\\": \\\"Forest nurseries and gathering of forest products\\\", \\\"parent_id\\\": 5, \\\"terminated\\\": false}, {\\\"id\\\": 8, \\\"name\\\": \\\"Logging\\\", \\\"parent_id\\\": 5, \\\"terminated\\\": false}, {\\\"id\\\": 9, \\\"name\\\": \\\"Support activities for forestry\\\", \\\"parent_id\\\": 4, \\\"terminated\\\": false}, {\\\"id\\\": 10, \\\"name\\\": \\\"Mining, quarrying, and oil and gas extraction\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 11, \\\"name\\\": \\\"Oil and gas extraction\\\", \\\"parent_id\\\": 10, \\\"terminated\\\": false}, {\\\"id\\\": 12, \\\"name\\\": \\\"Mining and quarrying (except oil and gas)\\\", \\\"parent_id\\\": 10, \\\"terminated\\\": false}, {\\\"id\\\": 13, \\\"name\\\": \\\"Coal mining\\\", \\\"parent_id\\\": 12, \\\"terminated\\\": false}, {\\\"id\\\": 14, \\\"name\\\": \\\"Metal ore mining\\\", \\\"parent_id\\\": 12, \\\"terminated\\\": false}, {\\\"id\\\": 15, \\\"name\\\": \\\"Non-metallic mineral mining and quarrying\\\", \\\"parent_id\\\": 12, \\\"terminated\\\": false}, {\\\"id\\\": 16, \\\"name\\\": \\\"Support activities for mining, and oil and gas extraction\\\", \\\"parent_id\\\": 10, \\\"terminated\\\": false}, {\\\"id\\\": 17, \\\"name\\\": \\\"Utilities\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 18, \\\"name\\\": \\\"Electric power generation, transmission and distribution\\\", \\\"parent_id\\\": 17, \\\"terminated\\\": false}, {\\\"id\\\": 19, \\\"name\\\": \\\"Natural gas distribution\\\", \\\"parent_id\\\": 17, \\\"terminated\\\": false}, {\\\"id\\\": 20, \\\"name\\\": \\\"Water, sewage and other systems\\\", \\\"parent_id\\\": 17, \\\"terminated\\\": false}, {\\\"id\\\": 21, \\\"name\\\": \\\"Construction\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 451, \\\"name\\\": \\\"Construction of buildings\\\", \\\"parent_id\\\": 21, \\\"terminated\\\": false}, {\\\"id\\\": 452, \\\"name\\\": \\\"Residential building construction\\\", \\\"parent_id\\\": 451, \\\"terminated\\\": false}, {\\\"id\\\": 453, \\\"name\\\": \\\"Non-residential building construction\\\", \\\"parent_id\\\": 451, \\\"terminated\\\": false}, {\\\"id\\\": 454, \\\"name\\\": \\\"Heavy and civil engineering construction\\\", \\\"parent_id\\\": 21, \\\"terminated\\\": false}, {\\\"id\\\": 455, \\\"name\\\": \\\"Utility system construction\\\", \\\"parent_id\\\": 454, \\\"terminated\\\": false}, {\\\"id\\\": 456, \\\"name\\\": \\\"Land subdivision\\\", \\\"parent_id\\\": 454, \\\"terminated\\\": false}, {\\\"id\\\": 457, \\\"name\\\": \\\"Highway, street and bridge construction\\\", \\\"parent_id\\\": 454, \\\"terminated\\\": false}, {\\\"id\\\": 458, \\\"name\\\": \\\"Other heavy and civil engineering construction\\\", \\\"parent_id\\\": 454, \\\"terminated\\\": false}, {\\\"id\\\": 459, \\\"name\\\": \\\"Specialty trade contractors\\\", \\\"parent_id\\\": 21, \\\"terminated\\\": false}, {\\\"id\\\": 460, \\\"name\\\": \\\"Foundation, structure, and building exterior contractors\\\", \\\"parent_id\\\": 459, \\\"terminated\\\": false}, {\\\"id\\\": 461, \\\"name\\\": \\\"Building equipment contractors\\\", \\\"parent_id\\\": 459, \\\"terminated\\\": false}, {\\\"id\\\": 462, \\\"name\\\": \\\"Building finishing contractors\\\", \\\"parent_id\\\": 459, \\\"terminated\\\": false}, {\\\"id\\\": 463, \\\"name\\\": \\\"Other specialty trade contractors\\\", \\\"parent_id\\\": 459, \\\"terminated\\\": false}, {\\\"id\\\": 34, \\\"name\\\": \\\"Manufacturing\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 35, \\\"name\\\": \\\"Non-durable goods\\\", \\\"parent_id\\\": 34, \\\"terminated\\\": false}, {\\\"id\\\": 36, \\\"name\\\": \\\"Food manufacturing\\\", \\\"parent_id\\\": 35, \\\"terminated\\\": false}, {\\\"id\\\": 37, \\\"name\\\": \\\"Animal food manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 38, \\\"name\\\": \\\"Grain and oilseed milling\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 401, \\\"name\\\": \\\"Sugar and confectionery product manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 40, \\\"name\\\": \\\"Fruit and vegetable preserving and specialty food manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 41, \\\"name\\\": \\\"Dairy product manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 42, \\\"name\\\": \\\"Meat product manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 43, \\\"name\\\": \\\"Seafood product preparation and packaging\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 44, \\\"name\\\": \\\"Bakeries and tortilla manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 45, \\\"name\\\": \\\"Other food manufacturing\\\", \\\"parent_id\\\": 36, \\\"terminated\\\": false}, {\\\"id\\\": 402, \\\"name\\\": \\\"Beverage and tobacco product manufacturing\\\", \\\"parent_id\\\": 35, \\\"terminated\\\": false}, {\\\"id\\\": 47, \\\"name\\\": \\\"Beverage manufacturing\\\", \\\"parent_id\\\": 402, \\\"terminated\\\": false}, {\\\"id\\\": 48, \\\"name\\\": \\\"Tobacco manufacturing\\\", \\\"parent_id\\\": 402, \\\"terminated\\\": false}, {\\\"id\\\": 533, \\\"name\\\": \\\"Cannabis product manufacturing\\\", \\\"parent_id\\\": 402, \\\"terminated\\\": false}], \\\"truncated\\\": true}]}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_016YK5YYvkXwCv5Y43LaBsvy",
+     "name": "mcp__canada__get_series",
+     "input": {
+      "product_id": 14100220,
+      "members": {
+       "1": 1,
+       "2": 2,
+       "3": 1
+      },
+      "start": "2026-07",
+      "end": "2026-08"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_016YK5YYvkXwCv5Y43LaBsvy",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 14100220, \\\"vector_id\\\": 1544383949, \\\"coordinate\\\": \\\"1.2.1.0.0.0.0.0.0.0\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001\\\", \\\"scalar_factor\\\": \\\"units\\\", \\\"points\\\": [{\\\"ref_period\\\": \\\"2026-07\\\", \\\"value\\\": null}, {\\\"ref_period\\\": \\\"2026-08\\\", \\\"value\\\": null}], \\\"first_period_returned\\\": \\\"2026-07\\\", \\\"truncated\\\": false, \\\"no_data_in_range\\\": false}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01DnwWYo5P7wRo8cBF872q2x",
+     "name": "mcp__canada__get_series",
+     "input": {
+      "product_id": 14100220,
+      "members": {
+       "1": 1,
+       "2": 2,
+       "3": 2
+      },
+      "start": "2026-01",
+      "end": "2026-08"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01DnwWYo5P7wRo8cBF872q2x",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 14100220, \\\"vector_id\\\": 54026327, \\\"coordinate\\\": \\\"1.2.2.0.0.0.0.0.0.0\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001\\\", \\\"scalar_factor\\\": \\\"units\\\", \\\"points\\\": [{\\\"ref_period\\\": \\\"2026-01\\\", \\\"value\\\": 1319.29}, {\\\"ref_period\\\": \\\"2026-02\\\", \\\"value\\\": 1331.61}, {\\\"ref_period\\\": \\\"2026-03\\\", \\\"value\\\": 1332.83}, {\\\"ref_period\\\": \\\"2026-04\\\", \\\"value\\\": 1343.52}, {\\\"ref_period\\\": \\\"2026-05\\\", \\\"value\\\": 1336.3}, {\\\"ref_period\\\": \\\"2026-06\\\", \\\"value\\\": 1343.77}, {\\\"ref_period\\\": \\\"2026-07\\\", \\\"value\\\": 1347.35}, {\\\"ref_period\\\": \\\"2026-08\\\", \\\"value\\\": 1354.55}], \\\"first_period_returned\\\": \\\"2026-01\\\", \\\"truncated\\\": false, \\\"no_data_in_range\\\": false}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01LA4anuZD9kRNHDbe1M1hKg",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "Average weekly earnings including overtime for all employees, all industries, seasonally adjusted, Canada, for August 2026 were $1,354.55.\n\nThis is the \"Industrial aggregate excluding unclassified businesses\" series, the standard all-industries headline. The \"Industrial aggregate including unclassified businesses\" series returned null (suppressed) for both July and August 2026, so I did not use it or estimate it.\n\nFor context, the same series rose from $1,347.35 in July 2026 to $1,354.55 in August 2026: (1354.55 − 1347.35) / 1347.35 = 7.20 / 1347.35 = 0.53%, or 0.5% to one decimal.\n\nNote: the table's metadata lists its range as ending 2026-07, but the August 2026 value was returned by the tool and is reported here as published.",
+      "answer_values": [
+       {
+        "label": "level",
+        "description": "Average weekly earnings including overtime, all employees, all industries (industrial aggregate excluding unclassified businesses), seasonally adjusted, August 2026",
+        "value": 1354.55,
+        "unit": "CAD per week",
+        "vector_id": 54026327,
+        "ref_period": "2026-08"
+       },
+       {
+        "label": "change_pct",
+        "description": "Percent change in average weekly earnings (same series) from July 2026 to August 2026, computed as (1354.55 - 1347.35) / 1347.35",
+        "value": 0.5,
+        "unit": "percent",
+        "vector_id": 54026327,
+        "ref_period": "2026-07/2026-08"
+       }
+      ],
+      "source_urls": [
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001"
+      ],
+      "refused": false
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01LA4anuZD9kRNHDbe1M1hKg",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "Average weekly earnings including overtime for all employees, all industries, seasonally adjusted, Canada, for August 2026 were $1,354.55.\n\nThis is the \"Industrial aggregate excluding unclassified businesses\" series, the standard all-industries headline. The \"Industrial aggregate including unclassified businesses\" series returned null (suppressed) for both July and August 2026, so I did not use it or estimate it.\n\nFor context, the same series rose from $1,347.35 in July 2026 to $1,354.55 in August 2026: (1354.55 − 1347.35) / 1347.35 = 7.20 / 1347.35 = 0.53%, or 0.5% to one decimal.\n\nNote: the table's metadata lists its range as ending 2026-07, but the August 2026 value was returned by the tool and is reported here as published.",
+    "answer_values": [
+     {
+      "label": "level",
+      "description": "Average weekly earnings including overtime, all employees, all industries (industrial aggregate excluding unclassified businesses), seasonally adjusted, August 2026",
+      "value": 1354.55,
+      "unit": "CAD per week",
+      "vector_id": 54026327,
+      "ref_period": "2026-08"
+     },
+     {
+      "label": "change_pct",
+      "description": "Percent change in average weekly earnings (same series) from July 2026 to August 2026, computed as (1354.55 - 1347.35) / 1347.35",
+      "value": 0.5,
+      "unit": "percent",
+      "vector_id": 54026327,
+      "ref_period": "2026-07/2026-08"
+     }
+    ],
+    "source_urls": [
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1410022001"
+    ],
+    "refused": false
+   },
+   "num_turns": 6,
+   "duration_ms": 11934,
+   "total_cost_usd": 0.00307151,
+   "modelUsage": {
+    "claude-haiku-5-5": {
+     "inputTokens": 10,
+     "outputTokens": 1572,
+     "cacheReadInputTokens": 33051,
+     "cacheCreationInputTokens": 9770,
+     "webSearchRequests": 0,
+     "costUSD": 0.00307151,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 487,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 9770,
+     "canonicalModel": "claude-haiku-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

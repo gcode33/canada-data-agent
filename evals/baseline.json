@@ -1,10 +1,10 @@
 {
- "from_study_agent_hash": "97b6fa09ac9ff3bb5e13b5496235b9acce5eb9ac7a6b266851a7db0798c220d5",
+ "from_study_agent_hash": "51acd051a15f44dbd22e0bef31f0c754606bf37612df2c5f9c2bfddc94432c2f",
  "k": 5,
- "mean_pass_rate": 0.8917,
+ "mean_pass_rate": 0.9417,
  "model": "claude-haiku-5-5",
  "pass_rates": {
-  "compare-01": 0.8,
+  "compare-01": 1.0,
   "compare-02": 1.0,
   "compare-03": 1.0,
   "compare-04": 1.0,
@@ -18,18 +18,19 @@
   "lookup-03": 1.0,
   "lookup-04": 1.0,
   "lookup-05": 1.0,
-  "lookup-06": 0.6,
-  "lookup-07": 0.6,
+  "lookup-06": 1.0,
+  "lookup-07": 0.4,
   "multi-01": 1.0,
   "multi-02": 1.0,
-  "multi-03": 1.0,
-  "multi-04": 0.6,
+  "multi-03": 0.8,
+  "multi-04": 0.8,
   "refuse-01": 1.0,
-  "refuse-02": 0.0,
-  "refuse-03": 0.8,
-  "refuse-04": 1.0
+  "refuse-02": 1.0,
+  "refuse-03": 1.0,
+  "refuse-04": 0.6
  },
  "stable": [
+  "compare-01",
   "compare-02",
   "compare-03",
   "compare-04",
@@ -43,17 +44,17 @@
   "lookup-03",
   "lookup-04",
   "lookup-05",
+  "lookup-06",
   "multi-01",
   "multi-02",
-  "multi-03",
   "refuse-01",
-  "refuse-04"
+  "refuse-02",
+  "refuse-03"
  ],
  "unstable": [
-  "compare-01",
-  "lookup-06",
   "lookup-07",
+  "multi-03",
   "multi-04",
-  "refuse-03"
+  "refuse-04"
  ]
 }

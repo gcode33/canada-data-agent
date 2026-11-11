@@ -1,0 +1,184 @@
+{
+ "case": "lookup-10",
+ "question": "What was CMHC's average rent for a two-bedroom unit in Toronto apartment and row buildings in 2025?",
+ "model": "claude-sonnet-5-5",
+ "prompt_version": "v1-c8c974c0",
+ "git_sha": "9439ff5",
+ "git_dirty": false,
+ "poison": null,
+ "error": null,
+ "wall_s": 7.1,
+ "events": [
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01UPtKqvqCj3wX5AVmMk22YB",
+     "name": "mcp__canada__search_tables",
+     "input": {
+      "query": "CMHC average rent two-bedroom apartment and row buildings Toronto"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01UPtKqvqCj3wX5AVmMk22YB",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"query\\\": \\\"CMHC average rent two-bedroom apartment and row buildings Toronto\\\", \\\"results\\\": [{\\\"product_id\\\": 34100130, \\\"title\\\": \\\"Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census metropolitan areas, weighted average\\\", \\\"card\\\": \\\"[34-10-0130] Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census metropolitan areas, weighted average Frequency: annual · Range: 1992-01 to 2025-01 · Subject: Construction Dimensions: - Geography (37): Census metropolitan areas, Abbotsford-Mission, British Columbia, Barrie, Ontario, Brantford, Ontario, Calgary, Alberta, Edmonton, Alberta, Greater Sudbury, Ontario, Guelph, Ontario, Halifax, Nova Scotia, Hamilton, Ontario, Kelowna, British Columbia, Kingston, Ontario, Kitchener-Cambridge-Waterloo, Ontario, London, Ontario, Moncton, New Brunswick, Montréal excluding Saint-Jérôme, Quebec, Montréal, Quebec, Oshawa, Ontario, Ottawa-Gatineau, Ontario/Quebec, Peterborough, Ontario, Québec, Quebec, Regina, Saskatchewan, Saguenay, Quebec, Saint John, New Brunswick, Saskatoon, Saskatchewan, … Note: Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013001\\\"}, {\\\"product_id\\\": 34100131, \\\"title\\\": \\\"Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census agglomerations of 50,000 and over, weighted average\\\", \\\"card\\\": \\\"[34-10-0131] Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census agglomerations of 50,000 and over, weighted average Frequency: annual · Range: 1992-01 to 2025-01 · Subject: Construction Dimensions: - Geography (39): All census agglomerations 50,000 and over, Abbotsford-Mission, British Columbia, Barrie, Ontario, Belleville, Ontario, Brantford, Ontario, Cape Breton, Nova Scotia, Cape Breton, Nova Scotia (terminated with 1997/10), Charlottetown, Prince Edward Island, Chatham-Kent, Ontario, Chilliwack, British Columbia, Cornwall, Ontario, Courtenay, British Columbia, Drummondville, Quebec, Fredericton, New Brunswick, Granby, Quebec, Grande Prairie, Alberta, Guelph, Ontario, Kamloops, British Columbia, Kawartha Lakes, Ontario, Kelowna, British Columbia, Kingston, Ontario, Lethbridge, Alberta, Medicine Hat, Alberta, Moncton, New Brunswick, Nanaimo, British Columbia, … Note: Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013101\\\"}, {\\\"product_id\\\": 34100132, \\\"title\\\": \\\"Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census agglomerations of 10,000 to 49,999 and cities, weighted average\\\", \\\"card\\\": \\\"[34-10-0132] Canada Mortgage and Housing Corporation, vacancy rates, row and apartment structures of three units and over, privately initiated in census agglomerations of 10,000 to 49,999 and cities, weighted average Frequency: annual · Range: 1989-01 to 2025-01 · Subject: Construction Dimensions: - Geography (167): Census agglomerations 10,000 to 49,999, Alma, Quebec, Amos, Quebec, Baie-Comeau, Quebec, Bathurst, New Brunswick, Bay Roberts, Newfoundland and Labrador, Bonnyvill No. 87, Alberta, Bracebridge, Ontario, Brandon, Manitoba, Brant, Ontario, Brighton, Ontario, Brock, Ontario, Brockville, Ontario, Brooks, Alberta, Campbell River, British Columbia, Campbellton, New Brunswick/Quebec, Camrose, Alberta, Canmore, Alberta, Centre Wellington, Ontario, Chatham, Ontario, Chester, Nova Scotia, Clearwater County, Alberta, Cobourg, Ontario, Cold Lake, Alberta, Collingwood, Ontario, … Note: Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013201\\\"}, {\\\"product_id\\\": 46100092, \\\"title\\\": \\\"Asking rent and paid rent prices, by rental unit type and number of bedrooms, experimental estimates\\\", \\\"card\\\": \\\"[46-10-0092] Asking rent and paid rent prices, by rental unit type and number of bedrooms, experimental estimates Frequency: quarterly · Range: 2019-01 to 2026-04 · Subject: Housing Dimensions: - Geography (43): All census metropolitan areas, Abbotsford - Mission, Census metropolitan area (CMA), Barrie, Census metropolitan area (CMA), Belleville - Quinte West, Census metropolitan area (CMA), Brantford, Census metropolitan area (CMA), Calgary, Census metropolitan area (CMA), Chilliwack, Census metropolitan area (CMA), Drummondville, Census metropolitan area (CMA), Edmonton, Census metropolitan area (CMA), Fredericton, Census metropolitan area (CMA), Greater Sudbury, Census metropolitan area (CMA), Guelph, Census metropolitan area (CMA), Halifax, Census metropolitan area (CMA), Hamilton, Census metropolitan area (CMA), Kamloops, Census metropolitan area (CMA), Kelowna, Census metropolitan area (CMA), Kingston, Census metropolitan area (CMA), Kitchener - Cambridge - Waterloo, Census metropolitan area (CMA), Lethbridge, Census metropolitan area (CMA), London, Census metropolitan area (CMA), Moncton, Census metropolitan area (CMA), Montréal, Census metropolitan area (CMA), Nanaimo, Census metropolitan area (CMA), Oshawa, Census metropolitan area (CMA), Ottawa - Gatineau (Ontario part), Census metropolitan area (CMA), … - Rental unit type (7): Apartment - 1 bedroom, Apartment - 2 bedrooms, Apartment - 3 or more bedrooms, Apartment - No bedroom, House - 2 bedrooms, House - 3 or more bedrooms, Room - Estimates (2): Average asking rent, Average paid rent Note: For information on methodological changes as well as the limitations specific to a given reference period, please consult the Summary of changes (opens new window) page.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=4610009201\\\"}, {\\\"product_id\\\": 34100133, \\\"title\\\": \\\"Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over\\\", \\\"card\\\": \\\"[34-10-0133] Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over Frequency: annual · Range: 1987-01 to 2025-01 · Subject: Construction Dimensions: - Geography (247): Abbotsford-Mission, British Columbia, Abbotsford-Mission, British Columbia, Alma, Quebec, Amos, Quebec, Asbestos, Quebec, Baie-Comeau, Quebec, Barrie, Ontario, Bathurst, New Brunswick, Bay Roberts, Newfoundland and Labrador, Belleville, Ontario, Bonnyvill No. 87, Alberta, Bracebridge, Ontario, Brandon, Manitoba, Brantford, Ontario, Brighton, Ontario, Brock, Ontario, Brockville, Ontario, Brooks, Alberta, Bécancour, Quebec, Calgary, Alberta, Campbell River, British Columbia, Campbellton, New Brunswick part, New Brunswick/Quebec, Campbellton, Quebec part, New-Brunswick/Quebec, Camrose, Alberta, Canmore, Alberta, … - Type of structure (4): Apartment structures of six units and over, Row and apartment structures of three units and over, Apartment structures of three units and over, Row structures of three units and over - Type of unit (4): Bachelor units, One bedroom units, Three bedroom units, Two bedroom units Note: Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013301\\\"}], \\\"degraded_retrieval\\\": true}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01Xtny889P36GrY1TXydsRcU",
+     "name": "mcp__canada__get_table_dimensions",
+     "input": {
+      "product_id": 34100133,
+      "filters": {
+       "1": "toronto"
+      }
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01Xtny889P36GrY1TXydsRcU",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 34100133, \\\"title\\\": \\\"Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013301\\\", \\\"dimensions\\\": [{\\\"position\\\": 1, \\\"name\\\": \\\"Geography\\\", \\\"member_count\\\": 247, \\\"members\\\": [{\\\"id\\\": 125, \\\"name\\\": \\\"Toronto, Ontario\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}, {\\\"position\\\": 2, \\\"name\\\": \\\"Type of structure\\\", \\\"member_count\\\": 4, \\\"members\\\": [{\\\"id\\\": 3, \\\"name\\\": \\\"Row and apartment structures of three units and over\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 2, \\\"name\\\": \\\"Row structures of three units and over\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 1, \\\"name\\\": \\\"Apartment structures of three units and over\\\", \\\"parent_id\\\": 3, \\\"terminated\\\": false}, {\\\"id\\\": 4, \\\"name\\\": \\\"Apartment structures of six units and over\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}, {\\\"position\\\": 3, \\\"name\\\": \\\"Type of unit\\\", \\\"member_count\\\": 4, \\\"members\\\": [{\\\"id\\\": 1, \\\"name\\\": \\\"Bachelor units\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 2, \\\"name\\\": \\\"One bedroom units\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 3, \\\"name\\\": \\\"Two bedroom units\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}, {\\\"id\\\": 4, \\\"name\\\": \\\"Three bedroom units\\\", \\\"parent_id\\\": null, \\\"terminated\\\": false}], \\\"truncated\\\": false}]}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_014xj4tJ9eeqjVLnNZo9RcmV",
+     "name": "mcp__canada__get_series",
+     "input": {
+      "product_id": 34100133,
+      "members": {
+       "1": 125,
+       "2": 3,
+       "3": 3
+      },
+      "start": "2024-01",
+      "end": "2025-12"
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_014xj4tJ9eeqjVLnNZo9RcmV",
+     "type": "tool_result",
+     "content": "{\"result\":\"{\\\"product_id\\\": 34100133, \\\"vector_id\\\": 3823103, \\\"coordinate\\\": \\\"125.3.3.0.0.0.0.0.0.0\\\", \\\"source_url\\\": \\\"https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013301\\\", \\\"scalar_factor\\\": \\\"units\\\", \\\"points\\\": [{\\\"ref_period\\\": \\\"2024-01\\\", \\\"value\\\": 1972.0}, {\\\"ref_period\\\": \\\"2025-01\\\", \\\"value\\\": 2045.0}], \\\"first_period_returned\\\": \\\"2024-01\\\", \\\"truncated\\\": false, \\\"no_data_in_range\\\": false}\"}"
+    }
+   ]
+  },
+  {
+   "type": "assistant",
+   "content": [
+    {
+     "type": "tool_use",
+     "id": "toolu_01HcKTGGXoNc3mCiHZDXjNQ7",
+     "name": "StructuredOutput",
+     "input": {
+      "answer": "CMHC's average rent for a two-bedroom unit in row and apartment structures of three units and over in Toronto was $2,045 in the 2025 survey (reference period 2025-01, the latest 2025 data point in the table). For comparison, it was $1,972 in 2024. That is a rise of $73, or 3.7% (2,045 − 1,972 = 73; 73 / 1,972 = 3.7%).",
+      "answer_values": [
+       {
+        "label": "level",
+        "description": "Average rent, two-bedroom units, row and apartment structures of 3+ units, Toronto CMA",
+        "value": 2045,
+        "unit": "CAD per month",
+        "vector_id": 3823103,
+        "ref_period": "2025-01"
+       }
+      ],
+      "source_urls": [
+       "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013301"
+      ],
+      "refused": false
+     },
+     "caller": {
+      "type": "direct"
+     }
+    }
+   ]
+  },
+  {
+   "type": "user",
+   "content": [
+    {
+     "tool_use_id": "toolu_01HcKTGGXoNc3mCiHZDXjNQ7",
+     "type": "tool_result",
+     "content": "Structured output provided successfully"
+    }
+   ]
+  },
+  {
+   "type": "result",
+   "subtype": "success",
+   "is_error": false,
+   "structured_output": {
+    "answer": "CMHC's average rent for a two-bedroom unit in row and apartment structures of three units and over in Toronto was $2,045 in the 2025 survey (reference period 2025-01, the latest 2025 data point in the table). For comparison, it was $1,972 in 2024. That is a rise of $73, or 3.7% (2,045 − 1,972 = 73; 73 / 1,972 = 3.7%).",
+    "answer_values": [
+     {
+      "label": "level",
+      "description": "Average rent, two-bedroom units, row and apartment structures of 3+ units, Toronto CMA",
+      "value": 2045,
+      "unit": "CAD per month",
+      "vector_id": 3823103,
+      "ref_period": "2025-01"
+     }
+    ],
+    "source_urls": [
+     "https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410013301"
+    ],
+    "refused": false
+   },
+   "num_turns": 5,
+   "duration_ms": 6687,
+   "total_cost_usd": 0.0342212,
+   "modelUsage": {
+    "claude-sonnet-5-5": {
+     "inputTokens": 8,
+     "outputTokens": 695,
+     "cacheReadInputTokens": 19392,
+     "cacheCreationInputTokens": 6329,
+     "webSearchRequests": 0,
+     "costUSD": 0.0342212,
+     "contextWindow": 1000000,
+     "maxOutputTokens": 128000,
+     "thinkingTokens": 0,
+     "cacheCreationEphemeral5mInputTokens": 0,
+     "cacheCreationEphemeral1hInputTokens": 6329,
+     "canonicalModel": "claude-sonnet-5-5",
+     "provider": "firstParty",
+     "costBasis": "list"
+    }
+   }
+  }
+ ]
+}

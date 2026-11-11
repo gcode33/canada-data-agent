@@ -26,6 +26,7 @@ Fails if:
 import argparse
 import hashlib
 import json
+import math
 import subprocess
 import sys
 from pathlib import Path
@@ -39,7 +40,7 @@ from canada_agent.evals.transcripts import record_cases
 
 ROOT = GOLDEN.parents[2]
 EVALS = ROOT / "evals"
-RUNS = EVALS / "runs"  # gitignored: transcripts of gate and study runs
+RUNS = EVALS / "runs"  # committed: verify re-grades the receipt and baseline from these
 RESULT = EVALS / "gate-result.json"
 BASELINE = EVALS / "baseline.json"
 FLAKINESS = EVALS / "flakiness.json"
@@ -335,8 +336,48 @@ def check_receipt(result: dict[str, Any], baseline: dict[str, Any], digest: str)
     return problems
 
 
+def check_evidence(
+    result: dict[str, Any], baseline: dict[str, Any], runs: Path = RUNS
+) -> list[str]:
+    """Re-derive the receipt and the baseline from the committed runs they summarise, so
+    neither can be hand-edited into a pass (Phase 6 review): the numbers must be what the
+    graders say about the transcripts in git, not what a JSON file claims."""
+    if not result or not baseline:
+        return []  # check_receipt already reports a missing receipt or baseline
+    problems = []
+    usd = result.get("usd")
+    if not isinstance(usd, int | float) or not math.isfinite(usd):
+        problems.append(f"receipt cost isn't a finite number: {usd!r}")
+    agent = str(result.get("agent_hash", ""))
+    if baseline.get("from_study_agent_hash") != agent:
+        problems.append("the baseline's study ran on a different agent than the gate run")
+    gate_dir = runs / f"gate-{result.get('model')}-{agent[:12]}"
+    repeats = [gate_dir / f"r{r}" for r in range(1, K + 1)]
+    if not all(r.is_dir() for r in repeats):
+        return [*problems, f"the gate runs aren't committed: {gate_dir.relative_to(runs.parent)}"]
+    cases, cost = per_case("dev", repeats), run_cost(repeats)
+    claimed = result.get("cases", {})
+    for field in ("pass_rate", "leaked", "invalid"):
+        differ = sorted(c for c in cases if cases[c][field] != claimed.get(c, {}).get(field))
+        if differ:
+            problems.append(f"receipt {field} doesn't match its committed runs for {differ}")
+    if isinstance(usd, int | float) and abs(cost["usd"] - usd) > 0.001:
+        problems.append(f"receipt cost ${usd} doesn't match its runs (${cost['usd']})")
+    study_dir = runs / f"study-{baseline.get('k')}x-{baseline.get('model')}-{agent[:12]}"
+    study_runs = [study_dir / f"r{r}" for r in range(1, int(baseline.get("k") or 0) + 1)]
+    if not study_runs or not all(r.is_dir() for r in study_runs):
+        return [*problems, f"the study runs aren't committed: {study_dir.relative_to(runs.parent)}"]
+    study = per_case("dev", study_runs)
+    if {c: v["pass_rate"] for c, v in study.items()} != baseline.get("pass_rates"):
+        problems.append("baseline pass rates don't match the committed study runs")
+    if sorted(c for c, v in study.items() if v["pass_rate"] == 1) != baseline.get("stable"):
+        problems.append("baseline's stable cases don't match the committed study runs")
+    return problems
+
+
 def cmd_verify(args: argparse.Namespace) -> None:
-    problems = check_receipt(load_json(RESULT), load_json(BASELINE), inputs_hash())
+    result, baseline = load_json(RESULT), load_json(BASELINE)
+    problems = check_receipt(result, baseline, inputs_hash()) or check_evidence(result, baseline)
     if problems:
         sys.exit("\n".join(problems))
     result = load_json(RESULT)

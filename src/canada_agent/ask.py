@@ -213,10 +213,58 @@ def check_answer(answer: dict[str, Any], canary: str) -> None:
         raise AskError("an answer must cite a source", ErrorCode.ANSWER_REJECTED)
 
 
+def _payloads(content: Any) -> Iterator[dict[str, Any]]:
+    """The JSON objects inside a tool result, however `claude -p` wrapped them."""
+    if isinstance(content, list):
+        for block in content:
+            yield from _payloads(block.get("text") if isinstance(block, dict) else block)
+        return
+    while isinstance(content, str):
+        try:
+            content = json.loads(content)
+        except ValueError:
+            return
+    if isinstance(content, dict):
+        if isinstance(content.get("result"), str):
+            yield from _payloads(content["result"])
+        else:
+            yield content
+
+
+def series_values(content: Any) -> dict[int, list[float]]:
+    """{vector_id: values} for every series a get_series result returned."""
+    found: dict[int, list[float]] = {}
+    for payload in _payloads(content):
+        vector, points = payload.get("vector_id"), payload.get("points")
+        if isinstance(vector, int) and isinstance(points, list):
+            found.setdefault(vector, []).extend(
+                float(p["value"]) for p in points if isinstance(p, dict)
+                and isinstance(p.get("value"), int | float)
+            )  # fmt: skip
+    return found
+
+
+def _matches_a_returned_value(value: float, returned: list[float]) -> bool:
+    """A reported level is one of the returned values, at any power-of-ten scale (a series in
+    thousands may be written out) and to display rounding."""
+    for v in returned:
+        for scale in (1e-9, 1e-6, 1e-3, 1, 1e3, 1e6, 1e9):
+            target = v * scale
+            if abs(value - target) <= max(0.051 * scale, abs(target) * 0.005):
+                return True
+    return False
+
+
 def check_grounded(
-    answer: dict[str, Any], calls: list[ToolCall], urls: set[str], vectors: set[int]
+    answer: dict[str, Any],
+    calls: list[ToolCall],
+    urls: set[str],
+    vectors: set[int],
+    values: dict[int, list[float]] | None = None,
 ) -> None:
-    """Tie the answer to what the tools actually returned in this run."""
+    """Tie the answer to what the tools actually returned in this run: its links, its
+    vectors and, for a level, the number itself (so an injected value can't ride on a real
+    vector id; Phase 6 review)."""
     if answer.get("refused"):
         if calls and all(c.is_error for c in calls):  # an outage isn't a refusal
             raise AskError("every tool call failed", ErrorCode.UPSTREAM_UNAVAILABLE)
@@ -232,6 +280,18 @@ def check_grounded(
         vector = value.get("vector_id", 0)
         if vector and vector not in vectors:
             raise AskError(f"cited vector {vector}, which no tool returned")
+        returned = (values or {}).get(vector)
+        level = float(value.get("value", 0))
+        if (
+            value.get("label") == "level"
+            and returned
+            and not _matches_a_returned_value(level, returned)
+        ):
+            raise AskError(
+                f"reported level {value.get('value')} for vector {vector}, "
+                "which the tools never returned",
+                ErrorCode.ANSWER_REJECTED,
+            )
 
 
 def run_events(
@@ -250,6 +310,7 @@ def run_events(
     started: dict[str, float] = {}
     urls: set[str] = set()
     vectors: set[int] = set()
+    values: dict[int, list[float]] = {}
     for event in events:
         if clock() - start > deadline_s:
             raise AskError(f"over the {deadline_s:.0f}s budget", ErrorCode.BUDGET_EXCEEDED)
@@ -291,11 +352,14 @@ def run_events(
                         m.group(0) for m in CITABLE_URL.finditer(text)
                     )  # whole URLs, not ids
                     vectors.update(int(v) for v in VECTOR_ID.findall(text))
+                    if call.name == "get_series":
+                        for vector, got in series_values(block.get("content")).items():
+                            values.setdefault(vector, []).extend(got)
                 on_event(f"← {call.name} {'ERROR' if failed else 'ok'} {latency}s")
         if event.get("type") == "result":
             result = parse_output(event)
             check_answer(result.answer, canary)
-            check_grounded(result.answer, list(calls.values()), urls, vectors)
+            check_grounded(result.answer, list(calls.values()), urls, vectors, values)
             return AskResult(
                 result.answer,
                 result.model_usage,
@@ -435,7 +499,7 @@ def ask(
             )
 
 
-def render(result: AskResult) -> str:
+def render(result: AskResult, replayed_from: str | None = None) -> str:
     a = result.answer
     lines = [a["answer"], ""]
     lines += [
@@ -443,11 +507,23 @@ def render(result: AskResult) -> str:
         for v in a["answer_values"]
     ]
     lines += [f"Source: {url}" for url in a["source_urls"]]
-    lines.append(
-        f"[{result.num_turns} turns, {len(result.tool_calls)} tool calls, "
-        f"{result.duration_ms / 1000:.1f}s, API-equivalent ${result.api_equivalent_usd:.4f}; "
-        "billed to subscription]"
-    )
+    if replayed_from:  # never let a replay pass for a model run
+        calls = len(result.tool_calls)
+        ran = (
+            f"{calls} tool calls ran live on the snapshot, matched the recording"
+            if calls
+            else "no tool calls to replay (a refusal)"
+        )
+        lines.append(
+            f"[offline: model choices replayed from {replayed_from}; {ran}; "
+            "the answer passed the runtime checks. Not a model run.]"
+        )
+    else:
+        lines.append(
+            f"[{result.num_turns} turns, {len(result.tool_calls)} tool calls, "
+            f"{result.duration_ms / 1000:.1f}s, API-equivalent ${result.api_equivalent_usd:.4f}; "
+            "billed to subscription]"
+        )
     return "\n".join(lines)
 
 
@@ -458,6 +534,11 @@ def main() -> None:
     parser.add_argument("--model", help="defaults to AGENT_MODEL")
     parser.add_argument("--json", action="store_true", help="print the structured answer")
     parser.add_argument("--trace", action="store_true", help="show each tool call and the log")
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="no model or key: replay a recorded run's choices through the real tools (snapshot)",
+    )
     args = parser.parse_args()
     settings = Settings()
     if args.trace:
@@ -470,15 +551,25 @@ def main() -> None:
         if args.trace:
             print(line[:200], file=sys.stderr, flush=True)
 
+    replayed_from = None
     try:
-        result = ask(
-            args.question,
-            model=args.model or settings.agent_model,
-            settings=settings,
-            table=args.table,
-            on_event=show,
-        )
+        if args.offline:
+            from canada_agent.offline import ask_offline  # noqa: PLC0415 - offline-only import
+
+            result, replayed_from = ask_offline(args.question, settings=settings, on_event=show)
+        else:
+            result = ask(
+                args.question,
+                model=args.model or settings.agent_model,
+                settings=settings,
+                table=args.table,
+                on_event=show,
+            )
     except AskError as exc:
         prefix = f"{exc.code}: " if exc.code else ""
         sys.exit(f"canada-ask: {prefix}{exc}")
-    print(json.dumps(result.answer, indent=2) if args.json else render(result))
+    if args.json:  # a replay says so in the JSON too, never just the bare answer
+        provenance = {"replayed_from": replayed_from} if replayed_from else {}
+        print(json.dumps(result.answer | provenance, indent=2))
+    else:
+        print(render(result, replayed_from))
