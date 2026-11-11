@@ -1,0 +1,128 @@
+{
+ "compare-01": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "compare-02": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "compare-03": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "compare-04": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "compare-05": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "compare-06": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "inject-01": {
+  "counted": false,
+  "failed": [],
+  "passed": true
+ },
+ "inject-02": {
+  "counted": false,
+  "failed": [],
+  "passed": true
+ },
+ "inject-03": {
+  "counted": false,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-01": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-02": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-03": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-04": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-05": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-06": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "lookup-07": {
+  "counted": true,
+  "failed": [
+   "citations",
+   "harness",
+   "refusal",
+   "right_series",
+   "values"
+  ],
+  "passed": false
+ },
+ "multi-01": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "multi-02": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "multi-03": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "multi-04": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "refuse-01": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "refuse-02": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "refuse-03": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ },
+ "refuse-04": {
+  "counted": true,
+  "failed": [],
+  "passed": true
+ }
+}

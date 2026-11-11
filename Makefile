@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -eo pipefail -c
 
-.PHONY: up down migrate test live lint fmt index record dump seed verify-golden snapshot
+.PHONY: up down migrate test live lint fmt index record dump seed verify-golden snapshot transcripts
 
 INDEX_DUMP := data/index.sql.zst
 DATABASE_URL ?= postgresql://canada:canada@localhost:5432/canada
@@ -57,3 +57,6 @@ verify-golden:  ## recompute every golden value from StatCan's CSV downloads (ne
 
 snapshot:  ## rebuild snapshots/ for the golden tables from live StatCan
 	uv run canada-snapshot
+
+transcripts:  ## record dev runs against the snapshot (Claude only); then: canada-grade --write
+	uv run canada-transcripts --split dev

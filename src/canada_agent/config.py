@@ -1,5 +1,7 @@
 """Settings from the environment or a gitignored `.env`. Keys are SecretStr, so they never print."""
 
+from typing import Literal
+
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -14,6 +16,9 @@ class Settings(BaseSettings):
     agent_model: str = "claude-sonnet-5-5"
     ci_model: str = "claude-haiku-5-5"
 
+    data_backend: Literal["live", "snapshot"] = (
+        "live"  # or "snapshot": committed golden tables, no StatCan calls
+    )
     max_tool_calls: int = 8
     max_question_usd: float = 1.0  # API-equivalent; ADR 0009
     question_timeout_s: float = 120.0  # SPEC said 60; cold `claude -p` runs took 42-95 s
