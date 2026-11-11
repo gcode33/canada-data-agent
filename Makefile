@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -eo pipefail -c
 
-.PHONY: up down migrate test live lint fmt index record dump seed
+.PHONY: up down migrate test live lint fmt index record dump seed verify-golden
 
 INDEX_DUMP := data/index.sql.zst
 DATABASE_URL ?= postgresql://canada:canada@localhost:5432/canada
@@ -51,3 +51,6 @@ seed:  ## load $(INDEX_DUMP) into a migrated database; no Voyage key or StatCan 
 	psql "$(DATABASE_URL)" -q -v ON_ERROR_STOP=1 -c "TRUNCATE table_card, query_embedding, rerank_cache CASCADE"
 	zstd -dc $(INDEX_DUMP) | psql "$(DATABASE_URL)" -q -v ON_ERROR_STOP=1 > /dev/null
 	@psql "$(DATABASE_URL)" -tA -c "SELECT count(*) || ' cards, ' || count(embedding) || ' embedded' FROM table_card"
+
+verify-golden:  ## recompute every golden value from StatCan's CSV downloads (network, large files)
+	uv run python evals/verify_golden.py
