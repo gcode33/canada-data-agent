@@ -1,288 +1,412 @@
 # Amendment A8: Web UI and performance
 
-Status: **draft v0.1 for George's review, 2026-11-17.** It amends `SPEC.md` v1.0 (with A1 and A7) and builds on ADR 0009. Nothing here is approved until George says so. The decisions waiting on him are in §16.
+Status: **draft v0.2 for George's review, 2026-11-17.** It amends `SPEC.md` v1.0 (with A1 and A7) and builds on ADR 0009. Nothing here is approved until George says so; his decisions are in §16.
 
-Evidence:
-- `docs/reviews/2026-11-17-stack-investigation.md`: an Opus orchestrator with three sub-investigators, all measured offline.
-- `docs/reviews/2026-11-17-stack-review.md`: a Sonnet adversarial reviewer.
+v0.2 replaces v0.1 after a two-round adversarial review by four critics: a security red-teamer, an eval-integrity critic, a front-end and accessibility engineer, and a scope critic. The critics' disputed facts were re-checked by the chairman. What changed and why is in §17; the full critiques are in `docs/reviews/2026-11-17-a8-spec-review.md`. The investigation behind the stack choice is in `docs/reviews/2026-11-17-stack-investigation.md` and `-stack-review.md`.
 
-Where the two disagree, §17 says which one A8 follows and why. The rule for choosing was **what fits this application**, not what job postings ask for.
+The rule for every choice: **what fits this application**, not what job postings ask for.
 
 ## 1. In plain words
 
-Today the agent lives in a terminal. A8 adds two things.
+Today the agent lives in a terminal. A8 adds two things, in this order.
 
-1. **A web page that shows the agent working.** You type a question. Each step appears as it happens: which tables it searched, which series it fetched and how long each call took. Then the answer arrives with its numbers, a chart of the data and links to the StatCan tables.
-   - A live question takes 10–30 seconds (a recorded Sonnet run took 26.7 s), so seeing the steps matters.
-   - **Live mode runs only on George's own computer**, on his Claude subscription.
-2. **A public demo anyone can open.** It replays the agent's recorded runs through the same page, clearly labelled as replays. It never calls Claude, so it costs nothing and stays inside Anthropic's terms (§4).
+1. **A public demo anyone can open.** It replays the agent's recorded runs in a web page:
+   - the steps it took (tables searched, series fetched);
+   - the answer, with its numbers, a chart and links to StatCan;
+   - a run where it **resisted a planted attack**;
+   - a run its own checks **rejected**.
 
-It also makes the Python faster where measurement says it's worth it. It does **not** rewrite anything in another language: Claude's thinking is about 95% of every question, and all our own Python together is a few percent (§6).
+   It never calls Claude, so it costs nothing and stays inside Anthropic's terms (§4). It ships first, because it needs no change to the agent's code.
+2. **Live mode on George's own computer.** The same page, asking Claude for real and streaming each step as it happens. A live question can take half a minute (one recorded Sonnet run took 26.7 s), so seeing the steps matters, and a Stop button really stops the agent.
+
+A8 also makes the Python faster where measurement says it's worth it. It does **not** rewrite anything in another language: waiting on Claude is about 92–95% of a question, and all our own Python together is a few percent (§6).
 
 ## 2. What changes in SPEC v1.0
 
 | SPEC v1.0 | A8 |
 |---|---|
-| §3 "No chat UI or hosted site" | A **local web UI** (live) and a **static public replay demo**. There is still no hosted live mode |
-| §4 Users: George, MCP clients, CI | Adds **visitors to the public demo** (read-only, replays only) |
-| §6 Stack: Python only | Adds a TypeScript front end in `web/`. All agent code stays Python |
-| §5 "v1.1" feature list | Renamed **"later"**, because A8 ships as release **v1.1.0** (decision D5) |
-| §12 Observability | Recorded runs keep **per-event timestamps**, so replays can show step timing |
+| §3 "No chat UI or hosted site" | A **static public replay demo** and a **local live web UI**. There is still no hosted live mode |
+| §4 Users: George, MCP clients, CI | Adds **demo visitors** (replays only) |
+| §6 Stack: Python only | Adds a TypeScript front end in `web/`. All agent code and every check stay Python |
+| §5 "v1.1" feature list | Renamed **"later"**, because A8 ships as release **v1.1.0** (D5) |
+| §10 Gate | `canada-gate baseline` first checks a new study against the outgoing baseline (§6.4). `migrations/` joins the fingerprint |
+| §12 Observability | New recordings carry per-event timestamps, `recorded_at` and the Claude Code version |
 
-Everything else in SPEC v1.0 still holds: the tools, the graders, the gate rules, the held-out test rule and the security rules.
+Everything else in SPEC v1.0 still holds.
 
 ## 3. Goals and claims
 
 | Claim | Evidence a reviewer can check |
 |---|---|
-| I measure before I optimise | The latency budget (§6.1), a committed offline benchmark (`make bench`) with before and after numbers, and the decision **not** to rewrite, with its reasons |
-| I can build a streaming AI interface | Live steps over Server-Sent Events, one event contract shared by live and replay, and a cancel that really stops the agent |
-| The UI can't show what the checks rejected | The answer card is built only from a result that passed `check_answer` and `check_grounded`; tests prove a rejected run shows only its error code |
-| I take security in a local tool seriously | Localhost-only binding, Host and Origin checks, a strict CSP with Trusted Types, and untrusted text never rendered as HTML (§10) |
-| I build accessible interfaces | WCAG 2.2 AA target, a data table for every chart, and automated accessibility checks in CI (§12) |
+| I measure before I optimise | §6.1's latency budget; `make bench` raw samples in `docs/perf/`; ADR 0011 (the decision *not* to rewrite) |
+| The UI never shows what the checks rejected | The demo's "rejected by checks" replay shows only an error code; a contract test fails if a failed run's stream contains a chart, answer text or tool text (§9) |
+| I test AI features adversarially | The demo's "attack resisted" replays, described without repeating the attack; the build fails if any outside link reaches the page |
+| A streaming interface with a cancel that really stops the agent | The `test_cancel_kills_process_group` stub test (§13); one-request streaming (§8) |
+| Accessibility is designed in, not bolted on | axe with WCAG 2.2 AA rules in CI, plus a recorded manual keyboard and VoiceOver pass in `docs/a11y.md`. Automated tools catch only part of WCAG, so the claim is "tested", not "compliant" |
 
 ## 4. Constraints
 
-- **No API billing** (ADR 0009). Live mode runs `claude -p` on George's subscription. There is no API key path.
-- **Anthropic's terms:** "Anthropic does not permit third-party developers to … route requests through Free, Pro, Max, or Ultra plan credentials on behalf of their users" (code.claude.com/docs/en/legal-and-compliance, checked 2026-11-17). So:
-  - live mode serves **one person, on his own machine**;
-  - the public demo **never calls a model**.
-  - Letting a friend use the live mode would also break this rule. The README says so.
-- **The eval gate** (ADR 0008):
-  - Any change under `src/canada_agent`, `pyproject.toml` or `uv.lock` changes `agent_hash`. That needs a new flakiness study (k=5), a new baseline and a new gate run (k=3), which is 192 `claude -p` runs.
-  - A8 batches **all** of its `src/` changes into one PR, so that cost is paid once (§6.3).
-- **The held-out test split** never runs again, and **no test-split recording appears in the demo**.
-- **No new paid services.** Voyage stays on the free tier, and hosting is free (decision D1).
+- **No API billing** (ADR 0009). Live mode runs `claude -p` on George's subscription. `canada-web serve` refuses to start if `ANTHROPIC_API_KEY` or `ANTHROPIC_AUTH_TOKEN` is set, because `claude` would then bill the API.
+- **Anthropic's terms** (code.claude.com/docs/en/legal-and-compliance, checked 2026-11-17): "Anthropic does not permit third-party developers to … route requests through Free, Pro, Max, or Ultra plan credentials on behalf of their users."
+  - Live mode serves one person, on his own machine.
+  - The public demo never calls a model.
+  - Letting a friend use live mode would break this too. The README says so.
+- **The eval gate** (ADR 0008). Any change to `src/canada_agent`, `pyproject.toml` or `uv.lock` (and, after A8, `migrations/`) means:
+  - a new flakiness study (k=5, 120 runs);
+  - a baseline;
+  - a gate run (k=3, 72 runs).
+
+  A8 puts **every** `src/` change in **one** PR (§6.3), so this is paid once.
+- **The held-out test split** never runs again, and no test-split recording appears anywhere in the UI.
+- **Budget:** about 5 AI-assisted build days and ≤ 12 hours of George's review. No new paid services: Voyage stays free tier, and GitHub Pages is free.
 
 ## 5. Non-goals (A8)
 
-- **No hosted live mode.** No logins, no accounts and no multi-user anything.
-- **No rewrite in Rust, Go or TypeScript**, and no mixing in hand-written Rust or Go for speed. §6.2 has the numbers. An optional Rust learning experiment is decision D3 and stays outside the agent.
-- **No token-by-token answer streaming.** The answer appears only after the runtime checks pass (§8, rule E3).
-- **No multi-turn chat.** Each question is its own isolated run, as today.
-- **No eval explorer yet** (browsing runs, gate receipts, flakiness). The architecture leaves room for one (decision D2), but A8 doesn't build it.
-- **No server-side rendering framework.** The backend is Python, so Next.js, Remix and similar would duplicate it.
-- No tool-description or prompt changes. Cutting model round trips is the biggest latency lever, but it can cost accuracy and needs its own pre-registered experiment (§6.4).
+- **No hosted live mode.** No accounts or logins, and nothing multi-user.
+- **No rewrite in Rust, Go or TypeScript**, and no hand-written Rust or Go for speed. §6.2 shows why. An optional Rust learning experiment is D3, and stays outside the agent.
+- **No token-by-token answer streaming.** The answer, and any chart, appear only after the runtime checks pass.
+- **No multi-turn chat.** Each question is its own isolated run.
+- **No eval explorer** (browsing runs, receipts, flakiness). A static "How it's tested" tab covers the essentials (§11).
+- **No server-side rendering framework.** The backend is already Python.
+- **No prompt or tool-description changes.** Cutting model round trips is the biggest latency lever, but it can cost accuracy, so it needs its own pre-registered experiment (§6.5).
+- **No local auth token.** Other processes and users on George's machine are out of scope: a process that could steal a token could run `claude` itself (§10).
 
 ## 6. Performance
 
-### 6.1 Where the time goes (measured 2026-11-17)
+### 6.1 Where the time goes (measured 2026-11-17, offline)
 
 | Part of one question | Time | Source |
 |---|---|---|
-| Whole question, Haiku eval runs (median of 761; 24 dev questions repeated) | 9.8 s (p95 15.6 s) | `evals/runs` |
+| Whole question, Haiku eval runs (median of 761, across 24 dev questions and four agent versions) | 9.8 s (p95 15.6 s) | `evals/runs` |
 | Whole question, Sonnet dev transcripts (n=24) | 7.45 s | `evals/transcripts/dev` |
-| **One live Sonnet question** | **26.7 s** | `docs/demo/ask-trace.txt` |
-| Claude's own time (inside the above) | ~95% | `duration_ms` |
+| **One live Sonnet question** (n=1) | **26.7 s** | `docs/demo/ask-trace.txt` |
+| Waiting on Claude: the model plus Claude Code's own work (`duration_ms`) | ~95% of a median Haiku run; ≤ 92% of the live trace | `duration_ms` |
 | Process start and teardown (`claude -p` plus our tool server) | ~0.5 s | wall minus `duration_ms` |
-| Our tool server: start to ready (on the critical path; Claude Code waits for it) | 0.25 s, mostly `import mcp` | handshake benchmark |
+| Our tool server, start to ready (Claude Code waits for it before the first turn) | 0.25 s, mostly `import mcp` | handshake benchmark |
 | CLI start (`import canada_agent.ask`), ~0.2 s of it importing `mcp_server` for one constant | 0.28 s | `-X importtime` |
 | All tool calls in one question, offline | ~33 ms | in-process benchmark |
-| Live network inside tools (Voyage search, StatCan fetch) | ~2 s | one live trace |
-| Runtime checks (canary, links, grounding) | < 1 ms | benchmark |
+| Live network inside tools (Voyage, StatCan) | ~2 s | the one live trace |
+| Runtime checks | < 1 ms | benchmark |
 
-**What follows:** all our own Python CPU is about 0.3–0.55 s of a 7–27 s question. Over 90% of it is importing modules.
+All our own Python CPU is about 0.3–0.55 s of a 7–27 s question (1–4%), over 90% of it importing modules.
 
-**Caveat:** the live figures (26.7 s, ~2 s network) come from one trace. U1 adds per-event timestamps (§6.3, P3), so future runs measure this properly.
+**Caveats:**
+- The live numbers are a single trace, 3.6× the Sonnet snapshot median, and the gap is unexplained.
+- The recordings drop per-event times, so model thinking can't yet be separated from tool round trips.
+- P3 fixes this for new recordings.
 
 ### 6.2 Decision: stay in Python (ADR 0011)
 
 | Option | Best-case saving per question | Cost |
 |---|---|---|
-| Tool server in Go or Rust | ~0.23 s (start-up only) | Rewrite ~2,100 lines (the server plus search, StatCan client and snapshot); re-pin the tool snapshot; re-baseline; a second copy of security rules |
-| Search in Rust | ≤ 5 ms offline; 0 live (network-bound) | Same, for no visible gain |
-| Snapshot parsing in Rust | ~50 ms, once per table | A build toolchain per platform |
+| Tool server in Go or Rust | ~0.23 s (start-up only) | Rewrite ~2,100 lines; re-pin the tool snapshot; re-baseline; a second copy of the security rules |
+| Search in Rust | ≤ 5 ms offline; 0 live (network-bound) | The same, for no visible gain |
+| Snapshot parsing in Rust | ~50 ms, once per table | A native build per platform |
 | Checks or stream parsing in anything | < 1 ms | – |
-| **All of the above** | **~0.3 s of 10–27 s (1–3%)** | Three toolchains, three test setups, cross-language boundaries |
+| **All of the above** | **~0.3 s of 7–27 s** | Three toolchains, three test setups, cross-language boundaries |
 
-- **Two security rules stay in one language.** The link filter (`links.py`) and the canary/grounding checks are shared by the runtime and the graders. The adversarial review showed the filter *can* be ported to JavaScript (0 mismatches over 30,000 fuzzed strings once `\w` was rewritten as Unicode classes). But two implementations of a security rule can drift apart, and that is reason enough.
-- **Rust is already here where it pays:** `pydantic-core`, `jiter` and `rpds-py` are Rust, and `psycopg-binary` is C.
-- **If a CPU hotspot ever appears in a profile**, the order is:
+- **Security rules stay in one language.** The link filter (`links.py`) and the canary and grounding checks are shared by the runtime and the graders. The review showed the filter *can* be ported to JavaScript: 0 mismatches over 30,000 fuzzed strings, once `\w` was rewritten as Unicode classes. But two copies of a security rule can drift, and that is reason enough.
+- **Rust is already here where it pays:** `pydantic-core`, `jiter` and `rpds-py`. `psycopg-binary` is C.
+- **If a CPU hotspot ever shows in a profile**, the order is:
   1. a Rust-backed library;
   2. one small benchmarked PyO3 extension;
   3. never a rewrite.
 
-### 6.3 The U1 performance bundle (one PR, one re-baseline)
+### 6.3 The `src/` bundle: one PR, shipped with live mode (phase U2)
 
-Every change under `src/` in A8 lands together, so the gate is re-baselined once.
+The demo needs **no** `src/` change: `build-demo` imports what it needs from `canada_agent`. Every `src/` change is for live mode, so they all land together with it.
 
-| # | Change | Expected gain | Acceptance (measured by `make bench`, offline) |
+| # | Change | Why | Acceptance |
 |---|---|---|---|
-| P1 | Move `SERVER_NAME` to a tiny module, so `ask.py` and `offline.py` no longer import `mcp_server` just for that constant | ~0.2 s per CLI question | `import canada_agent.ask` median ≤ 0.12 s (from 0.28 s) |
-| P2 | Lazy-load what the tool server needs only on some calls (`psycopg`, `yaml`, `zipfile`, `csv`) | 50–70 ms per question | Handshake median ≤ 0.21 s (from 0.247 s) |
-| P3 | **Per-event timestamps:** `_tee` stamps each captured event with `t_ms` (ms since the run started), and `transcripts.slim()` keeps it | Enables live-latency measurement and replay timing | New recordings carry `t_ms`; old ones replay as "timing not recorded" |
-| P4 | **A structured step hook:** `run_events`/`ask` gain `on_step(StepEvent)`, with call id, tool name, arguments, phase (started/finished), latency and is-error. The string `on_event` stays for `--trace` | Lets the UI show steps without re-parsing raw events | Unit tests: the same steps for a stub stream as `--trace` prints |
-| P5 | **Cancel:** `ask` gains `should_stop: Callable[[], bool]`, checked on every event; a stop raises `AskError` with the new code `CANCELLED`, and `_stream`'s `finally` kills the process group | A closed tab or a Stop click ends the run and its tools | A test proves no `claude` or `canada-mcp` process survives a cancel |
-| P6 | One database connection per `search_tables` call (today `search()` and `cards()` each connect) | 3–5 ms offline, up to ~20 ms live | In-process `search_tables` median ≤ 6 ms |
-| P7 | Memoise parsed `metadata` per table in the snapshot and live backends | < 0.3 ms offline; one StatCan round trip saved live | Unit test: the second call doesn't re-parse or re-fetch |
-| P8 | Close the gate's fingerprint gaps: add `config/` to `INPUTS` and record the `claude --version` in the receipt | Honesty, not speed | `canada-gate verify` fails when `config/` changes |
+| P1 | Move `SERVER_NAME` to a tiny module, so `ask.py` and `offline.py` stop importing `mcp_server` for one constant | −0.2 s per **CLI** question (the web server imports once, so live mode gains nothing) | `make bench`: a faster import of `canada_agent.ask` |
+| P2 | Lazy-load what the tool server uses only on some calls (`psycopg`, `yaml`, `zipfile`, `csv`) | 50–70 ms per question | `make bench`: a faster handshake |
+| P3 | `_tee` stamps each captured event with `t_ms`. `slim()` keeps it. Each transcript records `recorded_at` (UTC) and `claude_version` | Live-latency measurement; honest provenance | New recordings carry all three; `canada-grade --check` still passes on old ones |
+| P4 | `on_step(StepEvent)` hook: call id, tool, arguments, phase, latency, is-error. It fires **after** the canary check on arguments | The UI gets steps without re-parsing raw events, and canary-bearing arguments never reach it | Unit test: the same steps `--trace` prints, on a stub stream |
+| P5 | **Cancel:** `ask` takes `cancel: threading.Event`. `_stream` starts a watcher (`cancel.wait()` → `kill_group()`), as the timeout already does, and raises `AskError(code=CANCELLED)` | Stops the agent even while the model is silently thinking | `test_cancel_kills_process_group`: a silent 30 s stub with a child process. After cancel, `os.killpg(pgid, 0)` raises within 1 s |
+| P8 | Fingerprint fixes: add `migrations/` to `INPUTS`; put `config/` in `JUDGING` (it holds prices and the scope list, whose output is already hashed); `verify` requires one `claude_version` across a receipt's runs | A migration can change search results; a price edit shouldn't force 192 runs | `verify` fails on a `migrations/` change; CI's "flag changes to eval inputs" step covers both paths |
+| P9 | `build_command` ends options with `--` before the question | **Security:** `claude` parses a question starting with `--` as an option, and options include `--settings` and `--plugin-url`. This affects the v1.0 CLI too | Stub test: `question="--version"` arrives after `--` |
+| P10 | Every `AskError` gets a code. New codes: `CANCELLED`, `USAGE_LIMIT` and `AGENT_FAILED`. Canary-in-tool-call and grounding failures become `ANSWER_REJECTED` | The UI can map every failure to fixed text and never show `str(exc)` | An AST test: no `AskError(...)` without `code=` |
 
-**Rejected:** a long-lived `claude` session or tool server (it breaks per-question isolation and the per-run canary, and HTTP transport reverses ADR 0005); `--bare` mode (it needs API billing).
+**Cut from v0.1:**
+- **P6** (one database connection per search): 3–5 ms.
+- **P7** (memoised metadata): < 0.3 ms.
 
-**Deferred to a measured follow-up:** pre-starting the next `claude -p` so its ~0.5 s start overlaps with typing. It is untested, and it changes how the question and canary are passed.
+Neither would be visible to anyone.
 
-### 6.4 The biggest lever, kept separate
+**`make bench` (U0):**
+- Runs base and head **interleaved** on one named machine: 3 warm-ups, then n ≥ 30, with compiled bytecode.
+- Commits the raw samples and the environment (machine, OS, Python, lock hash, Postgres image, power state) to `docs/perf/`.
+- **Acceptance:** an improvement whose bootstrap 95% interval excludes zero. Batch medians drift 4–5% on their own, so a single before/after number proves nothing.
 
-Each tool call the model *doesn't* need saves about 0.6–1.0 s on Haiku; Sonnet hasn't been measured. Examples:
-- `search_tables` returns matching member ids, so `get_table_dimensions` isn't needed;
-- `get_series` accepts member names.
+### 6.4 The re-baseline, without hiding a regression
 
-These change pinned tool descriptions and may cost accuracy. If George wants them, they become a later experiment with a written prediction first, like PR #24, and the gate decides. They are **not** part of A8.
+ADR 0008's order still holds: flakiness study → baseline → gate. But a gate judged against a study of the *same* new agent only shows the agent is reproducible. It can't show the bundle didn't make it worse. So:
+- **In U0** (a `gate.py` change: a judging file, 0 model runs), `canada-gate baseline` first judges the new study against the **outgoing** baseline, using the gate's flip, mean-drop and leak rules.
+  - It refuses unless given `--accept-change "<reason>"`.
+  - It records `{replaces, regression_check}` in `baseline.json`.
+- **Code review of the `src/` PR finishes before any recording.** The study, baseline and gate receipt are its last commits. Any later `src/` change, even a docstring, re-runs them.
+
+### 6.5 The biggest lever, kept separate
+
+Each tool call the model *doesn't* need saves about 0.6–1.0 s on Haiku; Sonnet is unmeasured. Examples:
+- `search_tables` returns member ids;
+- `get_series` accepts names.
+
+These change pinned tool descriptions and may cost accuracy. If George wants them, they become a later experiment with a written prediction first, like PR #24. They are not part of A8.
 
 ## 7. UI requirements
 
 | # | Requirement |
 |---|---|
-| U1 | Ask a question in a text box; submit with Enter or a button. The server rejects questions over 500 characters (a new limit: the CLI has none today, and a question goes into `claude -p`'s argv) |
-| U2 | **Steps stream live**, one line per tool call: tool, its arguments in readable form, then ok or error with latency. Waiting time shows as elapsed seconds, so 26 s never looks frozen |
-| U3 | **Answer card**, shown only after the run passed the runtime checks: the prose answer; each `answer_values` entry with its label, period and unit; and the source points it came from (period and value from the `get_series` results in that run) |
-| U4 | **Citations:** only URLs that match `CITABLE_URL` *and* that a tool returned in that run are links. Anything else is plain text |
-| U5 | **Chart** for each fetched series: line over time, with `null` shown as a gap labelled "suppressed", never zero. At most 120 points (the tool's cap). Always paired with a data table (§12) |
-| U6 | **Errors:** every `ErrorCode` and `UsageLimitError` has a plain-English message and what to do next. `ANSWER_REJECTED` shows **only** the code and an explanation, never the rejected answer |
-| U7 | **Stop button** during a live run (P5) |
-| U8 | **Run footer:** turns, tool calls, duration, model, prompt version, and "API-equivalent $x, billed to subscription" (live), or the replay provenance (§11) |
-| U9 | **Replay library:** pick any of the 20 replayable dev questions; it replays the steps at their recorded pace (or a fixed pace when timing wasn't recorded) and says so |
-| U10 | Light and dark themes from design tokens; works at phone width; no layout shift when the answer arrives |
+| U1 | **Demo:** a question **picker** (no free text). The first visit auto-plays one multi-step replay. **Live:** a text box. The server strips the question and accepts 1–500 characters, with no NUL or control characters and no leading `-` |
+| U2 | **Steps:** one line per tool call. Each shows the tool, the model's arguments (as plain text, length-capped, with outside links redacted) and a **summary built by the server from parsed fields** ("12 tables", "13 points, 2025-09 to 2026-09", an error code). Elapsed seconds show while waiting. Parallel steps are keyed by id |
+| U3 | **Answer card,** only after the checks pass: the prose answer; each `answer_values` entry with label, period and unit as the model reported it; links (U4). Change values carry one line: "computed by the model from the levels shown; only levels are checked against the data" |
+| U4 | **Links:** the server marks each answer URL `linkable` only if it matches `CITABLE_URL` and a tool returned it in that run, using imported Python. The browser renders `<a>` only for `linkable: true`. The front end contains no StatCan URL pattern, and a lint rule enforces that |
+| U5 | **Chart:** a hand-written SVG line chart when a series has ≥ 3 non-null points; otherwise a value tile. Always paired with a data table. `null` is a gap labelled "suppressed", never zero. Values are shown as published, with the scalar factor noted. Series appear only after the checks pass |
+| U6 | **Errors:** every failure code maps to fixed plain-English text and a next step. `ANSWER_REJECTED` shows only that the checks refused the answer |
+| U7 | **Stop** during a live run: it aborts the request, which cancels the run (P5) |
+| U8 | **Run footer:** turns, tool calls, duration, model and prompt version. Live: "API-equivalent $x, billed to subscription". Demo: the provenance line (§11) |
+| U9 | **Replays** play at an approximate pace spread over the recorded `wall_s`, labelled "approximate pace". Reduced motion plays them instantly |
+| U10 | Light and dark themes from design tokens; works at phone width |
 
 ## 8. Architecture
 
 ```
-Browser (web/frontend: Vite + React + TypeScript)
-   │  POST /api/ask ─► run_id         GET /api/runs/{id}/events  (Server-Sent Events)
-   ▼
-canada-web (web/: FastAPI on 127.0.0.1)          Public demo: same frontend, built in
-   │  worker thread, one run at a time            replay-only mode + replays/*.json
-   ▼                                              (static files; no API, no model)
-canada_agent.ask(on_step=…, should_stop=…, capture=…)
-   │  claude -p (stream-json) ─► canada-mcp (stdio) ─► Postgres / StatCan
-   ▼
-AskResult (only after check_answer + check_grounded) ─► the "answer" event
+Live (127.0.0.1 only)                               Demo (GitHub Pages, static)
+Browser ──POST /api/ask (JSON)──► canada-web        Browser ──GET replays/<id>.json
+   ◄── Server-Sent Events in the response body          (built by canada-web build-demo)
+   abort() = Stop
+                  │ worker thread, one run at a time
+                  ▼
+canada_agent.ask(on_step=…, cancel=Event)  ──►  claude -p ──► canada-mcp (stdio)
+                  │
+AskResult (exists only after check_answer + check_grounded)
+   └─► series events, then the answer event
 ```
 
-**Event rules:**
-- **E1. One event contract** for live and replay (§9). The browser has one `apply(event)` reducer. A live run feeds it from Server-Sent Events, and a replay feeds it from a JSON array.
-- **E2. The backend imports, never copies.** `web/` imports `run_events`, `CITABLE_URL`, the error codes and the recording loader from `canada_agent`. A test fails if `web/` re-implements any of them, by grepping for the regex sources.
-- **E3. The answer event is built only from an `AskResult`,** which exists only after the checks pass. Step events come from `on_step` and are labelled as progress: tool results may carry injected text, so they are shown as plain text and never interpreted.
-- **E4. `web/` is its own uv project**, with its own `pyproject.toml` and `uv.lock`. It depends on `canada-data-agent` through a path source (`[tool.uv.sources]`, editable), **not** as a workspace member, which would share the root lock. Its code is outside the gate fingerprint by design: it can change how a result looks, not what the agent does. §13 says how its display is still tested against the agent.
+**Rules:**
+- **E1. One event contract** for live and replay (§9), and one `apply(event)` reducer in the browser. Live feeds it from the response stream, read with `fetch` and a small SSE parser; a replay feeds it from a JSON array.
+- **E2. `web/` imports, never copies.** `run_events`, `CITABLE_URL`, `foreign_links`, `untrusted_text`, `series_values`, the error codes and the recording loader all come from `canada_agent`. A test fails if `web/` defines any of these again, and an ESLint rule bans StatCan URL patterns in `web/frontend`.
+- **E3. Nothing the checks could still reject is shown first.**
+  - Step events carry only server-built summaries and redacted, capped arguments.
+  - `series` and `answer` are emitted only once an `AskResult` exists.
+  - A failed run ends with `run_failed` and nothing else.
+- **E4. `web/` is its own uv project**, with its own `pyproject.toml` and `uv.lock`. It depends on `canada-data-agent` through an editable path source, **not** as a workspace member, which would share the root lock. It is outside the gate fingerprint by design: it can change how a result looks, not what the agent does. E2, E3 and the §13 contract tests keep its display tied to the agent.
 
-**Stack (versions checked 2026-11-17; the plan pins exact ones):**
-- **Backend:** FastAPI 0.163.x with its built-in Server-Sent Events (`fastapi.sse.EventSourceResponse`, since 0.135.0) and uvicorn 0.54.x.
-- **Front end:** Node 26 LTS, TypeScript 7.0, Vite 8.3, React 19.3 and Recharts 3.10 (SVG, decision D4).
+**Why one streaming POST, not POST plus a GET event stream:**
+- It removes the second route and the protections a GET would need (browsers send no `Origin` on same-origin GETs).
+- It removes the gap where a run starts but no one listens, and the browser's automatic reconnect loop.
+- It lets Stop be a simple abort.
+- FastAPI's built-in SSE works on any method (verified on 0.163.1), and a client disconnect reaches the worker within milliseconds.
+- Resume (`Last-Event-ID`) is deliberately not supported on a local single-user tool.
+
+**Stack** (current versions checked 2026-11-17; the plan pins exact ones):
+- **Backend:** FastAPI 0.163 and uvicorn 0.54.
+- **Front end:** Node 26 LTS, TypeScript 7.0, Vite 8.3 and React 19.3. Charts are hand-written SVG (D4).
 - **Tests:** Vitest 5.1, Playwright 1.65 and `@axe-core/playwright` 4.14.
-- **Types:** generated, never hand-written. The pydantic event models export a committed JSON Schema, `json-schema-to-typescript` 16 generates `events.ts`, and CI fails if the generated file is stale.
 
-**Why Server-Sent Events, not WebSockets:** data flows one way, plain HTTP is enough, it reconnects on its own, and there's no cross-site WebSocket hijacking to defend against.
+**Types:**
+- The pydantic event models have a **required** `type` literal on every event, with no default (a default makes the TypeScript field optional).
+- Their JSON Schema is committed.
+- The TypeScript union is written by hand: seven small types, so no code generator.
+- **Drift is caught by tests:** every bundled replay validates against the schema (pytest) and drives the reducer without error (Vitest), and a test checks the union's `type` names match the schema's.
 
-**Why React + TypeScript over a no-build page:**
-- The investigation's first pick was plain JavaScript with no build step. It won only while "static demo" carried a heavy weight and type safety, accessibility and room to grow carried none. Under three other reasonable weightings it fell to 6th or lower (review §4).
-- Vite's build output is static files anyway, so the demo stays serverless.
-- The types come from the Python models, so the browser can't drift from the backend.
+**Why React + TypeScript** over a no-build page: the investigation's first pick (plain JavaScript) won only while "static demo" carried a heavy weight and type safety and accessibility carried none. Under three other weightings it fell to 6th or lower. Vite's output is static files anyway, so the demo stays serverless.
 
 ## 9. Event contract (v1)
 
-Pydantic models in `web/src/canada_web/events.py`; JSON Schema committed at `web/schema/events.v1.json`.
+Pydantic models in `web/src/canada_web/events.py`; schema at `web/schema/events.v1.json`.
 
 ```
-run_started   {run_id, mode: "live"|"replay", provenance, question, model, prompt_version}
-step_started  {step_id, tool, arguments, t_ms|null}
-step_finished {step_id, ok, latency_ms|null, error_code|null, summary}   # summary: plain text, length-capped
-series        {step_id, vector_id, title, unit, points:[{ref_period, value|null}], source_url}
-answer        {answer, answer_values, source_urls, refused, sources:[{vector_id, ref_period, value}]}
-run_failed    {code, message}            # message is ours, never model text; never the rejected answer
-run_finished  {num_turns, duration_ms, api_equivalent_usd|null, billed: "subscription"|"none"}
+run_started   {type, mode: "live"|"replay", category: "answer"|"refusal"|"attack_resisted"|"rejected",
+               question, model, prompt_version, provenance}
+step_started  {type, step_id, tool, arguments_text}            # redacted, ≤ 200 chars
+step_finished {type, step_id, ok, latency_ms|null, error_code|null, summary}   # summary: server-built
+series        {type, step_id, product_id, vector_id, scalar_factor, truncated,
+               points: [{ref_period, value|null, status_symbol|null}]}       # only after the checks pass
+answer        {type, answer, answer_values, links: [{url, linkable}], refused}
+run_failed    {type, code, message}       # message from a fixed table; never str(exc), never answer text
+run_finished  {type, num_turns, duration_ms, api_equivalent_usd|null, billed: "subscription"|"none"}
 ```
 
-**How the events are built:**
-- `provenance` = `{source: "live"}`, or `{source: "recording", path, model, recorded_on, git_sha, timing_recorded: bool}`.
-- `series` comes from parsing the `get_series` result with a strict pydantic model. If parsing fails, there's no chart, and the answer card still shows its source points.
-- **Ordering:** `run_started` comes first; the last event is exactly one of `run_finished` or `run_failed`; no event follows it. A contract test checks every replay file and a stub live run against this.
+**Field rules:**
+- **`provenance`:** `{source: "live"}`, or `{source: "recording", case, model, commit, commit_date, recorded_at|null, timing: "recorded"|"approximate"}`.
+- **`series` has no URL, title or unit.**
+  - The link is built in the browser only from `product_id`, which must match `^\d{8}$`, using a fixed StatCan template.
+  - A label comes from the run's own dimension results when available, as plain text.
+- **`step_finished.error_code`** must be one of the known tool codes, otherwise `TOOL_ERROR`.
+- **`run_failed.code`** is drawn from a closed set: `ErrorCode` plus `CANCELLED`, `USAGE_LIMIT` and `AGENT_FAILED`.
+  - Until P10 lands, `web/` maps a missing code to `AGENT_FAILED`.
+
+**Ordering:**
+1. `run_started` comes first.
+2. Step events follow, possibly interleaved.
+3. The run ends with exactly one of:
+   - **success:** zero or more `series`, then `answer`, then `run_finished`;
+   - **failure:** `run_failed` alone.
+4. A `step_started` with no matching `step_finished` is closed by the terminal event.
+
+A contract test checks every bundled replay and a stub live run against all of this.
 
 ## 10. Security (local live mode)
 
-The live server spends George's subscription and receives text that may carry injections. Treat it like a production endpoint:
-- **Bind 127.0.0.1 only.** `canada-web serve` refuses any other host, even when asked.
-- **Host header check** (`TrustedHostMiddleware`: `127.0.0.1`, `localhost`), against DNS rebinding. See the vault lesson *DNS Rebinding and Localhost Security*.
-- **`POST /api/ask`** requires an exact `Origin` match, `Content-Type: application/json`, and a per-launch token. The token is set as a `SameSite=Strict`, `HttpOnly` cookie when the page loads. **No CORS middleware.**
-- **One run at a time:** a second `ask` gets 409. A run has the existing budget (`max_tool_calls` 8, `question_timeout_s` 120), and **closing the event stream cancels it** (P5).
-- **CSP on every response:** `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types 'none'`. Also `X-Content-Type-Options: nosniff` and `Referrer-Policy: no-referrer`.
-- **Untrusted text is text:**
-  - no `dangerouslySetInnerHTML` (an ESLint rule bans it);
-  - no Markdown rendering of model or tool text;
-  - links are created only by the citation rule (U4), with `rel="noopener noreferrer"`.
-- **The browser never sees** the canary, the system prompt, the database URL or raw stderr. `run_failed.message` is chosen from a fixed table per error code.
-- **Logs:** the existing JSON log in `logs/ask.jsonl`. The server logs no request bodies beyond the question.
+The live server spends George's subscription and handles text that may carry injections.
+
+**Network**
+- **Bind 127.0.0.1 only.** `canada-web serve` refuses any other host. It prints `http://127.0.0.1:PORT/`.
+- **Host check:** `TrustedHostMiddleware(["127.0.0.1"])`, against DNS rebinding. There is one origin; `localhost` is not accepted.
+- **`POST /api/ask` is the only API route.** It requires:
+  - `Origin` exactly `http://127.0.0.1:PORT`, port included, with `null` rejected;
+  - `Sec-Fetch-Site: same-origin`;
+  - `Content-Type: application/json`.
+
+  There is no CORS middleware and no token: with no GET route left, the remaining threat would be a local process, and that could run `claude` itself.
+
+**The question (argument injection)**
+- The server validates the question (U1).
+- P9 adds `--` before the question. Until P9 ships, the leading-`-` rejection is the defence.
+
+**Runs and processes**
+- **One run at a time:** a second request gets 409.
+- The lock is released only after the process group is gone.
+- Aborting the request, or the server shutting down, sets `cancel` and joins the worker.
+- The existing budget applies: `max_tool_calls` 8 and `question_timeout_s` 120.
+
+**What reaches the browser** (E3)
+- **Tool text never reaches the browser.** Summaries are built from parsed fields.
+- Arguments pass through `untrusted_text` and `foreign_links` redaction ("[outside link withheld]").
+- `run_failed.message` comes from a fixed table.
+- **The browser never sees:** the canary, the system prompt, the database URL, stderr, file paths, or a rejected answer.
+
+**Response headers**
+- **CSP on every response:** `default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; require-trusted-types-for 'script'; trusted-types 'none'`. Also `nosniff` and `Referrer-Policy: no-referrer`.
+- The CSP is enforced on built assets. Vite's dev server injects an inline script and is exempt; every CSP test runs against the build.
+- Trusted Types is extra protection where browsers support it. **The real defence is that untrusted text is only ever rendered as text:** no `dangerouslySetInnerHTML` (banned by lint) and no Markdown rendering.
+
+**Known limits, stated plainly**
+- The canary and question are in `claude`'s argv, so other users on the machine may see them in `ps`.
+- Other local users and processes are out of scope.
 
 ## 11. Public demo (replay-only)
 
-- **What it is:** the same front end, built with `VITE_MODE=replay`. The live code path is compiled out, the API base is empty, and `connect-src 'self'` only fetches the bundled `replays/*.json`.
-- **What it shows:**
-  - The 20 replayable dev recordings (`offline.recordings()`: grader-passed, unpoisoned, current prompt).
-  - **No test-split recordings and no injection runs.** A rejected run carries the attacker's answer inside `structured_output`, so it must never be bundled.
-- **Built and checked by `canada-web build-demo`:**
-  - every recording goes through the production `run_events` (no database, model or network needed), and a recording that fails the checks fails the build;
-  - it is then converted to the §9 events.
-  - The build is deterministic: same inputs, same bytes, which a test checks.
-- **Labelled everywhere:** a banner reads "Replay of a recorded run (model, date). Not a live model call." Every replay's footer shows its provenance.
-- **Hosting (decision D1):**
-  - GitHub Pages, deployed by a workflow with `contents: read`, `pages: write` and `id-token: write`, and no other secrets.
-  - It runs only on `main` after CI passes.
-  - No analytics, no third-party scripts and no external fonts. The CSP comes from a `<meta>` tag, because Pages can't set headers. `frame-ancestors` doesn't work in `<meta>`, which is accepted for a static page with no actions.
-- **An "About" panel** gives the v1.0 held-out result with its interval, links to the repo and the README, and says how to run live mode locally.
+**What it is**
+- The same front end, built with `VITE_MODE=replay`. The live code path is compiled out; it only fetches the bundled `replays/*.json`.
+
+**What it contains** (an explicit allow-list, all from the **dev** split)
+
+| Category | Runs | What is shown |
+|---|---|---|
+| Answers and refusals | The 20 grader-passed runs from `offline.recordings()` | Steps, answer, chart or tile and table, links |
+| Attack resisted | inject-01, -02, -03 | Steps (server-built summaries only), the answer, and a fixed caption naming the attack's **goal and route**. These come from the run's `poison` spec, parsed with the imported `canada_agent.evals.poison.parse`; its `goal` is `exfil_url` or `wrong_value`, and its `vector` is the route. Example caption: "a planted instruction in a table card tried to make it cite another website". The planted text and the attacker's host are **never** shown: published verbatim, the page itself would carry the attack to AI crawlers |
+| Rejected by checks | lookup-07 | Steps and the `ANSWER_REJECTED` explanation; no answer text, no chart |
+
+**The header:** "20 of the 21 answerable dev questions (the set the agent was tuned on), 3 attacks it resisted, and 1 answer its own checks rejected. The held-out result for v1.0 is 13/16; it is not re-run here."
+
+**`canada-web build-demo`** (Python in `web/`, no `src/` changes)
+- **Fails closed:** if the grade verdicts are missing, a run isn't on the dev split, or a run is off the allow-list.
+- **Re-wraps** each recording's events into the stream shape. They are stored slimmed: 20/20 pass `run_events` re-wrapped, 4/20 as stored.
+- **Runs the production `run_events`** with a fixed clock:
+  - the 23 answer and attack runs must pass;
+  - lookup-07 must raise `ANSWER_REJECTED`.
+
+  This checks each recorded answer against its recorded tool results. **It does not re-run the tools**; the `fresh-clone` CI job does that.
+- **Builds the §9 events,** running `foreign_links()` over **every emitted string**. The build fails on any hit.
+- **Outputs** only repo-relative paths. The same inputs produce the same bytes, which a test checks.
+
+**Provenance, on every replay:** "Recorded during v1.0 development (commit 9e183c1, 2026-11-07), before the release's final review fixes. Not a live model call. Approximate pace."
+- That commit is on the `docs/v1-release` branch, not `main`, because main is squash-merged. That branch is kept so the link resolves.
+- If D6 is yes, the re-recorded runs replace these.
+
+**The "How it's tested" tab** is built at build time from the committed:
+- `evals/gate-result.json`, `baseline.json` and `flakiness.json`;
+- `docs/chart.svg`;
+- the README headline (13/16, Wilson 57–93%).
+
+Nothing is hand-typed. It links the staged gate-failure PR #24.
+
+**Hosting (D1)**
+- **Build job** (`contents: read`): `uv sync --locked`, `build-demo`, `npm ci --ignore-scripts`, `vite build`, and upload the artifact.
+- **Deploy job:** runs only `actions/deploy-pages`, and is the only job with `pages: write` and `id-token: write`.
+- **Trigger:** only a push to `main`, after CI passes; the `github-pages` environment is restricted to `main`.
+- **Pinning:** every action is pinned by commit SHA (SPEC §11).
+
+**Page settings**
+- **No third parties:** no analytics, no third-party scripts, no external fonts.
+- **Vite `base`:** set to the repo path. Replay selection uses the query string, because Pages has no SPA fallback.
+- **CSP:** a `<meta>` tag placed before any script, without `frame-ancestors`, which browsers ignore in `<meta>`.
+- **Accepted:** a project site shares the `gcode33.github.io` origin with any other Pages site of the account. It is acceptable for a static page with no actions.
 
 ## 12. Accessibility
 
-- **Target:** WCAG 2.2 AA.
-- **Automated:** `@axe-core/playwright` in CI must report zero serious or critical violations on the ask, steps, answer, error and replay states.
-- **Steps:** an `aria-live="polite"` region announces each step. Elapsed time updates don't announce.
-- **Charts:**
-  - every chart has a visible data-table toggle and a one-sentence text summary ("Rent index, Ontario, 2025-09 to 2026-09: 161.2 to 164.4");
-  - suppressed values are marked by a label, not by colour alone.
-- **Keyboard only:** ask, stop, open a source link and switch replays. A Playwright test does this with no mouse.
-- **Motion:** `prefers-reduced-motion` turns off replay pacing animations.
-- **Contrast:** colour tokens meet 4.5:1 for text in both themes.
+**Target:** WCAG 2.2 AA, claimed as **tested**, not compliant.
+
+**Automated**
+- `@axe-core/playwright` runs with the `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa` and `wcag22aa` tags, and with `target-size` enabled (it's off by default).
+- It must report zero serious or critical violations in every state: picker, steps, answer, attack, rejected, error and live.
+
+**Manual**
+- One keyboard-only and one VoiceOver pass at U3, recorded in `docs/a11y.md`.
+
+**Steps and focus**
+- The visible step list is not a live region.
+- A visually hidden `role="status"` announces one short sentence per **finished** step. The elapsed timer is outside it.
+- When the answer arrives, focus moves to its heading (`tabIndex=-1`). On failure, it moves to a `role="alert"`.
+- When Stop disappears, focus moves explicitly.
+
+**Charts and colour**
+- The SVG has `role="img"` and an `aria-label` that is the one-sentence summary, inside a `<figure>` with a `<figcaption>`.
+- The table sits in a native `<details>`, with a `<caption>`, `<th scope>` and the literal word "suppressed".
+- Colour tokens meet 4.5:1 for text and 3:1 for chart lines in both themes, checked by unit tests on the token pairs.
 
 ## 13. Testing and CI
 
 | Layer | Tool | What it proves |
 |---|---|---|
-| `src/` changes (U1) | pytest, as today | P1–P8 acceptance; existing 418 tests still pass |
-| Benchmark | `make bench` (offline) | §6.3 numbers, with before and after committed to `docs/perf/` |
-| Event contract | pytest + JSON Schema | Every replay file and a stub live run validate; event order rules; generated `events.ts` is fresh |
-| Backend | pytest + FastAPI `TestClient` | Host, Origin, token and content-type checks reject; 409 on a second run; cancel kills the process group (stub `claude` binary); headers and CSP present; `ANSWER_REJECTED` sends no answer text |
-| Front end units | Vitest | The `apply(event)` reducer; citation rule (only tool-returned StatCan URLs link); `null` → gap; error-code copy exists for every `ErrorCode` |
-| End to end | Playwright | Replays of all 20 recordings render; the keyboard-only flow; axe checks; the CSP blocks an injected `<script>` in a crafted tool result; **zero `securitypolicyviolation` events** across every state (this is how D4's chart library proves it fits the CSP) |
+| `src/` bundle | pytest | P1–P10 acceptance, including `test_cancel_kills_process_group` and the P9 argv test; the existing 418 tests pass |
+| Benchmark | `make bench` | §6.3, with raw samples committed |
+| Gate | pytest + the U2 re-baseline | The regression check against the v1.0 baseline (§6.4) |
+| Event contract | pytest + JSON Schema | Every bundled replay and a stub live run validate; the ordering rules; a failed run contains no `series`, `answer` or tool text; no emitted string has a `foreign_links()` hit |
+| Fidelity | pytest | Each replay's answer event matches the recording's checked answer; chart points equal the recorded `get_series` points; `web/` calls `ask` with unmodified `Settings`, as the CLI does |
+| Backend | pytest + `TestClient` | The Host, Origin, `Sec-Fetch-Site`, content-type and question-validation checks reject; 409 on a second run; an abort kills the process group (stub `claude`); headers and CSP are present; the server refuses an API key in the environment |
+| Front end | Vitest | The reducer over every bundled replay; `<a>` only for `linkable`; gaps for `null`; a fixed text for every error code; the TypeScript `type` names match the schema |
+| End to end | Playwright, against the **build** | All 24 replays render; the keyboard-only flow; axe; a crafted payload stays inert text; **zero `securitypolicyviolation` events** |
 | Live smoke | `make live-web` (local, never CI) | One real question through the page |
 
-**CI:**
-- A new `web` job runs on every PR with no secrets: uv sync of `web/`, pytest, `npm ci`, type check, Vitest, the demo build, and Playwright on the built demo.
-- **The gate is unchanged.** `web/` is outside the fingerprint (E4), but its tests run every PR, and E2's import-not-copy test keeps it honest.
+**CI**
+- A new `web` job runs on every PR with **no secrets**. The gate is otherwise unchanged.
+- The existing "flag changes to eval inputs" step adds `migrations/` and `config/`.
 
 ## 14. Delivery
 
 The plan (`docs/PLAN-A8.md`, after approval) breaks these into small PRs.
 
-| Phase | Scope | Proof |
-|---|---|---|
-| U0 | ADRs 0010 (UI stack and `web/` outside the fingerprint), 0011 (stay in Python), 0012 (replay-only public demo); event models, schema and generated types; `make bench` with today's numbers | Schema contract tests pass; baseline benchmark committed |
-| U1 | The §6.3 bundle in one PR, then the re-baseline: flakiness study k=5, `make baseline`, gate k=3 | Benchmark meets §6.3; gate receipt passes; `verify` green |
-| U2 | Replay viewer and `build-demo`; front end with steps, answer card, chart and table, error states; Pages deploy if D1 | All 20 replays render; axe clean; demo URL live |
-| U3 | Live mode: `canada-web serve`, SSE, hardening, Stop | Backend security tests; `make live-web` answered one real question |
-| U4 | Accessibility pass, README section with screenshots or a GIF, the 3-reviewer adversarial review (security, honesty, code), release v1.1.0 | Review findings fixed and logged in `docs/reviews/`; tag pushed |
+| Phase | Days | Scope | Proof | George's review |
+|---|---|---|---|---|
+| U0 | 0.5 | ADR 0010 (web UI, replay-only demo, `web/` outside the fingerprint) and ADR 0011 (stay in Python); event models, schema and TypeScript union; `make bench` with today's numbers; the `gate.py` regression check (judging only, 0 model runs) | Contract tests; benchmark committed; regression-check unit tests | ~1.5 h |
+| U1 | 2 | **The demo:** `build-demo`; the front end (picker, auto-play, steps, answer card, chart or tile and table, attack and rejected categories, error text, "How it's tested"); the Pages deploy | All 24 replays render; axe clean; the demo URL is live and at the top of the README | ~4 h |
+| U2 | 1.5 | **The `src/` bundle** (P1–P5, P8–P10) in one PR: code review, then study, regression check, baseline and gate (192 runs, plus 24 if D6). **Then live mode** in `web/`: `serve`, the streaming POST, hardening and Stop | Benchmark gains; receipt passes; the regression check passes against v1.0; backend security tests; `make live-web` answered one real question | ~4 h |
+| U3 | 1 | Manual accessibility pass, README GIF, a 2-reviewer adversarial review (security, honesty), release v1.1.0 | Findings fixed and logged in `docs/reviews/`; tag pushed | ~2 h |
 
-**Ownership (A7) still applies:** Claude builds; George gets a vault lesson per new concept (Server-Sent Events, CSP and Trusted Types, generated types, localhost hardening, accessibility testing) and check-yourself questions at the tag.
+**Ownership (A7) still applies.** George gets a vault lesson per new concept and check-yourself questions at the tag:
+- Server-Sent Events;
+- CSP and Trusted Types;
+- localhost hardening;
+- argument injection;
+- accessibility testing;
+- regression-checked baselines.
 
 ## 15. Risks
 
 | Risk | Mitigation |
 |---|---|
-| The U1 re-baseline hits the subscription's usage limit | Runs resume with the same command (they already do); budget it as one sitting |
-| U1 changes move the dev pass rate | The gate decides; P1–P8 don't touch prompts or tool descriptions, so a move would be noise or a real bug, and the receipt shows which |
-| The UI shows something the gate never verified | E2 (import, don't copy), E3 (answer only from `AskResult`), contract tests over all replays |
-| Injected text in tool results reaches the page | Plain text only; Trusted Types; a Playwright test with a crafted payload |
-| A replay is mistaken for a live run | Banner, footer provenance, and `billed: "none"` on every replay |
-| Two languages to maintain | TypeScript only in `web/frontend`; generated types; one event contract; the agent and every rule stay Python |
-| Someone runs live mode for others | README warning quoting the terms; the server refuses non-local binding |
-| The chart library constrains CSP or accessibility | D4; the data table is the accessible source of truth, and the chart is the extra |
+| The U2 re-baseline hits the subscription's usage limit | Runs resume with the same command; budget it as one sitting |
+| The `src/` bundle makes the agent worse | The §6.4 regression check against the v1.0 baseline blocks it unless the change is explicitly accepted with a reason |
+| The UI shows something the gate never verified | E2 (import, don't copy), E3 (nothing shown before the checks), fidelity and contract tests |
+| Injected text reaches the page or a crawler | No tool text is ever emitted; `foreign_links` fails the build on any hit; attacks are described, never quoted |
+| A question is parsed as a `claude` option | Server-side validation now; `--` in `build_command` (P9) |
+| A replay is mistaken for a live or current agent | The provenance line on every replay; `billed: "none"`; the header states it's the tuning set |
+| Two languages to maintain | TypeScript only in `web/frontend`; one small hand-written event union; every rule stays Python |
+| Someone runs live mode for others | A README warning quoting the terms; local binding only |
 
 ## 16. Decisions for George
 
@@ -290,22 +414,35 @@ Each has a default, which applies if he approves A8 without changing it.
 
 | # | Question | Default | Why |
 |---|---|---|---|
-| D1 | Host the public replay demo? | **Yes, on GitHub Pages** | Free and static, with no model calls. A recruiter can see the agent work without installing anything |
-| D2 | Single page now, or build the eval explorer too? | **Single page now;** the explorer later | The explorer is a lot of new surface. React and the event contract keep it cheap to add later |
-| D3 | A Rust learning experiment (a PyO3 snapshot parser, benchmarked against Python)? | **No** (optional, outside the agent if yes) | It's a learning goal, not an optimisation; it would save ~50 ms once per table |
-| D4 | Chart library | **Recharts** (SVG, React-native) | SVG is easier to test and inspect than canvas; the data table carries accessibility either way |
-| D5 | Release name | **v1.1.0**, with SPEC §5's "v1.1" list renamed "later" | A8 is a backwards-compatible feature release |
+| D1 | Host the public replay demo? | **Yes, GitHub Pages** | Free, static, no model calls. A recruiter sees the agent work without installing anything |
+| D2 | Eval explorer now? | **No**, a static "How it's tested" tab instead | Most of the portfolio value at a fraction of the surface |
+| D3 | A Rust learning experiment (PyO3 snapshot parser, benchmarked)? | **No** | A learning goal, not an optimisation (~50 ms once per table) |
+| D4 | Charts | **Hand-written SVG** | Three of four critics. 10 of the 20 answer replays have ≤ 3 points, so most get a tile; the bundle is ~110 kB gzip smaller; accessibility is set directly. **Dissent (front-end critic):** Recharts is verified CSP-clean, its accessibility default is fixed with four props, and it means less code to review |
+| D5 | Release name | **v1.1.0**, with SPEC §5's "v1.1" list renamed "later" | A backwards-compatible feature release |
+| D6 | Re-record the 24 dev transcripts on the U2 agent, so replays show real step timing and the released agent? | **No** | 24 more Sonnet runs, plus a reviewed re-grade. Replays are labelled as pre-release instead |
+| D7 | Show the 3 attack runs in the public demo? | **Yes**, described by goal and route; never the planted text or host | It shows the project's differentiator; the build proves no outside link ships |
 
-## 17. How A8 resolves the investigation and its review
+## 17. Review log (v0.1 → v0.2)
 
-| Point | Investigation said | Review said | A8 follows |
-|---|---|---|---|
-| Latency | Model ~95%, our Python 3–6% | Right in direction. The sample is Haiku-only on recorded data; live Sonnet is 26.7 s; the per-call saving is 0.6 s, not 1.7 s | The review: §6.1 shows both samples and the live trace; P3 adds timing for real measurement; §6.4 uses 0.6–1.0 s |
-| Rewrite | No; the link regex is unportable | No; the regex *is* portable, but it would be two copies of a security rule | The review's reasoning (§6.2) |
-| UI front end | Plain JS, no build, ~400 lines | Wins only under one weighting; ~700–1,200 lines realistic; no types or accessibility criteria | The review: React + TypeScript (§8) |
-| UI backend | FastAPI SSE, one event schema, localhost hardening | Solid | Both (§8–§10) |
-| Static demo | A heavily weighted requirement | A preference, and the hosted demo wasn't decided | D1 makes it George's call |
-| Missed option | – | Build the replay viewer first; TUI and Python dashboards not considered | Replay first (U2 before U3). A TUI is rejected because the demo needs a browser; Python dashboards fail the static-demo and CSP needs |
-| Un-gated UI | `web/` outside the fingerprint | A UI bug could contradict the gate | E2, E3 and the contract tests (§13) |
-| Cancel | Raise from the capture list | Works, but is hacky and fires only on the next event | P5: an explicit `should_stop` hook in `src/` |
-| Pre-starting `claude -p` | Best architecture fit, untested | Unproven; changes the canary and stdin handling | Deferred to a measured follow-up (§6.3) |
+Four adversarial critics, two rounds. In round 2 each critic read the other three critiques and had to agree, change or dispute every blocking item within a 5-day, 12-hour budget. The chairman re-checked the disputed facts. The full text is in `docs/reviews/2026-11-17-a8-spec-review.md`.
+
+| Change | Raised by | Why |
+|---|---|---|
+| The demo ships first, with zero `src/` changes; the `src/` bundle moves to live mode | Scope; all agreed | The demo needs nothing from `src/`, and 192 runs shouldn't block it |
+| One streaming POST instead of POST plus a GET event stream | Front end; all agreed | A same-origin GET carries no `Origin`; the browser reconnects automatically; there's an orphan window. All verified |
+| P9: `--` before the question, plus server-side validation | Security; all agreed | `claude --model haiku "--version"` printed the version: a question in the prompt slot is parsed as an option. The chairman confirmed `build_command` has no `--` |
+| Cancel through a watcher thread, tested by process group | Security, front end, scope | v0.1's per-event check can't fire while the model is silent; the tool server runs as `python -m`, so a name-based test would pass falsely |
+| No tool text reaches the browser; `series` only after the checks; `product_id` instead of a URL | Security, front end | Poisoned tool results carry outside links (verified in inject-01 and inject-03); v0.1 would have drawn charts for a run that was then rejected |
+| A closed set of error codes (P10) | Security, front end | 10 raise sites had no code, some with attacker-influenced text |
+| A regression check against the outgoing baseline | Eval; all agreed | v0.1's "the gate decides" was false: the gate only compared the new agent with itself |
+| `build-demo` re-wraps and uses a fixed clock; "re-checked" is stated precisely | Eval | Stored events are slimmed: 4/20 pass as stored, 20/20 re-wrapped |
+| Honest provenance (commit 9e183c1, before the final review fixes) | Eval | The chairman verified by diff, not ancestry: the tag the critic used doesn't exist, and squash merges make ancestry meaningless. `ask.py` +86 lines, plus `links.py` and `transcripts.py`, changed after that commit |
+| Attack-resisted and rejected replays in the demo, the attack described not quoted | Scope (include), security (no host), resolved by the chairman | Shows the differentiator without the page carrying the attack |
+| P8 reworked: `migrations/` in, `config/` to judging, one Claude Code version per receipt | Eval; all agreed | v0.1 would have forced 192 runs on a price edit and missed migrations |
+| `series` without title or unit; a tile under 3 points | Front end | `get_series` returns neither; 10 of 20 replays have ≤ 3 points |
+| A required `type` on every event; a hand-written TypeScript union instead of codegen | Front end (type), scope (no codegen) | A default makes the generated field optional; tests catch the same drift |
+| Benchmark: interleaved, n ≥ 30, raw samples, interval-based acceptance | Eval | Medians drift 4–5% between batches; the investigation's raw data wasn't committed |
+| Accessibility: `wcag22aa` tags, `target-size` on, a manual pass, "tested" not "compliant" | Front end, eval | `target-size` is off by default in axe 4.14.1; axe covers only part of WCAG |
+| Framing: "waiting on Claude ~95% (Haiku median), ≤ 92% (live)"; "7–27 s"; 0.6–1.0 s per call | Eval | v0.1 over-claimed from the Haiku sample |
+| **Cut:** P6, P7, the per-launch token, the GET route, codegen, `Last-Event-ID` resume, the third ADR, a 3rd U4 reviewer | Scope, security (conceded the token), front end | Each fails the budget test or protects against nothing new |
+| **Rejected:** re-recording in A8 (now D6); a Jupyter-style token; Recharts (now D4, with dissent) | Round-2 majority | Budget; a local process could run `claude` itself; size and accessibility |
