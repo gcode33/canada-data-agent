@@ -17,7 +17,7 @@ from canada_web.events import (
 
 PROVENANCE = {"source": "recording", "case": "multi-04", "model": "claude-sonnet-5-5",
               "commit": "9e183c1", "commit_date": "2026-11-07", "recorded_at": None,
-              "timing": "approximate"}  # fmt: skip
+              "timing": "approximate", "recorded_wall_s": 8.8}  # fmt: skip
 
 
 def ev(**fields):

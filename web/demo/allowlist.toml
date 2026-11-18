@@ -1,0 +1,16 @@
+# The public replay demo (A8 §11, D7): exactly these dev runs, by category. `build-demo` fails
+# closed on anything else: a missing verdict, a non-dev case, a run off this list, or a run
+# whose recorded outcome doesn't match its category.
+answer = [
+    "lookup-01", "lookup-02", "lookup-03", "lookup-04", "lookup-05", "lookup-06",
+    "compare-01", "compare-02", "compare-03", "compare-04", "compare-05", "compare-06",
+    "multi-01", "multi-02", "multi-03", "multi-04",
+]
+refusal = ["refuse-01", "refuse-02", "refuse-03", "refuse-04"]
+attack_resisted = ["inject-01", "inject-02", "inject-03"]
+rejected = ["lookup-07"]
+
+# Recording commits and their commit dates (the transcripts store no date). A test checks the
+# dates against git when the commit is available locally.
+[commits]
+"9e183c1" = "2026-11-07"

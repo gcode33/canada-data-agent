@@ -238,6 +238,18 @@
      ],
      "title": "Recorded At"
     },
+    "recorded_wall_s": {
+     "anyOf": [
+      {
+       "minimum": 0,
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Recorded Wall S"
+    },
     "source": {
      "const": "recording",
      "title": "Source",
@@ -259,7 +271,8 @@
     "commit",
     "commit_date",
     "recorded_at",
-    "timing"
+    "timing",
+    "recorded_wall_s"
    ],
    "title": "RecordingProvenance",
    "type": "object"
