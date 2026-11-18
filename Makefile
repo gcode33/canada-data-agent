@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 .SHELLFLAGS := -eo pipefail -c
 
-.PHONY: up down migrate test live lint fmt index record dump seed verify-golden snapshot transcripts gate flakiness baseline
+.PHONY: up down migrate test live lint fmt index record dump seed verify-golden snapshot transcripts gate flakiness baseline bench
 
 INDEX_DUMP := data/index.sql.zst
 DATABASE_URL ?= postgresql://canada:canada@localhost:5432/canada
@@ -69,3 +69,6 @@ flakiness:  ## the flakiness study: dev x5, stable/unstable split and measured g
 
 baseline:  ## adopt the flakiness study as the baseline (an explicit, reviewed commit)
 	uv run canada-gate baseline
+
+bench:  ## offline benchmark: REF (default main) vs this checkout, interleaved; writes docs/perf/ (A8 §6.3)
+	uv run python perf/bench.py --ref $(or $(REF),main) --head $(or $(HEAD_REF),HEAD) --label $(or $(LABEL),bench)

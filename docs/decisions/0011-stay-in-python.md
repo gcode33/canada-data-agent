@@ -24,7 +24,7 @@ All our own Python CPU is about 0.3–0.55 s of a 7–27 s question (1–4%), ov
 - **Prove gains with `make bench`:**
   - base and head run interleaved, n ≥ 30 after warm-ups, with compiled bytecode;
   - raw samples and the environment are committed to `docs/perf/`;
-  - a change counts only if its bootstrap 95% interval excludes zero. Batch medians drift 4–5% on their own.
+  - a change counts only if its bootstrap interval excludes zero. The intervals are 95% family-wise, Bonferroni-adjusted across the four measures (98.75% each), because four plain 95% intervals would flag a false change in an A/A run about 19% of the time. Batch medians drift 4–5% on their own.
 - **If a CPU hotspot ever shows in a profile, the order is:**
   1. a Rust-backed library;
   2. one small benchmarked PyO3 extension;

@@ -101,7 +101,11 @@ Everything else proceeds.
 
   It runs 3 warm-ups, then n = 30 per side, with bytecode compiled first (`uv sync --compile-bytecode`).
 - **Output:** raw samples plus the environment (machine, OS, Python, lock hash, Postgres image, power state) in `docs/perf/<date>-<label>.json`, and a Markdown table of the medians and a bootstrap 95% interval of the difference.
-- **Done when:** an A/A run (`REF=main` against main) is committed, and its interval for every measurement contains 0. This shows the harness doesn't invent improvements.
+- **Done when:** an A/A run (one commit against itself) is committed, and its interval for every measurement contains 0. This shows the harness doesn't invent improvements.
+- **As built (recorded deviations, U0 review):**
+  - intervals are 95% family-wise, Bonferroni-adjusted to 98.75% per measure; P1 and P2 are accepted on that stricter test;
+  - "handshake" is timed from start until `list_tools` answers over stdio (the MCP version in use has no separate initialize reply);
+  - both sides are fresh worktrees of committed refs, because the first A/A run caught a 3 ms bias when head ran from the existing checkout.
 
 **Phase-end:** a code review only. U0 adds no user-facing surface, so there is no adversarial review here; the U1 review covers U0's contract and gate changes too.
 - **Lessons:** [[Regression-Checked Baselines]], [[A/A Tests and Benchmark Noise]].

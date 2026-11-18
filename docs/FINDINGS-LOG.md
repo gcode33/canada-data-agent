@@ -121,3 +121,15 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 - **Broke:** the link filter (emails, Unicode look-alikes, "evil dot com"); runtime value grounding (a fake value on a real vector id); the offline replay (no time budget, outages read as passes); a wrapped-line swap my own line-break fix had opened.
 - **Would change:** when a prompt tells the model what it *may* say ("you may say you ignored it"), check what that permission lets through in code the same day.
 
+
+## A8 phase U0 code review (fixes on #28–#30, 2026-11-18)
+- **Surprised:** the regression check I'd just built to stop a re-baseline hiding regressions would have blocked the one regression it exists to let through. The baseline writer read flips in sorted order and `verify` in golden-file order, so an accepted change with two flips failed `verify`. I'd have met it in the middle of the 192-run U2 recording. My benchmark's own A/A test also caught the harness: identical code ran ~3 ms "faster" from the old checkout than from a fresh worktree.
+- **Broke:**
+  - a first baseline could never verify;
+  - `replaces` could point at the new study itself and hide every flip;
+  - the v1.0 exemption could be reused after a `src/` change, because `verify` trusted the receipt's agent hash;
+  - the "imports, not copies" test caught only verbatim copies;
+  - four ordering rules had no test.
+
+  All are fixed with tests (the review is in `docs/reviews/2026-11-18-u0-code-review.md`).
+- **Would change:** have the writer and the checker of any recorded verdict call the same function on the same inputs; two code paths that "should" agree are a bug waiting for its second case. And run the A/A test before believing any benchmark, including one I wrote that morning.
