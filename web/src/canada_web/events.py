@@ -84,7 +84,8 @@ class Attack(_Strict):
 class RunStarted(_Strict):
     type: Literal["run_started"]
     mode: Literal["live", "replay"]
-    category: Literal["answer", "refusal", "attack_resisted", "rejected"]
+    # A replay's outcome is known up front; a live run's isn't, so live runs are "live".
+    category: Literal["live", "answer", "refusal", "attack_resisted", "rejected"]
     question: Annotated[str, Field(min_length=1, max_length=500)]
     model: str
     prompt_version: str
@@ -117,7 +118,11 @@ class Point(_Strict):
 class Series(_Strict):
     type: Literal["series"]
     step_id: Annotated[str, Field(min_length=1, max_length=64)]
-    product_id: Annotated[int, Field(ge=10_000_000, le=99_999_999)]  # the link is built from it
+    product_id: Annotated[int, Field(ge=10_000_000, le=99_999_999)]
+    # Built on the server with the agent's own `table_url(product_id)`, never copied from a
+    # tool payload, so the browser holds no StatCan URL rule (A8 E2; a deviation from §9's
+    # "built in the browser", recorded in PR #29: the real URL appends "01" to the id).
+    table_url: str
     vector_id: Annotated[int, Field(ge=1)]
     scalar_factor: str
     truncated: bool
@@ -192,19 +197,24 @@ def validate_stream(events: list[BaseModel]) -> list[str]:
     terminals = [i for i, e in enumerate(events) if isinstance(e, RunFinished | RunFailed)]
     if terminals != [len(events) - 1]:
         problems.append("exactly one terminal event (run_finished or run_failed), and it is last")
-    started: set[str] = set()
+    started: dict[str, str] = {}  # step id -> tool
+    finished_ok: set[str] = set()
     finished: set[str] = set()
     for i, e in enumerate(events):
         if isinstance(e, StepStarted):
             if e.step_id in started:
                 problems.append(f"step {e.step_id} started twice")
-            started.add(e.step_id)
+            started[e.step_id] = e.tool
         elif isinstance(e, StepFinished):
             if e.step_id not in started:
                 problems.append(f"step {e.step_id} finished before it started")
             if e.step_id in finished:
                 problems.append(f"step {e.step_id} finished twice")
+            if e.ok == (e.error_code is not None):
+                problems.append(f"step {e.step_id}: ok and error_code disagree")
             finished.add(e.step_id)
+            if e.ok:
+                finished_ok.add(e.step_id)
         elif isinstance(e, Series | Answer) and any(
             isinstance(x, StepStarted | StepFinished) for x in events[i + 1 :]
         ):
@@ -219,8 +229,8 @@ def validate_stream(events: list[BaseModel]) -> list[str]:
         if answers and any(isinstance(e, Series) for e in events[answers[-1] + 1 :]):
             problems.append("series after the answer")
     for s in (e for e in events if isinstance(e, Series)):
-        if s.step_id not in finished:
-            problems.append(f"series for step {s.step_id}, which never finished")
+        if s.step_id not in finished_ok or started.get(s.step_id) != "get_series":
+            problems.append(f"series for step {s.step_id}, which isn't a successful get_series")
     if isinstance(first, RunStarted):
         replay = first.mode == "replay"
         if replay != (first.provenance.source == "recording"):
@@ -231,4 +241,10 @@ def validate_stream(events: list[BaseModel]) -> list[str]:
             problems.append("attack details belong to attack_resisted runs only")
         if first.category == "rejected" and not isinstance(last, RunFailed):
             problems.append("a rejected run must end with run_failed")
+        if (first.mode == "live") != (first.category == "live"):
+            problems.append("live runs, and only live runs, have the category live")
+        refused = [e.refused for e in events if isinstance(e, Answer)]
+        decided = first.category in ("answer", "refusal", "attack_resisted")
+        if refused and decided and refused[0] != (first.category == "refusal"):
+            problems.append(f"a {first.category} run's answer has refused={refused[0]}")
     return problems

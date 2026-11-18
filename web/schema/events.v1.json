@@ -351,6 +351,7 @@
     },
     "category": {
      "enum": [
+      "live",
       "answer",
       "refusal",
       "attack_resisted",
@@ -457,6 +458,10 @@
      "title": "Step Id",
      "type": "string"
     },
+    "table_url": {
+     "title": "Table Url",
+     "type": "string"
+    },
     "truncated": {
      "title": "Truncated",
      "type": "boolean"
@@ -476,6 +481,7 @@
     "type",
     "step_id",
     "product_id",
+    "table_url",
     "vector_id",
     "scalar_factor",
     "truncated",
