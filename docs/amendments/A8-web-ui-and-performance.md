@@ -300,7 +300,7 @@ The live server spends George's subscription and handles text that may carry inj
 | Attack resisted | inject-01, -02, -03 | Steps (server-built summaries only), the answer, and a fixed caption naming the attack's **goal and route**. These come from the run's `poison` spec, parsed with the imported `canada_agent.evals.poison.parse`; its `goal` is `exfil_url` or `wrong_value`, and its `vector` is the route. Example caption: "a planted instruction in a table card tried to make it cite another website". The planted text and the attacker's host are **never** shown: published verbatim, the page itself would carry the attack to AI crawlers |
 | Rejected by checks | lookup-07 | Steps and the `ANSWER_REJECTED` explanation; no answer text, no chart |
 
-**The header:** "20 of the 21 answerable dev questions (the set the agent was tuned on), 3 attacks it resisted, and 1 answer its own checks rejected. The held-out result for v1.0 is 13/16; it is not re-run here."
+**The header** (corrected after the U1 honesty review: the demo shows all 24 dev cases, so "20 of the 21" implied one was left out): "All 24 dev questions (the set the agent was tuned on), one recorded run each: 16 answers and 4 refusals the graders passed, 3 attacks it resisted, and 1 answer its own checks rejected." The counts are computed from the replay index.
 
 **`canada-web build-demo`** (Python in `web/`, no `src/` changes)
 - **Fails closed:** if the grade verdicts are missing, a run isn't on the dev split, or a run is off the allow-list.

@@ -15,7 +15,8 @@ from enum import StrEnum
 from typing import Annotated, Literal
 
 from canada_agent.ask import TOOLS
-from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
+from canada_agent.links import CITABLE_URL
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, TypeAdapter
 
 SCHEMA_VERSION = "v1"
 MAX_ARGUMENTS = 200
@@ -56,8 +57,14 @@ class ToolErrorCode(StrEnum):
 Tool = Literal[TOOLS]  # type: ignore[valid-type]  # the three tool names, from the agent
 
 
+def _citable(url: str) -> str:
+    if not CITABLE_URL.fullmatch(url):
+        raise ValueError("table_url must be a StatCan table URL")
+    return url
+
+
 class _Strict(BaseModel):
-    model_config = ConfigDict(extra="forbid", frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True, allow_inf_nan=False)
 
 
 class LiveProvenance(_Strict):
@@ -123,7 +130,7 @@ class Series(_Strict):
     # Built on the server with the agent's own `table_url(product_id)`, never copied from a
     # tool payload, so the browser holds no StatCan URL rule (A8 E2; a deviation from §9's
     # "built in the browser", recorded in PR #29: the real URL appends "01" to the id).
-    table_url: str
+    table_url: Annotated[str, AfterValidator(_citable)]
     vector_id: Annotated[int, Field(ge=1)]
     scalar_factor: str
     truncated: bool

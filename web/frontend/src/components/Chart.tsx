@@ -43,7 +43,10 @@ export function Chart({ series, index }: { series: Series; index: number }) {
     const last = [...series.points].reverse().find((p) => p.value !== null);
     return (
       <figure className="tile">
-        <p className="tile-value">{last ? last.value : "—"}</p>
+        <p className="tile-value">
+          {last ? last.value : "—"}
+          {last ? <span className="tile-period"> {last.ref_period}</span> : null}
+        </p>
         <figcaption>{sentence}</figcaption>
         <SeriesTable series={series} />
       </figure>
@@ -83,6 +86,7 @@ export function Chart({ series, index }: { series: Series; index: number }) {
       <figcaption>
         {sentence}
         {values.some((v) => v === null) ? " × marks a suppressed value." : ""}
+        {min > 0 ? " The vertical axis spans the values shown; it doesn't start at zero." : ""}
       </figcaption>
       <SeriesTable series={series} />
     </figure>

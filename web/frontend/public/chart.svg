@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 192" width="720" height="192" role="img" aria-labelledby="t d">
+<title id='t'>Golden-set pass rate with 95% Wilson intervals</title>
+<desc id='d'>test split, Sonnet 5.5: 0.81 (0.57 to 0.93), 16 cases; dev split, Sonnet 5.5: 0.96 (0.80 to 0.99), 24 cases</desc>
+<style>
+  .surface { fill: #fcfcfb; }
+  .ink { fill: #0b0b0b; } .ink2 { fill: #52514e; } .muted { fill: #898781; }
+  .grid { stroke: #e1e0d9; } .axis { stroke: #c3c2b7; }
+  .mark { fill: #2a78d6; stroke: #fcfcfb; } .whisker { stroke: #2a78d6; }
+  @media (prefers-color-scheme: dark) {
+    .surface { fill: #1a1a19; }
+    .ink { fill: #f0efec; } .ink2 { fill: #c3c2b7; }
+    .grid { stroke: #2c2c2a; } .axis { stroke: #383835; }
+    .mark { fill: #3987e5; stroke: #1a1a19; } .whisker { stroke: #3987e5; }
+  }
+  text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+</style>
+<rect class="surface" width="720" height="192" rx="8"/>
+<text class="ink" x="16" y="28" font-size="15" font-weight="600">Golden-set pass rate, with 95% Wilson interval over cases</text>
+<line class="grid" x1="250.0" x2="250.0" y1="48" y2="140" stroke-width="1"/>
+<text class="muted" x="250.0" y="158" font-size="12" text-anchor="middle">0%</text>
+<line class="grid" x1="357.5" x2="357.5" y1="48" y2="140" stroke-width="1"/>
+<text class="muted" x="357.5" y="158" font-size="12" text-anchor="middle">25%</text>
+<line class="grid" x1="465.0" x2="465.0" y1="48" y2="140" stroke-width="1"/>
+<text class="muted" x="465.0" y="158" font-size="12" text-anchor="middle">50%</text>
+<line class="grid" x1="572.5" x2="572.5" y1="48" y2="140" stroke-width="1"/>
+<text class="muted" x="572.5" y="158" font-size="12" text-anchor="middle">75%</text>
+<line class="grid" x1="680.0" x2="680.0" y1="48" y2="140" stroke-width="1"/>
+<text class="muted" x="680.0" y="158" font-size="12" text-anchor="middle">100%</text>
+<text class="ink" x="16" y="68" font-size="13" font-weight="600">Held-out test · Sonnet 5.5</text>
+<text class="ink2" x="16" y="84" font-size="12">16 cases, k=1, 2026-11-07</text>
+<line class="whisker" x1="495.1" x2="651.7" y1="70" y2="70" stroke-width="2" stroke-linecap="round"/>
+<circle class="mark" cx="599.4" cy="70" r="5" stroke-width="2"/>
+<text class="ink" x="659.7" y="74" font-size="12">81%</text>
+<text class="ink" x="16" y="114" font-size="13" font-weight="400">Dev (tuned on) · Sonnet 5.5</text>
+<text class="ink2" x="16" y="130" font-size="12">24 cases, k=1, 2026-11-07</text>
+<line class="whisker" x1="593.0" x2="676.8" y1="116" y2="116" stroke-width="2" stroke-linecap="round"/>
+<circle class="mark" cx="662.1" cy="116" r="5" stroke-width="2"/>
+<text class="ink" x="684.8" y="120" font-size="12">96%</text>
+<text class="muted" x="16" y="180" font-size="11">Snapshot data; search mostly full-text in these runs (README). Source: evals/history.jsonl</text>
+</svg>

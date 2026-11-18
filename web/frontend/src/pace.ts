@@ -1,5 +1,6 @@
-// Replay pacing (A8 U9). Recorded timings are used when present; otherwise the recorded wall
-// time is spread evenly over the events ("approximate pace"). Reduced motion plays instantly.
+// Replay pacing (A8 U9). Today's recordings carry no per-step timings, so the recorded wall time
+// is spread evenly over the events, and every replay says "Approximate pace". (Per-step timings
+// arrive with U2's P3; using them is a follow-up.) Reduced motion plays instantly.
 import type { UiEvent } from "./events";
 
 export const MIN_MS = 120;

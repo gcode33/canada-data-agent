@@ -23,7 +23,13 @@ function contrast(a: string, b: string): number {
 }
 
 const light = tokens(css.split("@media (prefers-color-scheme: dark)")[0] ?? "");
-const dark = { ...light, ...tokens(css.split("@media (prefers-color-scheme: dark)")[1]?.split("}")[1] ?? "") };
+const darkOverrides = tokens(css.split("@media (prefers-color-scheme: dark)")[1]?.split("}")[0] ?? "");
+const dark = { ...light, ...darkOverrides };
+
+it("parses the dark theme's own tokens (the U1 review found this read nothing)", () => {
+  expect(Object.keys(darkOverrides).length).toBeGreaterThanOrEqual(13);
+  expect(darkOverrides.bg).not.toBe(light.bg);
+});
 
 const TEXT: [string, string][] = [
   ["text", "bg"], ["text", "surface"], ["muted", "bg"], ["muted", "surface"],

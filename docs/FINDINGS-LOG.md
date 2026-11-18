@@ -133,3 +133,15 @@ Three lines per PR: what surprised us, what broke, what we'd change. `FINDINGS.m
 
   All are fixed with tests (the review is in `docs/reviews/2026-11-18-u0-code-review.md`).
 - **Would change:** have the writer and the checker of any recorded verdict call the same function on the same inputs; two code paths that "should" agree are a bug waiting for its second case. And run the A/A test before believing any benchmark, including one I wrote that morning.
+
+## A8 phase U1 adversarial review (fixes in #35, 2026-11-18)
+- **Surprised:** the page I built to show the checks honestly overclaimed them. "Every number must be one a tool returned" is false: `check_grounded` checks only levels, against the series and not its period. The reviewer got three tampered answers accepted by the production checks to prove it. The rejected exhibit (lookup-07) gave the wrong reason. And my own fix for the gate rules shipped a new error: a rounded 0.3333 × 3 floored to "passes **0** of 3", caught by the e2e test written for it.
+- **Broke:**
+  - **Invisible characters:** a soft hyphen or a look-alike dot hides a foreign host from `foreign_links`, through the graders and into a built demo. The web layer now strips them; the agent fix is PLAN P11 in U2.1.
+  - **Unchecked events:** anything after the `result` event was published unchecked.
+  - **Labels:** multi-04's two CPI level charts were labelled "year over year".
+  - **Tests that tested nothing:** the dark-theme contrast test parsed nothing; removing the CSP passed every test; fidelity tests let five mutations through; four fail-closed paths were untested.
+  - **Error states:** three never recovered.
+  - **Deploy:** the deploy didn't require the web tests.
+  - **Trojan Source:** a raw right-to-left override character sat in a test file; a test now bans raw invisible characters in every web source.
+- **Would change:** write every claim on the page from the check's code, not from memory of it; and give every new test a mutation that must make it fail before trusting a green run.

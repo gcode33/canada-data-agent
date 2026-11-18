@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { RunState } from "../reducer";
 import { isOver } from "../reducer";
-import { attackCaption, TOOL_NAMES } from "../text";
+import { attackCaption, REPO_URL, TOOL_NAMES } from "../text";
 import { AnswerCard } from "./AnswerCard";
 import { Steps } from "./Steps";
 
@@ -34,8 +34,12 @@ export function RunView({ state, focusResult, onSkip }: Props) {
     <article className="run">
       {prov.source === "recording" ? (
         <p className="banner" role="note">
-          Replay of a recorded run ({prov.model}, recorded during v1.0 development, commit{" "}
-          {prov.commit}, {prov.commit_date}). Not a live model call.{" "}
+          Replay of a recorded run ({prov.model}, recorded during v1.0 development, before the
+          release's final review fixes: commit{" "}
+          <a href={`${REPO_URL}/commit/${prov.commit}`} rel="noopener noreferrer" target="_blank">
+            {prov.commit}
+          </a>
+          , {prov.commit_date}). Not a live model call.{" "}
           {prov.timing === "approximate" ? "Approximate pace." : ""}
         </p>
       ) : null}
@@ -65,7 +69,7 @@ export function RunView({ state, focusResult, onSkip }: Props) {
           {state.finished.num_turns} turns · {state.steps.length} tool calls ·{" "}
           {(state.finished.duration_ms / 1000).toFixed(1)} s · {run.model} · prompt {run.prompt_version}
           {state.finished.billed === "none"
-            ? " · not a model run"
+            ? " · replayed, no model call now"
             : ` · API-equivalent $${(state.finished.api_equivalent_usd ?? 0).toFixed(4)}, billed to subscription`}
         </footer>
       ) : null}
