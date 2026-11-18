@@ -40,6 +40,13 @@ TOOL_CODE = re.compile(r"\b([A-Z][A-Z0-9_]{3,}):")
 PERIOD = re.compile(r"^\d{4}(-\d{2}){0,2}$")
 SCALAR = re.compile(r"^[a-z ]{1,24}$")
 STATUS = re.compile(r"^[A-Za-z.]{1,3}$")
+# A series' name is taken from the checked answer's description of one of its values, which
+# usually ends with that value's period ("Ontario Rent CPI Sep 2026"); a chart spans many.
+_MONTH = r"(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?"
+PERIOD_SUFFIX = re.compile(
+    rf"[\s,(-]*(({_MONTH}\s+)?\d{{4}}(-\d{{2}})?|{_MONTH}\s+\d{{1,2}},?\s+\d{{4}}|\b{_MONTH})\)?\s*$",
+    re.I,
+)
 
 
 def redact(text: str, limit: int) -> str:
@@ -90,6 +97,16 @@ def summary(tool: str, payload: dict[str, Any]) -> str:
     periods = _periods(points)
     span = f", {periods[0]} to {periods[-1]}" if periods else ""
     return f"{len(points)} points{span}"
+
+
+def series_label(description: str) -> str:
+    """A chart name from a value's description, without that one value's period."""
+    name, before = description, None
+    while name != before:  # peel "Sep 2025 to Sep 2026", "on July 1, 2026", "(2026-08)"
+        before = name
+        name = PERIOD_SUFFIX.sub("", name).strip(" ,-–(")
+        name = re.sub(r"\s+(on|in|for|at|as of|of|to|from|between|and)$", "", name, flags=re.I)
+    return redact(name or description, MAX_SUMMARY)
 
 
 def series(step_id: str, payload: dict[str, Any], label: str | None) -> Series | None:
@@ -202,11 +219,12 @@ class Converter:
         billed: str,
     ) -> list[Series | Answer | RunFinished]:
         """Only call this after `run_events` accepted the answer."""
-        labels = {
-            v.get("vector_id"): redact(str(v.get("description", "")), MAX_SUMMARY)
-            for v in answer.get("answer_values") or []
-            if isinstance(v, dict)
-        }
+        labels: dict[Any, str] = {}
+        values = [v for v in answer.get("answer_values") or [] if isinstance(v, dict)]
+        # A level's description names the series; a change's names a comparison.
+        for v in sorted(values, key=lambda v: v.get("label") != "level"):
+            if v.get("vector_id") not in labels:
+                labels[v.get("vector_id")] = series_label(str(v.get("description", "")))
         shown = [series(sid, p, labels.get(p.get("vector_id"))) for sid, p in self.series_payloads]
         links = [
             {"url": u, "linkable": bool(CITABLE_URL.fullmatch(u)) and u in self.returned_urls}
