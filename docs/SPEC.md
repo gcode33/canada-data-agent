@@ -1,6 +1,6 @@
 # Spec: Canada Data Agent & Eval Lab
 
-Status: **v1.0, approved by George 2026-10-26.** It's v0.2 unchanged: v0.2 was revised after a two-round adversarial review by four critics (an eval scientist, a security red-teamer, a data/reliability engineer and a hiring-manager scope critic). What changed and why is in §16. The decisions are in §15. The build order is in `docs/PLAN.md`.
+Status: **v1.0, approved by George 2026-10-26; amended by A8 (web UI and performance), approved 2026-11-18** — see `docs/amendments/A8-web-ui-and-performance.md`, which overrides this document where they conflict. It's v0.2 unchanged: v0.2 was revised after a two-round adversarial review by four critics (an eval scientist, a security red-teamer, a data/reliability engineer and a hiring-manager scope critic). What changed and why is in §16. The decisions are in §15. The build order is in `docs/PLAN.md`.
 
 ## 1. In plain words
 
@@ -31,12 +31,12 @@ Target postings: Cohere Integrations (tools, evals, tool descriptions), BMO and 
 **Ownership (amendment A7, approved by George 2026-10-27):** Claude builds the whole project. George learns it through a teaching track: a vault lesson per concept, check-yourself questions at each tag, and three mock interviews. He must be able to explain and whiteboard every design decision. Each design decision gets an ADR in `docs/decisions/`, and PRs stay small. Because the builder also writes the golden answers, every expected value is independently recomputed from StatCan's full-table CSV (`evals/verify_golden.py`).
 
 ## 3. Non-goals (v1.0)
-- No chat UI or hosted site; a CLI plus the MCP server, with a GIF in the README.
+- No chat UI or hosted site; a CLI plus the MCP server, with a GIF in the README. **(Replaced by A8: a static public replay demo and a local-only live web UI; still no hosted live mode.)**
 - No model training or fine-tuning, and no LangChain/LlamaIndex.
 - English only.
 - Read-only: no write, shell or code-execution tools.
 - No forecasting.
-- **Moved to v1.1:** Open Canada and Bank of Canada tools, the LLM judge, the weekly live job, the month-to-date budget guard, the `compute` tool, 100+ cases, Dependabot, image digests. See §5.
+- **Moved to later** (A8 D5 renamed "v1.1" to "later", because A8 ships as v1.1.0)**:** Open Canada and Bank of Canada tools, the LLM judge, the weekly live job, the month-to-date budget guard, the `compute` tool, 100+ cases, Dependabot, image digests. See §5.
 
 ## 4. Users and constraints
 - **Users:** George, any MCP client (Claude Code, Claude Desktop), and CI.
@@ -62,7 +62,7 @@ Target postings: Cohere Integrations (tools, evals, tool descriptions), BMO and 
 | F9 | CI: a free job on every push, plus a dev-only LLM gate on ready-for-review PRs (§10.5) |
 | F10 | Evidence: `evals/history.jsonl` + chart, `FINDINGS.md`, claims table, ADRs |
 
-### v1.1
+### Later (named "v1.1" until A8)
 - **Tools:** `search_datasets` (Open Canada) and `get_fx_rate` (Valet), with the URL and host controls from §11.
 - **Evaluation:** an LLM faithfulness judge with ≥30 hand labels (including seeded unfaithful answers, and a judge prompt frozen before labelling); a `compute` tool with a full recompute grader; growth to about 100 cases.
 - **Operations:** a weekly live drift job and a month-to-date budget guard.

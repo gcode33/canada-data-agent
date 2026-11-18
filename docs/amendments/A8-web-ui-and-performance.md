@@ -1,6 +1,6 @@
 # Amendment A8: Web UI and performance
 
-Status: **draft v0.2 for George's review, 2026-11-17.** It amends `SPEC.md` v1.0 (with A1 and A7) and builds on ADR 0009. Nothing here is approved until George says so; his decisions are in §16.
+Status: **v0.2, approved by George 2026-11-18, with every decision in §16 at its default.** It amends `SPEC.md` v1.0 (with A1 and A7) and builds on ADR 0009. The build plan is `docs/PLAN-A8.md`.
 
 v0.2 replaces v0.1 after a two-round adversarial review by four critics: a security red-teamer, an eval-integrity critic, a front-end and accessibility engineer, and a scope critic. The critics' disputed facts were re-checked by the chairman. What changed and why is in §17; the full critiques are in `docs/reviews/2026-11-17-a8-spec-review.md`. The investigation behind the stack choice is in `docs/reviews/2026-11-17-stack-investigation.md` and `-stack-review.md`.
 
@@ -314,7 +314,7 @@ The live server spends George's subscription and handles text that may carry inj
 - **Outputs** only repo-relative paths. The same inputs produce the same bytes, which a test checks.
 
 **Provenance, on every replay:** "Recorded during v1.0 development (commit 9e183c1, 2026-11-07), before the release's final review fixes. Not a live model call. Approximate pace."
-- That commit is on the `docs/v1-release` branch, not `main`, because main is squash-merged. That branch is kept so the link resolves.
+- That commit isn't on `main`, because main is squash-merged. GitHub keeps it reachable through PR #23's permanent ref (`refs/pull/23/head`), so the link resolves even if branches are deleted.
 - If D6 is yes, the re-recorded runs replace these.
 
 **The "How it's tested" tab** is built at build time from the committed:
@@ -410,7 +410,7 @@ The plan (`docs/PLAN-A8.md`, after approval) breaks these into small PRs.
 
 ## 16. Decisions for George
 
-Each has a default, which applies if he approves A8 without changing it.
+Each has a default, which applies if he approves A8 without changing it. **Approved 2026-11-18: all seven at their defaults.**
 
 | # | Question | Default | Why |
 |---|---|---|---|
