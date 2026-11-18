@@ -1,7 +1,7 @@
 import type { Answer, Series } from "../events";
 import { hrefFor } from "../reducer";
 import { CHANGE_NOTE } from "../text";
-import { SeriesTable } from "./SeriesTable";
+import { Chart } from "./Chart";
 
 const LABELS = { level: "Level", change_abs: "Change", change_pct: "Change (%)", ratio: "Ratio" };
 
@@ -39,8 +39,8 @@ export function AnswerCard({ answer, series }: { answer: Answer; series: Series[
         </table>
       ) : null}
       {hasChange ? <p className="muted small">{CHANGE_NOTE}</p> : null}
-      {series.map((s) => (
-        <SeriesTable key={`${s.step_id}-${s.vector_id}`} series={s} />
+      {series.map((s, i) => (
+        <Chart key={`${s.step_id}-${s.vector_id}`} series={s} index={i} />
       ))}
       {answer.links.length > 0 ? (
         <div className="sources">

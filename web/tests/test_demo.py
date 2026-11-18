@@ -238,6 +238,29 @@ def test_summaries_use_numbers_not_tool_text():
     assert summary("get_series", {"points": points}) == "3 points, 2025-09 to 2026-09"
 
 
+@pytest.mark.parametrize(
+    ("description", "label"),
+    [
+        ("Ontario Rent CPI Sep 2026", "Ontario Rent CPI"),
+        ("Ontario Rent CPI, September 2025", "Ontario Rent CPI"),
+        ("Unemployment rate (2026-08)", "Unemployment rate"),
+        ("Population of BC on July 1, 2026", "Population of BC"),
+        ("Shelter CPI, year over year", "Shelter CPI, year over year"),
+        (
+            "Ontario CPI Rent, percent change Sep 2025 to Sep 2026",
+            "Ontario CPI Rent, percent change",
+        ),
+        ("Change in employment, Canada, Aug to Sep 2026", "Change in employment, Canada"),
+        ("2026", "2026"),
+        ("Mortgage arrears", "Mortgage arrears"),  # a word that merely starts like a month
+    ],
+)
+def test_series_labels_drop_one_values_period(description, label):
+    from canada_web.convert import series_label
+
+    assert series_label(description) == label
+
+
 def test_tool_error_codes_are_allow_listed():
     assert tool_error_code("Error executing tool get_series: BAD_MEMBERS: no such member") == (
         "BAD_MEMBERS"
