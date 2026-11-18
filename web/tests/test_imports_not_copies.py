@@ -11,7 +11,17 @@ from pathlib import Path
 import pytest
 
 WEB = Path(__file__).resolve().parents[1]
-SKIP = {"tests", ".venv", "node_modules", "dist", "schema", ".pytest_cache", "__pycache__"}
+# `public/` holds build-demo's generated output (gitignored), which quotes StatCan links on purpose.
+SKIP = {
+    "tests",
+    ".venv",
+    "node_modules",
+    "dist",
+    "schema",
+    "public",
+    ".pytest_cache",
+    "__pycache__",
+}
 SUFFIXES = {".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".toml", ".json", ".html"}
 NAMES = {
     "run_events", "check_answer", "check_grounded", "foreign_links", "untrusted_text",
@@ -23,6 +33,14 @@ JS_DEFINES = re.compile(
     rf"\b(function|const|let|var|class)\s+_?({JS_NAMES})\b"
     rf"|^\s*(export\s+)?_?({JS_NAMES})\s*=(?!=)",
     re.M,
+)
+
+
+# Raw-HTML sinks and code-from-strings: banned in the front end (this replaces the ESLint rules
+# PLAN U1.2 named; typescript-eslint doesn't support TypeScript 7).
+SINKS = re.compile(
+    r"dangerouslySetInnerHTML|\.(inner|outer)HTML\b|insertAdjacentHTML|document\.write"
+    r"|\beval\s*\(|\bnew\s+Function\b|\bsetTimeout\s*\(\s*[\"'`]"
 )
 
 
@@ -51,6 +69,7 @@ def violations(text: str, python: bool = True) -> list[str]:
             return hits + _python_definitions(text)
         except SyntaxError:
             pass
+    hits += [m.group(0) for m in SINKS.finditer(text)]
     return hits + [m.group(0) for m in JS_DEFINES.finditer(text)]
 
 
@@ -75,6 +94,11 @@ def sources() -> list[Path]:
         ("function run_events() {}", False),
         ("export const untrusted_text = (s: string) => s;", False),
         ("const url = `https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=${id}01`;", False),
+        ("<p dangerouslySetInnerHTML={{ __html: answer }} />", False),
+        ("el.innerHTML = summary;", False),
+        ("node.insertAdjacentHTML('beforeend', x)", False),
+        ("const f = new Function('return 1');", False),
+        ("eval(code)", False),
     ],
 )
 def test_the_scan_catches_known_copies(copy, python):
@@ -91,6 +115,7 @@ def test_the_scan_catches_known_copies(copy, python):
         ("# suppressed by StatCan, never zero", True),
         ("class Series(BaseModel):\n    table_url: str", True),
         ("const found = series.points.length;", False),
+        ("window.setTimeout(() => setState(next), at);", False),
     ],
 )
 def test_the_scan_allows_imports_calls_and_keyword_arguments(fine, python):

@@ -1,0 +1,139 @@
+/* Design tokens (A8 U10). Pairs used for text are checked for 4.5:1 contrast, and chart lines
+   for 3:1, by tests/tokens.test.ts, in both themes. */
+:root {
+  --bg: #fbfaf7;
+  --surface: #ffffff;
+  --text: #1c1d1f;
+  --muted: #5b5f66;
+  --border: #d9d7d0;
+  --accent: #b3261e;
+  --link: #1d4ed8;
+  --ok: #1e6b34;
+  --error: #a3241b;
+  --banner-bg: #fff4d6;
+  --banner-text: #4a3500;
+  --line-1: #b3261e;
+  --line-2: #1d4ed8;
+  --radius: 10px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131416;
+    --surface: #1c1e21;
+    --text: #ecebe7;
+    --muted: #a9adb4;
+    --border: #34373c;
+    --accent: #ff8a80;
+    --link: #8ab4ff;
+    --ok: #7fd49b;
+    --error: #ff9b91;
+    --banner-bg: #3a3014;
+    --banner-text: #ffe7a8;
+    --line-1: #ff8a80;
+    --line-2: #8ab4ff;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+a { color: var(--link); }
+a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+}
+code { font: 0.85em/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+  grid-template-areas: "header header" "library stage";
+  gap: 1.5rem 2rem;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+.site-header { grid-area: header; }
+.site-header h1 { margin: 0 0 0.25rem; font-size: 1.6rem; }
+.library { grid-area: library; }
+.stage { grid-area: stage; min-width: 0; }
+@media (max-width: 52rem) {
+  .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "header" "stage" "library"; }
+}
+
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+
+.library ul { list-style: none; margin: 0; padding: 0; }
+.group { font-size: 0.95rem; margin: 1.25rem 0 0.4rem; }
+.pick {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  margin: 0 0 0.35rem;
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.pick[aria-current="true"] { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+
+.banner {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius);
+  background: var(--banner-bg);
+  color: var(--banner-text);
+  font-size: 0.9rem;
+}
+.question { font-size: 1.3rem; margin: 0 0 1rem; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  margin: 1rem 0;
+}
+.attack { border-left: 4px solid var(--accent); }
+.failed { border-left: 4px solid var(--error); }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.step {
+  border-left: 3px solid var(--border);
+  padding: 0.35rem 0 0.6rem 0.8rem;
+  margin: 0 0 0.4rem;
+}
+.step.ok { border-left-color: var(--ok); }
+.step.error { border-left-color: var(--error); }
+.step-head { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; align-items: baseline; }
+.step-tool { font-weight: 600; }
+.step-status { color: var(--muted); font-size: 0.875rem; }
+.step.error .step-status { color: var(--error); }
+.step-args { display: block; overflow-wrap: anywhere; color: var(--muted); margin-top: 0.15rem; }
+.step-summary { margin: 0.15rem 0 0; font-size: 0.9rem; }
+
+.prose { white-space: pre-wrap; overflow-wrap: anywhere; }
+table { border-collapse: collapse; width: 100%; margin: 0.75rem 0; font-size: 0.9rem; }
+caption { text-align: left; color: var(--muted); padding-bottom: 0.3rem; }
+th, td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--border); }
+.num { font-variant-numeric: tabular-nums; }
+.series-table summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.sources ul { padding-left: 1.1rem; }
+.sources a { overflow-wrap: anywhere; }
+.run-footer { margin-top: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
