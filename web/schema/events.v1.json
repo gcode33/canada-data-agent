@@ -1,0 +1,636 @@
+{
+ "$defs": {
+  "Answer": {
+   "additionalProperties": false,
+   "properties": {
+    "answer": {
+     "title": "Answer",
+     "type": "string"
+    },
+    "answer_values": {
+     "items": {
+      "$ref": "#/$defs/AnswerValue"
+     },
+     "title": "Answer Values",
+     "type": "array"
+    },
+    "links": {
+     "items": {
+      "$ref": "#/$defs/Link"
+     },
+     "title": "Links",
+     "type": "array"
+    },
+    "refused": {
+     "title": "Refused",
+     "type": "boolean"
+    },
+    "type": {
+     "const": "answer",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "answer",
+    "answer_values",
+    "links",
+    "refused"
+   ],
+   "title": "Answer",
+   "type": "object"
+  },
+  "AnswerValue": {
+   "additionalProperties": false,
+   "properties": {
+    "description": {
+     "title": "Description",
+     "type": "string"
+    },
+    "label": {
+     "enum": [
+      "level",
+      "change_abs",
+      "change_pct",
+      "ratio"
+     ],
+     "title": "Label",
+     "type": "string"
+    },
+    "ref_period": {
+     "title": "Ref Period",
+     "type": "string"
+    },
+    "unit": {
+     "title": "Unit",
+     "type": "string"
+    },
+    "value": {
+     "title": "Value",
+     "type": "number"
+    },
+    "vector_id": {
+     "title": "Vector Id",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "label",
+    "description",
+    "value",
+    "unit",
+    "vector_id",
+    "ref_period"
+   ],
+   "title": "AnswerValue",
+   "type": "object"
+  },
+  "Attack": {
+   "additionalProperties": false,
+   "description": "What a planted attack tried, from the run's poison spec. Never the text or host.",
+   "properties": {
+    "goal": {
+     "enum": [
+      "exfil_url",
+      "wrong_value"
+     ],
+     "title": "Goal",
+     "type": "string"
+    },
+    "route": {
+     "enum": [
+      "card",
+      "member_name",
+      "error_body"
+     ],
+     "title": "Route",
+     "type": "string"
+    }
+   },
+   "required": [
+    "goal",
+    "route"
+   ],
+   "title": "Attack",
+   "type": "object"
+  },
+  "FailureCode": {
+   "description": "Why a run ended without an answer: every `ErrorCode`, plus the three P10 adds.",
+   "enum": [
+    "BAD_MEMBERS",
+    "NOT_FOUND",
+    "UPSTREAM_LOCKED_409",
+    "UPSTREAM_UNAVAILABLE",
+    "RATE_LIMITED",
+    "SNAPSHOT_MISS",
+    "BUDGET_EXCEEDED",
+    "ANSWER_REJECTED",
+    "CANCELLED",
+    "USAGE_LIMIT",
+    "AGENT_FAILED"
+   ],
+   "title": "FailureCode",
+   "type": "string"
+  },
+  "Link": {
+   "additionalProperties": false,
+   "properties": {
+    "linkable": {
+     "title": "Linkable",
+     "type": "boolean"
+    },
+    "url": {
+     "title": "Url",
+     "type": "string"
+    }
+   },
+   "required": [
+    "url",
+    "linkable"
+   ],
+   "title": "Link",
+   "type": "object"
+  },
+  "LiveProvenance": {
+   "additionalProperties": false,
+   "properties": {
+    "source": {
+     "const": "live",
+     "title": "Source",
+     "type": "string"
+    }
+   },
+   "required": [
+    "source"
+   ],
+   "title": "LiveProvenance",
+   "type": "object"
+  },
+  "Point": {
+   "additionalProperties": false,
+   "properties": {
+    "ref_period": {
+     "pattern": "^\\d{4}(-\\d{2}){0,2}$",
+     "title": "Ref Period",
+     "type": "string"
+    },
+    "status_symbol": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Status Symbol"
+    },
+    "value": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Value"
+    }
+   },
+   "required": [
+    "ref_period",
+    "value",
+    "status_symbol"
+   ],
+   "title": "Point",
+   "type": "object"
+  },
+  "RecordingProvenance": {
+   "additionalProperties": false,
+   "properties": {
+    "case": {
+     "title": "Case",
+     "type": "string"
+    },
+    "commit": {
+     "pattern": "^[0-9a-f]{7,40}$",
+     "title": "Commit",
+     "type": "string"
+    },
+    "commit_date": {
+     "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+     "title": "Commit Date",
+     "type": "string"
+    },
+    "model": {
+     "title": "Model",
+     "type": "string"
+    },
+    "recorded_at": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Recorded At"
+    },
+    "source": {
+     "const": "recording",
+     "title": "Source",
+     "type": "string"
+    },
+    "timing": {
+     "enum": [
+      "recorded",
+      "approximate"
+     ],
+     "title": "Timing",
+     "type": "string"
+    }
+   },
+   "required": [
+    "source",
+    "case",
+    "model",
+    "commit",
+    "commit_date",
+    "recorded_at",
+    "timing"
+   ],
+   "title": "RecordingProvenance",
+   "type": "object"
+  },
+  "RunFailed": {
+   "additionalProperties": false,
+   "properties": {
+    "code": {
+     "$ref": "#/$defs/FailureCode"
+    },
+    "message": {
+     "title": "Message",
+     "type": "string"
+    },
+    "type": {
+     "const": "run_failed",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "code",
+    "message"
+   ],
+   "title": "RunFailed",
+   "type": "object"
+  },
+  "RunFinished": {
+   "additionalProperties": false,
+   "properties": {
+    "api_equivalent_usd": {
+     "anyOf": [
+      {
+       "type": "number"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Api Equivalent Usd"
+    },
+    "billed": {
+     "enum": [
+      "subscription",
+      "none"
+     ],
+     "title": "Billed",
+     "type": "string"
+    },
+    "duration_ms": {
+     "minimum": 0,
+     "title": "Duration Ms",
+     "type": "integer"
+    },
+    "num_turns": {
+     "minimum": 0,
+     "title": "Num Turns",
+     "type": "integer"
+    },
+    "type": {
+     "const": "run_finished",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "num_turns",
+    "duration_ms",
+    "api_equivalent_usd",
+    "billed"
+   ],
+   "title": "RunFinished",
+   "type": "object"
+  },
+  "RunStarted": {
+   "additionalProperties": false,
+   "properties": {
+    "attack": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/Attack"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "category": {
+     "enum": [
+      "answer",
+      "refusal",
+      "attack_resisted",
+      "rejected"
+     ],
+     "title": "Category",
+     "type": "string"
+    },
+    "mode": {
+     "enum": [
+      "live",
+      "replay"
+     ],
+     "title": "Mode",
+     "type": "string"
+    },
+    "model": {
+     "title": "Model",
+     "type": "string"
+    },
+    "prompt_version": {
+     "title": "Prompt Version",
+     "type": "string"
+    },
+    "provenance": {
+     "discriminator": {
+      "mapping": {
+       "live": "#/$defs/LiveProvenance",
+       "recording": "#/$defs/RecordingProvenance"
+      },
+      "propertyName": "source"
+     },
+     "oneOf": [
+      {
+       "$ref": "#/$defs/LiveProvenance"
+      },
+      {
+       "$ref": "#/$defs/RecordingProvenance"
+      }
+     ],
+     "title": "Provenance"
+    },
+    "question": {
+     "maxLength": 500,
+     "minLength": 1,
+     "title": "Question",
+     "type": "string"
+    },
+    "type": {
+     "const": "run_started",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "mode",
+    "category",
+    "question",
+    "model",
+    "prompt_version",
+    "provenance",
+    "attack"
+   ],
+   "title": "RunStarted",
+   "type": "object"
+  },
+  "Series": {
+   "additionalProperties": false,
+   "properties": {
+    "label": {
+     "anyOf": [
+      {
+       "maxLength": 120,
+       "type": "string"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Label"
+    },
+    "points": {
+     "items": {
+      "$ref": "#/$defs/Point"
+     },
+     "maxItems": 120,
+     "title": "Points",
+     "type": "array"
+    },
+    "product_id": {
+     "maximum": 99999999,
+     "minimum": 10000000,
+     "title": "Product Id",
+     "type": "integer"
+    },
+    "scalar_factor": {
+     "title": "Scalar Factor",
+     "type": "string"
+    },
+    "step_id": {
+     "maxLength": 64,
+     "minLength": 1,
+     "title": "Step Id",
+     "type": "string"
+    },
+    "truncated": {
+     "title": "Truncated",
+     "type": "boolean"
+    },
+    "type": {
+     "const": "series",
+     "title": "Type",
+     "type": "string"
+    },
+    "vector_id": {
+     "minimum": 1,
+     "title": "Vector Id",
+     "type": "integer"
+    }
+   },
+   "required": [
+    "type",
+    "step_id",
+    "product_id",
+    "vector_id",
+    "scalar_factor",
+    "truncated",
+    "label",
+    "points"
+   ],
+   "title": "Series",
+   "type": "object"
+  },
+  "StepFinished": {
+   "additionalProperties": false,
+   "properties": {
+    "error_code": {
+     "anyOf": [
+      {
+       "$ref": "#/$defs/ToolErrorCode"
+      },
+      {
+       "type": "null"
+      }
+     ]
+    },
+    "latency_ms": {
+     "anyOf": [
+      {
+       "minimum": 0,
+       "type": "integer"
+      },
+      {
+       "type": "null"
+      }
+     ],
+     "title": "Latency Ms"
+    },
+    "ok": {
+     "title": "Ok",
+     "type": "boolean"
+    },
+    "step_id": {
+     "maxLength": 64,
+     "minLength": 1,
+     "title": "Step Id",
+     "type": "string"
+    },
+    "summary": {
+     "maxLength": 120,
+     "title": "Summary",
+     "type": "string"
+    },
+    "type": {
+     "const": "step_finished",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "step_id",
+    "ok",
+    "latency_ms",
+    "error_code",
+    "summary"
+   ],
+   "title": "StepFinished",
+   "type": "object"
+  },
+  "StepStarted": {
+   "additionalProperties": false,
+   "properties": {
+    "arguments_text": {
+     "maxLength": 200,
+     "title": "Arguments Text",
+     "type": "string"
+    },
+    "step_id": {
+     "maxLength": 64,
+     "minLength": 1,
+     "title": "Step Id",
+     "type": "string"
+    },
+    "tool": {
+     "enum": [
+      "search_tables",
+      "get_table_dimensions",
+      "get_series"
+     ],
+     "title": "Tool",
+     "type": "string"
+    },
+    "type": {
+     "const": "step_started",
+     "title": "Type",
+     "type": "string"
+    }
+   },
+   "required": [
+    "type",
+    "step_id",
+    "tool",
+    "arguments_text"
+   ],
+   "title": "StepStarted",
+   "type": "object"
+  },
+  "ToolErrorCode": {
+   "description": "What a failed tool call reports: the codes tools return, else `TOOL_ERROR`.",
+   "enum": [
+    "BAD_MEMBERS",
+    "NOT_FOUND",
+    "UPSTREAM_LOCKED_409",
+    "UPSTREAM_UNAVAILABLE",
+    "RATE_LIMITED",
+    "SNAPSHOT_MISS",
+    "BAD_ARGUMENTS",
+    "RESULT_TOO_LARGE",
+    "TOOL_ERROR"
+   ],
+   "title": "ToolErrorCode",
+   "type": "string"
+  }
+ },
+ "discriminator": {
+  "mapping": {
+   "answer": "#/$defs/Answer",
+   "run_failed": "#/$defs/RunFailed",
+   "run_finished": "#/$defs/RunFinished",
+   "run_started": "#/$defs/RunStarted",
+   "series": "#/$defs/Series",
+   "step_finished": "#/$defs/StepFinished",
+   "step_started": "#/$defs/StepStarted"
+  },
+  "propertyName": "type"
+ },
+ "oneOf": [
+  {
+   "$ref": "#/$defs/RunStarted"
+  },
+  {
+   "$ref": "#/$defs/StepStarted"
+  },
+  {
+   "$ref": "#/$defs/StepFinished"
+  },
+  {
+   "$ref": "#/$defs/Series"
+  },
+  {
+   "$ref": "#/$defs/Answer"
+  },
+  {
+   "$ref": "#/$defs/RunFailed"
+  },
+  {
+   "$ref": "#/$defs/RunFinished"
+  }
+ ],
+ "title": "Canada Data Agent UI events v1"
+}
