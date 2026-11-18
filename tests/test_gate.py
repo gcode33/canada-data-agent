@@ -198,9 +198,16 @@ def committed_runs(tmp_path, agent="a" * 64):
     cases, study = gate.per_case("dev", gate_runs), gate.per_case("dev", study_runs)
     receipt = {"agent_hash": agent, "model": "claude-haiku-5-5", "k": gate.K, "cases": cases,
                **gate.run_cost(gate_runs)}  # fmt: skip
+    previous = "0" * 64  # the baseline this one replaced; its study runs are committed too
+    for r in range(1, 6):
+        (runs / f"study-5x-claude-haiku-5-5-{previous[:12]}" / f"r{r}").mkdir(parents=True)
     baseline = {"from_study_agent_hash": agent, "model": "claude-haiku-5-5", "k": 5,
                 "pass_rates": {c: v["pass_rate"] for c, v in study.items()},
-                "stable": sorted(c for c, v in study.items() if v["pass_rate"] == 1)}  # fmt: skip
+                "stable": sorted(c for c, v in study.items() if v["pass_rate"] == 1),
+                "regression_check": {
+                    "replaces": {"from_study_agent_hash": previous,
+                                 "model": "claude-haiku-5-5", "k": 5},
+                    "reasons": [], "passed": True, "accepted_reason": None}}  # fmt: skip
     return runs, receipt, baseline
 
 
@@ -255,3 +262,175 @@ def test_runs_with_an_outdated_question_poison_or_prompt_are_re_recorded(tmp_pat
         retry_errors=False,
     )  # fmt: skip
     assert recorded == ["c", "d"]
+
+
+# --- the regression check before a baseline is replaced (A8 §6.4) ---
+
+
+def test_a_steady_study_does_not_regress():
+    assert gate.regression_reasons(cases(a=1.0, b=1.0, c=0.6, d=1.0), BASE) == []
+
+
+@pytest.mark.parametrize(
+    ("new", "reason"),
+    [
+        (cases(a=0.2, b=1.0, c=0.6, d=1.0), "flip: a"),
+        (cases(a=0.6, b=0.6, c=0.4, d=0.6), "mean pass rate fell"),
+    ],
+)
+def test_a_regressing_study_is_caught(new, reason):
+    assert any(reason in r for r in gate.regression_reasons(new, BASE))
+
+
+def test_a_leak_in_the_new_study_is_a_regression():
+    new = cases(a=1.0, b=1.0, c=0.6, d=1.0, **{"inject-01": 0.8})
+    new["inject-01"]["leaked"] = 1
+    assert any("got through" in r for r in gate.regression_reasons(new, BASE))
+
+
+def test_the_cost_cap_does_not_apply_to_a_study(monkeypatch):
+    monkeypatch.setattr(gate, "MAX_USD", -1.0)  # any gate run would now fail on cost
+    assert gate.regression_reasons(cases(a=1.0, b=1.0, c=0.6, d=1.0), BASE) == []
+
+
+def test_with_no_outgoing_baseline_there_is_nothing_to_regress_against():
+    assert gate.regression_reasons(cases(a=0.0), {}) == []
+
+
+OLD, NEW = "o" * 64, "n" * 64
+
+
+def studies(tmp_path, monkeypatch, graded):
+    """Committed study folders whose runs 'grade' as `graded[agent]` (per_case is faked: the
+    real one needs transcripts). Insertion order mimics the golden file, which isn't sorted."""
+    runs = tmp_path / "runs"
+    for agent in graded:
+        for r in range(1, 6):
+            (runs / f"study-5x-claude-haiku-5-5-{agent[:12]}" / f"r{r}").mkdir(parents=True)
+    by_folder = {f"study-5x-claude-haiku-5-5-{a[:12]}": c for a, c in graded.items()}
+    monkeypatch.setattr(gate, "RUNS", runs)
+    monkeypatch.setattr(gate, "per_case", lambda split, repeats: by_folder[repeats[0].parent.name])
+    return runs
+
+
+def adopt(tmp_path, monkeypatch, outgoing, accept=None):
+    """Run `canada-gate baseline` for agent NEW, with `outgoing` as the current baseline."""
+    monkeypatch.setattr(gate, "FLAKINESS", tmp_path / "flakiness.json")
+    monkeypatch.setattr(gate, "BASELINE", tmp_path / "baseline.json")
+    monkeypatch.setattr(gate, "agent_hash", lambda root=gate.ROOT: NEW)
+    gate.FLAKINESS.write_text(json.dumps({"agent_hash": NEW, "model": "claude-haiku-5-5", "k": 5}))
+    if outgoing:
+        ref = {"from_study_agent_hash": OLD, "model": "claude-haiku-5-5", "k": 5}
+        gate.BASELINE.write_text(json.dumps(outgoing | ref))
+    gate.cmd_baseline(type("Args", (), {"accept_change": accept})())
+    return json.loads(gate.BASELINE.read_text())
+
+
+GOLDEN_ORDER = {"lookup-07": 1.0, "compare-01": 1.0, "compare-02": 1.0}  # not sorted
+OLD_CASES = cases(**GOLDEN_ORDER)
+TWO_FLIPS = cases(**{"lookup-07": 0.2, "compare-01": 0.2, "compare-02": 1.0})
+
+
+def test_baseline_refuses_a_regressing_study(tmp_path, monkeypatch):
+    studies(tmp_path, monkeypatch, {OLD: OLD_CASES, NEW: TWO_FLIPS})
+    with pytest.raises(SystemExit, match="regresses against the baseline"):
+        adopt(tmp_path, monkeypatch, gate.baseline_from(OLD_CASES))
+    assert json.loads(gate.BASELINE.read_text()).get("regression_check") is None  # untouched
+
+
+def test_an_accepted_regression_is_recorded_and_verifies(tmp_path, monkeypatch):
+    """The U0 review's blocking bug: writer and verifier listed two flips in different orders."""
+    runs = studies(tmp_path, monkeypatch, {OLD: OLD_CASES, NEW: TWO_FLIPS})
+    written = adopt(tmp_path, monkeypatch, gate.baseline_from(OLD_CASES),
+                    accept="  P5 trades two lookups for cancel safety  ")  # fmt: skip
+    check = written["regression_check"]
+    assert check["passed"] is False
+    assert [r for r in check["reasons"] if r.startswith("flip")] == [
+        "flip: compare-01 passed 100% in the study, 20% now",
+        "flip: lookup-07 passed 100% in the study, 20% now",
+    ]  # sorted, whatever the golden order
+    assert check["accepted_reason"] == "P5 trades two lookups for cancel safety"
+    assert check["replaces"]["from_study_agent_hash"] == OLD
+    assert gate.check_regression(written, TWO_FLIPS, runs) == []
+
+
+def test_a_blank_acceptance_is_no_acceptance(tmp_path, monkeypatch):
+    studies(tmp_path, monkeypatch, {OLD: OLD_CASES, NEW: TWO_FLIPS})
+    with pytest.raises(SystemExit, match="regresses"):
+        adopt(tmp_path, monkeypatch, gate.baseline_from(OLD_CASES), accept="   ")
+
+
+def test_a_clean_study_records_what_it_replaced_and_verifies(tmp_path, monkeypatch):
+    runs = studies(tmp_path, monkeypatch, {OLD: OLD_CASES, NEW: OLD_CASES})
+    written = adopt(tmp_path, monkeypatch, gate.baseline_from(OLD_CASES),
+                    accept="ignored when nothing regressed")  # fmt: skip
+    assert written["regression_check"] == {
+        "replaces": {"from_study_agent_hash": OLD, "model": "claude-haiku-5-5", "k": 5},
+        "reasons": [], "passed": True, "accepted_reason": None,
+    }  # fmt: skip
+    assert gate.check_regression(written, OLD_CASES, runs) == []
+
+
+def test_the_first_baseline_passes_only_when_it_really_is_first(tmp_path, monkeypatch):
+    runs = studies(tmp_path, monkeypatch, {NEW: OLD_CASES})
+    written = adopt(tmp_path, monkeypatch, {})
+    assert written["regression_check"]["replaces"] is None
+    assert gate.check_regression(written, OLD_CASES, runs) == []
+    (runs / "study-5x-claude-haiku-5-5-ffffffffffff" / "r1").mkdir(parents=True)
+    problems = gate.check_regression(written, OLD_CASES, runs)
+    assert any("other studies exist" in p for p in problems)
+
+
+def test_a_baseline_cannot_replace_itself(tmp_path, monkeypatch):
+    runs = studies(tmp_path, monkeypatch, {NEW: TWO_FLIPS})
+    ref = {"from_study_agent_hash": NEW, "model": "claude-haiku-5-5", "k": 5}
+    check = {"replaces": ref, "reasons": [], "passed": True, "accepted_reason": None}
+    forged = ref | {"regression_check": check}
+    assert any("names itself" in p for p in gate.check_regression(forged, TWO_FLIPS, runs))
+
+
+@pytest.mark.parametrize("k", ["5", 10**9, True, 0])
+def test_a_forged_repeat_count_is_refused_not_crashed(tmp_path, k):
+    check = {"replaces": {"from_study_agent_hash": OLD, "model": "m", "k": k},
+             "reasons": [], "passed": True, "accepted_reason": None}  # fmt: skip
+    problems = gate.check_regression({"from_study_agent_hash": NEW, "regression_check": check},
+                                     {}, tmp_path)  # fmt: skip
+    assert any("aren't committed" in p for p in problems)
+
+
+def test_verify_pins_the_receipt_to_this_code():
+    receipt = {"agent_hash": "x" * 64}
+    problems = gate.check_receipt(receipt, BASE, digest="d", agent="y" * 64)
+    assert any("agent hash isn't this code's" in p for p in problems)
+
+
+def test_the_v1_baseline_alone_may_lack_a_regression_check():
+    assert gate.check_regression({"from_study_agent_hash": gate.PRE_A8_BASELINE}, {}) == []
+    problems = gate.check_regression({"from_study_agent_hash": "z" * 64}, {})
+    assert any("no regression check" in p for p in problems)
+
+
+@pytest.mark.parametrize(
+    ("forge", "message"),
+    [
+        (lambda c: c.update(reasons=["flip: invented"]), "doesn't match the committed runs"),
+        (lambda c: c.update(passed=False), "doesn't match the committed runs"),
+        (lambda c: c.update(replaces=None), "other studies exist"),
+        (lambda c: c.update(replaces="0" * 64), "doesn't name the baseline"),
+        (lambda c: c["replaces"].update(from_study_agent_hash="9" * 64), "aren't committed"),
+    ],
+)
+def test_a_forged_regression_check_fails_verify(tmp_path, forge, message):
+    runs, receipt, baseline = committed_runs(tmp_path)
+    forge(baseline["regression_check"])
+    assert any(message in p for p in gate.check_evidence(receipt, baseline, runs))
+
+
+def test_an_unaccepted_regression_fails_verify(tmp_path, monkeypatch):
+    runs, receipt, baseline = committed_runs(tmp_path)
+    monkeypatch.setattr(gate, "regression_reasons", lambda new, old: ["flip: lookup-01"])
+    baseline["regression_check"].update(reasons=["flip: lookup-01"], passed=False)
+    problems = gate.check_evidence(receipt, baseline, runs)
+    assert any("no reason was accepted" in p for p in problems)
+    baseline["regression_check"]["accepted_reason"] = "George: expected, see PR"
+    assert gate.check_evidence(receipt, baseline, runs) == []
