@@ -2,6 +2,7 @@
 
 import pytest
 from canada_agent.errors import ErrorCode
+from canada_agent.series.service import table_url
 from pydantic import ValidationError
 
 from canada_web import cli
@@ -40,6 +41,7 @@ def step(i, tool="get_series"):
 
 def series(i=1):
     return ev(type="series", step_id=f"s{i}", product_id=18100004, vector_id=41691116,
+              table_url=table_url(18100004),
               scalar_factor="units", truncated=False, label=None,
               points=[{"ref_period": "2025-09", "value": 161.2, "status_symbol": None},
                       {"ref_period": "2025-10", "value": None, "status_symbol": ".."}])  # fmt: skip
@@ -71,6 +73,13 @@ def test_a_successful_replay_is_valid():
     assert validate_stream(good()) == []
 
 
+def test_a_live_run_is_valid():
+    live = started(mode="live", category="live", provenance={"source": "live"})
+    stream = [live, *step(1, "search_tables"), *step(2), series(2), answer(),
+              finished("subscription")]  # fmt: skip
+    assert validate_stream(stream) == []
+
+
 def test_a_rejected_replay_is_valid():
     stream = [started(category="rejected"), *step(1), failed()]
     assert validate_stream(stream) == []
@@ -100,6 +109,35 @@ def test_parallel_and_dangling_steps_are_allowed():
         (lambda s: [started(category="attack_resisted"), *s[1:]], "attack details"),
         (lambda s: [started(category="rejected"), *s[1:]], "must end with run_failed"),
         (lambda s: [started(mode="live"), *s[1:]], "replay mode needs recording"),
+        (lambda s: [s[0], s[1], s[1], *s[2:]], "started twice"),
+        (lambda s: [*s[:3], s[2], *s[3:]], "finished twice"),
+        (lambda s: [*s[:4], *s[5:]], "isn't a successful get_series"),  # s2 never finished
+        (lambda s: [*s[:5], series(1), *s[5:]], "isn't a successful get_series"),  # search step
+        (lambda s: [s[0], *s[1:3], started(), *s[3:]], "exactly one run_started"),
+        (
+            lambda s: [
+                *s[:2],
+                ev(
+                    type="step_finished",
+                    step_id="s1",
+                    ok=True,
+                    error_code="NOT_FOUND",
+                    latency_ms=1,
+                    summary="",
+                ),
+                *s[3:],
+            ],
+            "ok and error_code disagree",
+        ),
+        (lambda s: [started(category="refusal"), *s[1:]], "refused=False"),
+        (
+            lambda s: [
+                started(mode="live", category="answer", provenance={"source": "live"}),
+                *s[1:-1],
+                finished("subscription"),
+            ],
+            "only live runs",
+        ),
     ],
 )
 def test_each_ordering_rule_is_enforced(break_it, message):
