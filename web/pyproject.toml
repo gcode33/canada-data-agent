@@ -39,5 +39,9 @@ target-version = "py313"
 select = ["E", "F", "I", "B", "UP", "S", "SIM"]
 ignore = ["S101"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["canada_web"]
+known-third-party = ["canada_agent"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

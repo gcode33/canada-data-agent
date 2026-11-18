@@ -72,6 +72,7 @@ class RecordingProvenance(_Strict):
     commit_date: Annotated[str, Field(pattern=r"^\d{4}-\d{2}-\d{2}$")]
     recorded_at: str | None
     timing: Literal["recorded", "approximate"]
+    recorded_wall_s: Annotated[float, Field(ge=0)] | None  # to pace a replay without timings
 
 
 class Attack(_Strict):
