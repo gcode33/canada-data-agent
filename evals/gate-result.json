@@ -231,7 +231,7 @@
    "runs": 3
   }
  },
- "inputs_hash": "b725320b46d12aa41bfc95c611b5697a4de986a9339e110223044c712184c96b",
+ "inputs_hash": "8c81e97d4d988660b0b03bb9a8dc7b01e15fcb84d250f98ec39d19fbe8842347",
  "k": 3,
  "mean_pass_rate": 0.9306,
  "model": "claude-haiku-5-5",

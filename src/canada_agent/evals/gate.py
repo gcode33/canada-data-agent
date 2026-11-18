@@ -5,13 +5,20 @@ No model can run in GitHub CI (D4), so the gate runs locally and CI checks its r
   agent: which cases are stable, and what a gate run costs.
 - `canada-gate baseline`: turns the latest study into `evals/baseline.json`. The baseline
   comes from the study, never from the gate run it will judge (that would be circular: the
-  Phase 5 review found the first baseline was the gate's own run).
+  Phase 5 review found the first baseline was the gate's own run). **Before replacing a
+  baseline it judges the new study against the outgoing one** with the same flip, mean-drop,
+  leak and invalid rules (A8 §6.4): a gate judged against a study of the same new agent only
+  shows the agent is reproducible, not that a change didn't make it worse. A regression stops
+  the command unless George accepts it with `--accept-change "<reason>"`, which is recorded.
 - `canada-gate run` (`make gate`): dev × 3, graded, judged against the baseline. Writes
   `evals/gate-result.json`, stamped with a hash of every tracked input, baseline included.
 - `canada-gate verify` (every PR in CI): recomputes the hash, checks the receipt's case set,
   k and model, and **re-judges the receipt's own cases** against the committed baseline. It
   can't prove the runs happened (the receipt is a claim made by whoever ran the gate), but it
-  can't be satisfied by a receipt that fails its own rules.
+  can't be satisfied by a receipt that fails its own rules. It also re-derives the baseline's
+  regression check from the committed runs of both studies. What it can't prove: that
+  `replaces` names the baseline that was really in force; the CI comment on any baseline diff
+  (SPEC 10.5) and review cover that.
 
 Fails if:
 - **flip:** a case that passed 5/5 in the study passes ≤1/3 now;
@@ -72,6 +79,9 @@ FLIP_TO = 1 / 3
 MAX_MEAN_DROP = 0.10
 MAX_USD = 2.0
 BLOCKED = "ANSWER_REJECTED"
+# The v1.0 baseline was adopted before A8 added the regression check (§6.4), so it alone may
+# carry no `regression_check`; every later baseline must.
+PRE_A8_BASELINE = "51acd051a15f44dbd22e0bef31f0c754606bf37612df2c5f9c2bfddc94432c2f"
 
 
 # --- what the receipt is stamped with ---
@@ -231,6 +241,25 @@ def judge(cases: dict[str, dict[str, Any]], baseline: dict[str, Any], usd: float
     return reasons
 
 
+def regression_reasons(new: dict[str, dict[str, Any]], outgoing: dict[str, Any]) -> list[str]:
+    """Would the outgoing baseline's gate fail the new study? `judge`'s rules without the cost
+    cap (a k=5 study isn't a gate run). No outgoing baseline: nothing to regress against."""
+    if not outgoing.get("pass_rates"):
+        return []
+    return judge(new, outgoing, usd=0.0)
+
+
+def baseline_from(cases: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "pass_rates": {k: v["pass_rate"] for k, v in cases.items()},
+        "stable": sorted(k for k, v in cases.items() if v["pass_rate"] == 1),
+    }
+
+
+def study_dir(runs: Path, k: Any, model: Any, agent: Any) -> Path:
+    return runs / f"study-{k}x-{model}-{str(agent)[:12]}"
+
+
 def dev_ids() -> list[str]:
     return sorted(c["id"] for c in load(GOLDEN) if c["split"] == "dev")
 
@@ -271,6 +300,19 @@ def cmd_baseline(args: argparse.Namespace) -> None:
         sys.exit("the study ran on a different agent; run `make flakiness` again first")
     if study.get("k", 0) < STUDY_K:
         sys.exit(f"the study needs k >= {STUDY_K} for stable cases to mean something")
+    outgoing = load_json(BASELINE)
+    reasons = regression_reasons(study["cases"], outgoing)
+    if reasons and not args.accept_change:
+        sys.exit(
+            "the new study regresses against the baseline it would replace (A8 §6.4):\n  "
+            + "\n  ".join(reasons)
+            + '\nFix the change, or re-run with --accept-change "<reason>" (George decides).'
+        )
+    replaces = (
+        {k: outgoing[k] for k in ("from_study_agent_hash", "model", "k")}
+        if outgoing.get("pass_rates")
+        else None
+    )
     baseline = {
         "from_study_agent_hash": study["agent_hash"],
         "model": study["model"],
@@ -279,9 +321,19 @@ def cmd_baseline(args: argparse.Namespace) -> None:
         "stable": study["stable"],
         "unstable": study["unstable"],
         "mean_pass_rate": study["mean_pass_rate"],
+        "regression_check": {
+            "replaces": replaces,
+            "reasons": reasons,
+            "passed": not reasons,
+            "accepted_reason": args.accept_change if reasons else None,
+        },
     }
     BASELINE.write_text(json.dumps(baseline, indent=1, sort_keys=True) + "\n")
     print(f"baseline written from the {study['k']}x study on agent {study['agent_hash'][:12]}")
+    print(
+        "regression check against the outgoing baseline: "
+        + ("passed" if not reasons else f"FAILED, accepted: {args.accept_change}")
+    )
 
 
 def cmd_run(args: argparse.Namespace) -> None:
@@ -363,15 +415,44 @@ def check_evidence(
             problems.append(f"receipt {field} doesn't match its committed runs for {differ}")
     if isinstance(usd, int | float) and abs(cost["usd"] - usd) > 0.001:
         problems.append(f"receipt cost ${usd} doesn't match its runs (${cost['usd']})")
-    study_dir = runs / f"study-{baseline.get('k')}x-{baseline.get('model')}-{agent[:12]}"
-    study_runs = [study_dir / f"r{r}" for r in range(1, int(baseline.get("k") or 0) + 1)]
+    folder = study_dir(runs, baseline.get("k"), baseline.get("model"), agent)
+    study_runs = [folder / f"r{r}" for r in range(1, int(baseline.get("k") or 0) + 1)]
     if not study_runs or not all(r.is_dir() for r in study_runs):
-        return [*problems, f"the study runs aren't committed: {study_dir.relative_to(runs.parent)}"]
+        return [*problems, f"the study runs aren't committed: {folder.relative_to(runs.parent)}"]
     study = per_case("dev", study_runs)
     if {c: v["pass_rate"] for c, v in study.items()} != baseline.get("pass_rates"):
         problems.append("baseline pass rates don't match the committed study runs")
     if sorted(c for c, v in study.items() if v["pass_rate"] == 1) != baseline.get("stable"):
         problems.append("baseline's stable cases don't match the committed study runs")
+    return [*problems, *check_regression(baseline, study, runs)]
+
+
+def check_regression(
+    baseline: dict[str, Any], study: dict[str, dict[str, Any]], runs: Path = RUNS
+) -> list[str]:
+    """Re-derive the baseline's regression check (A8 §6.4) from the committed runs of both
+    studies, so it can't be hand-edited into a pass."""
+    check = baseline.get("regression_check")
+    if check is None:
+        if baseline.get("from_study_agent_hash") == PRE_A8_BASELINE:
+            return []  # adopted before the check existed
+        return ["the baseline has no regression check against the baseline it replaced"]
+    old = check.get("replaces")
+    if not isinstance(old, dict):
+        return ["the baseline's regression check doesn't name the baseline it replaced"]
+    folder = study_dir(runs, old.get("k"), old.get("model"), old.get("from_study_agent_hash"))
+    old_runs = [folder / f"r{r}" for r in range(1, int(old.get("k") or 0) + 1)]
+    if not old_runs or not all(r.is_dir() for r in old_runs):
+        return [f"the replaced baseline's study runs aren't committed: {folder.name}"]
+    expected = regression_reasons(study, baseline_from(per_case("dev", old_runs)))
+    problems = []
+    if check.get("reasons") != expected or check.get("passed") is not (not expected):
+        problems.append("the baseline's regression check doesn't match the committed runs")
+    if expected and not check.get("accepted_reason"):
+        problems.append(
+            "the baseline regressed against the one it replaced and no reason was accepted: "
+            + "; ".join(expected)
+        )
     return problems
 
 
@@ -394,7 +475,12 @@ def main() -> None:
     run.add_argument("--model")
     run.add_argument("--force", action="store_true")
     sub.add_parser("verify")
-    sub.add_parser("baseline")
+    baseline = sub.add_parser("baseline")
+    baseline.add_argument(
+        "--accept-change",
+        metavar="REASON",
+        help="adopt a study that regresses against the outgoing baseline (recorded; George's call)",
+    )
     args = parser.parse_args()
     {"study": cmd_study, "run": cmd_run, "verify": cmd_verify, "baseline": cmd_baseline}[
         args.command
