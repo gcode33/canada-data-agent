@@ -76,7 +76,8 @@ def bootstrap(base: list[float], head: list[float], level: float, seed: int) -> 
         for _ in range(RESAMPLES)
     )
     tail = (1 - level) / 2
-    return [diffs[int(tail * RESAMPLES)], diffs[int((1 - tail) * RESAMPLES) - 1]]
+    k = round(tail * RESAMPLES)  # symmetric tails: drop k samples from each end
+    return [diffs[k], diffs[RESAMPLES - 1 - k]]
 
 
 def environment(base: Path, head: Path) -> dict[str, str]:
@@ -89,11 +90,16 @@ def environment(base: Path, head: Path) -> dict[str, str]:
     db = safe(["docker", "compose", "ps", "-q", "db"])  # noqa: S607
     return {
         "date": dt.datetime.now(dt.UTC).isoformat(timespec="seconds"),
-        "machine": safe(["sysctl", "-n", "hw.model"]) or platform.machine(),  # noqa: S607
+        "machine": next(
+            (v for v in (safe(["sysctl", "-n", "hw.model"]),) if v != "unknown"),  # noqa: S607
+            platform.machine(),
+        ),
         "cpu": safe(["sysctl", "-n", "machdep.cpu.brand_string"]),  # noqa: S607
         "os": platform.platform(),
         "python": sys.version.split()[0],
-        "power": safe(["pmset", "-g", "batt"]).splitlines()[0] if shutil.which("pmset") else "",
+        "power": (safe(["pmset", "-g", "batt"]).splitlines() or [""])[0]  # noqa: S607
+        if shutil.which("pmset")
+        else "",
         "postgres_image": safe(["docker", "inspect", "--format", "{{.Config.Image}}", db])
         if db != "unknown"
         else "unknown",
@@ -149,9 +155,11 @@ def main() -> None:
         sys.exit("src/ has uncommitted changes: commit them first (only committed code is benched)")
     with tempfile.TemporaryDirectory(prefix="canada-bench-") as tmp:
         sides = {"base": Path(tmp) / "base", "head": Path(tmp) / "head"}
-        for side, ref in (("base", args.ref), ("head", args.head)):
-            run(["git", "worktree", "add", "--detach", "--quiet", str(sides[side]), ref], ROOT)  # noqa: S607
+        created: list[Path] = []
         try:
+            for side, ref in (("base", args.ref), ("head", args.head)):
+                run(["git", "worktree", "add", "--detach", "--quiet", str(sides[side]), ref], ROOT)  # noqa: S607
+                created.append(sides[side])
             pythons = {side: prepare(path) for side, path in sides.items()}
             env = probe_env()
             samples: dict[str, dict[str, list[float]]] = {
@@ -167,8 +175,14 @@ def main() -> None:
                 print(f"round {i + 1}/{args.warmup + args.n}", file=sys.stderr, flush=True)
             info = environment(sides["base"], sides["head"])
         finally:
-            for path in sides.values():
-                run(["git", "worktree", "remove", "--force", str(path)], ROOT)  # noqa: S607
+            # Each removal on its own, so one failure can't hide the original error or leave
+            # the other worktree registered; then prune whatever git still remembers.
+            for path in created:
+                try:
+                    run(["git", "worktree", "remove", "--force", str(path)], ROOT)  # noqa: S607
+                except subprocess.CalledProcessError as exc:
+                    print(f"could not remove worktree {path}: {exc}", file=sys.stderr)
+            subprocess.run(["git", "worktree", "prune"], cwd=ROOT, check=False)  # noqa: S603, S607
 
     measures = {}
     for k, m in enumerate(MEASURES):
