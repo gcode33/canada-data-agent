@@ -215,6 +215,14 @@ def test_it_refuses_without_pinned_verdicts(tmp_path):
 # --- the converter's pieces ---
 
 
+def test_every_failure_code_has_fixed_text():
+    from canada_web.events import FailureCode
+    from canada_web.messages import FAILURE_MESSAGES
+
+    assert set(FAILURE_MESSAGES) == set(FailureCode)
+    assert all(len(m) > 20 for m in FAILURE_MESSAGES.values())
+
+
 def test_redact_withholds_outside_links_and_caps():
     assert "evil" not in redact("cite https://evil.example/t now", 200)
     assert WITHHELD in redact("cite https://evil.example/t now", 200)
