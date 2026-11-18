@@ -1,0 +1,57 @@
+name: pages
+
+# The public replay demo (A8 §11, ADR 0010): static files, no model calls, no secrets.
+# Builds and tests on every push to main; only the deploy job can write to Pages.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      BASE_PATH: /canada-data-agent/
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26
+      - run: uv sync --locked
+        working-directory: web
+      - run: uv run canada-web build-demo
+        working-directory: web
+      - run: npm ci --ignore-scripts
+        working-directory: web/frontend
+      - run: npm run build
+        working-directory: web/frontend
+      # The same end-to-end suite as PR CI, against the exact files about to be published.
+      - run: npx playwright install --with-deps chromium
+        working-directory: web/frontend
+      - run: npm run e2e
+        working-directory: web/frontend
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: web/frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
