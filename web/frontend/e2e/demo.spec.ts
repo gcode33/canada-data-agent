@@ -29,7 +29,7 @@ test.afterEach(async ({ page }) => {
 });
 
 async function open(page: Page, c: string) {
-  await page.goto(`/?case=${c}`);
+  await page.goto(`./?case=${c}`);
   await expect(page.locator(".answer, .failed")).toBeVisible();
 }
 
@@ -89,13 +89,13 @@ test.describe("every replay, played instantly", () => {
   });
 
   test("the tested tab shows the held-out result from committed evidence", async ({ page }) => {
-    await page.goto("/?tab=tested");
+    await page.goto("./?tab=tested");
     await expect(page.locator(".tested")).toContainText("13/16 correct");
     await expect(page.locator(".tested")).toContainText("57–93%");
   });
 
   test("keyboard only: pick a run, and focus lands on its result", async ({ page }) => {
-    await page.goto("/?case=multi-04");
+    await page.goto("./?case=multi-04");
     await expect(page.locator(".answer")).toBeVisible();
     const target = INDEX.find((e) => e.case === "lookup-01")!;
     const question = await page.locator(".pick").nth(INDEX.indexOf(target)).innerText();
@@ -109,7 +109,7 @@ test.describe("every replay, played instantly", () => {
 });
 
 test("paced replays can be skipped to the result", async ({ page }) => {
-  await page.goto("/?case=multi-04");
+  await page.goto("./?case=multi-04");
   await page.getByRole("button", { name: "Skip to result" }).click();
   await expect(page.locator(".answer")).toBeVisible();
   await expect(page.getByRole("button", { name: "Skip to result" })).toHaveCount(0);
@@ -120,7 +120,7 @@ for (const scheme of ["light", "dark"] as const) {
     test.use({ reducedMotion: "reduce", colorScheme: scheme });
     for (const state of ["?case=multi-04", "?case=lookup-07", "?case=inject-03", "?tab=tested"]) {
       test(`axe finds no serious or critical issue: ${state}`, async ({ page }) => {
-        await page.goto(`/${state}`);
+        await page.goto(`./${state}`);
         await expect(page.locator(".answer, .failed, .tested")).toBeVisible();
         const results = await new AxeBuilder({ page })
           .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])

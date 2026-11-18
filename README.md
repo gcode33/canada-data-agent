@@ -1,5 +1,7 @@
 # Canada Data Agent & Eval Lab
 
+**[Try the demo →](https://gcode33.github.io/canada-data-agent/)** Replays of the agent's recorded runs: each step it took, the answer with a chart and its StatCan source, an attack it resisted, and an answer its own checks rejected. The page never calls a model (it runs on a personal Claude subscription, which can't serve the public), so every replay is labelled as one.
+
 An AI assistant that answers questions with **live Statistics Canada data** and cites every number, plus an **eval suite that blocks any pull request that makes it worse**.
 
 **v1.0.0 result:** on 16 held-out golden questions whose answers were never looked at while it was built, the agent (Claude Sonnet 5.5) answered **13/16 correctly (81%, 95% Wilson interval 57–93%)**, run once. The three misses are listed below, and [FINDINGS](docs/FINDINGS.md#the-headline) says how held-out the split really is (one Phase 5 edit touched it).
