@@ -1,6 +1,6 @@
 # Canada Data Agent & Eval Lab
 
-**[Try the demo →](https://gcode33.github.io/canada-data-agent/)** Replays of the agent's recorded runs: each step it took, the answer with a chart and its StatCan source, an attack it resisted, and an answer its own checks rejected. The page never calls a model (it runs on a personal Claude subscription, which can't serve the public), so every replay is labelled as one.
+**[Try the demo →](https://gcode33.github.io/canada-data-agent/)** Replays of the agent's recorded runs on all 24 dev questions: each step it took, the answer with its data (a chart or a value) and StatCan source, three attacks it resisted, and one answer its own checks rejected. The page never calls a model (the agent runs on a personal Claude subscription, which can't serve the public), so every replay is labelled as one.
 
 An AI assistant that answers questions with **live Statistics Canada data** and cites every number, plus an **eval suite that blocks any pull request that makes it worse**.
 

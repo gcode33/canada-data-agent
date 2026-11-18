@@ -14,8 +14,10 @@ Builds `replays/<case>.json` (one event stream per allow-listed dev run), `index
 Same inputs, same bytes.
 """
 
+import hashlib
 import json
 import re
+import shutil
 import tomllib
 from pathlib import Path
 from typing import Any
@@ -24,11 +26,12 @@ from canada_agent.ask import PROMPT_VERSION, AskError, run_events
 from canada_agent.config import Settings
 from canada_agent.errors import ErrorCode
 from canada_agent.evals import poison
+from canada_agent.evals.gate import FLIP_TO, MAX_MEAN_DROP, MAX_USD, STUDY_K, K
 from canada_agent.evals.lint import GOLDEN, load
 from canada_agent.evals.transcripts import TRANSCRIPTS
 from canada_agent.links import foreign_links
 
-from canada_web.convert import Converter
+from canada_web.convert import Converter, display_text
 from canada_web.events import (
     Attack,
     FailureCode,
@@ -45,18 +48,21 @@ GRADES = REPO / "evals" / "grades" / "dev.json"
 CATEGORIES = ("answer", "refusal", "attack_resisted", "rejected")
 CANARY = "CANARY-0000000000000000"  # recordings never saw a canary; the check can't fire here
 HEADLINE = re.compile(r"\| Pass rate \| (\d+)/(\d+) = (\d+)% \(Wilson (\d+)–(\d+)%\) \|")
+REPO_URL = "https://github.com/gcode33/canada-data-agent"
+TIMEOUT_S = Settings.model_fields["question_timeout_s"].default
 
 
 class DemoError(Exception):
     """The demo can't be built honestly from what's committed."""
 
 
-def allowlist(path: Path = ALLOWLIST) -> tuple[dict[str, str], dict[str, str]]:
+def allowlist(path: Path = ALLOWLIST) -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
+    """(case -> category, commit -> date, case -> pinned sha256 of its transcript)."""
     data = tomllib.loads(path.read_text())
     runs = {case: cat for cat in CATEGORIES for case in data.get(cat, [])}
     if len(runs) != sum(len(data.get(c, [])) for c in CATEGORIES):
         raise DemoError("a case is listed under two categories")
-    return runs, dict(data.get("commits", {}))
+    return runs, dict(data.get("commits", {})), dict(data.get("sha256", {}))
 
 
 def rewrap(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -74,13 +80,26 @@ def rewrap(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def check(
-    case: str, category: str, t: dict[str, Any], verdict: dict[str, Any] | None, split: str | None
+    case: str, category: str, t: dict[str, Any], verdict: dict[str, Any] | None, golden: dict
 ) -> None:
-    """Fail closed (step 1)."""
+    """Fail closed (step 1). The transcript must also match its golden case: same question, and
+    the same planted attack (or none), so a hand-edited recording can't change what's shown."""
     if t.get("case") != case:
         raise DemoError(f"{case}: the transcript is for {t.get('case')!r}")
-    if split != "dev":
-        raise DemoError(f"{case}: not on the dev split ({split!r}); the demo is dev-only")
+    if golden.get("split") != "dev":
+        raise DemoError(f"{case}: not on the dev split ({golden.get('split')!r}); dev only")
+    if t.get("question") != golden.get("question"):
+        raise DemoError(f"{case}: the recorded question isn't the golden case's")
+    try:
+        recorded = poison.parse(t["poison"]) if t.get("poison") else None
+    except (TypeError, ValueError) as exc:
+        raise DemoError(f"{case}: unreadable poison spec") from exc
+    expected = poison.spec_for(golden)
+    if recorded != (poison.parse(expected) if expected else None):
+        raise DemoError(f"{case}: the recorded attack isn't the golden case's")
+    wall = t.get("wall_s")
+    if not isinstance(wall, int | float) or not 0 <= wall <= TIMEOUT_S:
+        raise DemoError(f"{case}: wall time {wall!r} is outside the {TIMEOUT_S:.0f}s budget")
     if t.get("prompt_version") != PROMPT_VERSION:
         raise DemoError(f"{case}: recorded under another prompt ({t.get('prompt_version')})")
     if verdict is None:
@@ -96,6 +115,9 @@ def check(
 
 def replay(case: str, category: str, t: dict[str, Any], commits: dict[str, str]) -> list[Any]:
     events = rewrap(t["events"])
+    results = [i for i, e in enumerate(events) if e.get("type") == "result"]
+    if results != [len(events) - 1]:  # anything after the result would skip every check
+        raise DemoError(f"{case}: a transcript must end with exactly one result event")
     try:  # step 2: the production checks, with a fixed clock
         result = run_events(
             events,
@@ -123,7 +145,7 @@ def replay(case: str, category: str, t: dict[str, Any], commits: dict[str, str])
             type="run_started",
             mode="replay",
             category=category,
-            question=t["question"],
+            question=display_text(t["question"]),
             model=t["model"],
             prompt_version=t["prompt_version"],
             provenance=RecordingProvenance(
@@ -140,11 +162,13 @@ def replay(case: str, category: str, t: dict[str, Any], commits: dict[str, str])
         )
     ]
     convert = Converter()
-    for e in events:
-        if e.get("type") != "result":
+    try:
+        for e in events[:-1]:
             stream += convert.feed(e)
+    except ValueError as exc:
+        raise DemoError(f"{case}: {exc}") from exc
     if result is None:
-        stream += convert.fail(FailureCode.ANSWER_REJECTED)
+        stream += convert.fail(FailureCode.ANSWER_REJECTED, str(refused))
     else:
         stream += convert.finish(
             result.answer,
@@ -156,79 +180,100 @@ def replay(case: str, category: str, t: dict[str, Any], commits: dict[str, str])
     problems = validate_stream(stream)
     if problems:
         raise DemoError(f"{case}: invalid stream: {problems}")
-    for e in stream:  # step 3: nothing published may carry an outside link
-        hits = foreign_links(e.model_dump(mode="json"))
+    for e in stream:  # step 3: nothing published may carry an outside link or hidden text
+        data = e.model_dump(mode="json")
+        hits = foreign_links(data)
         if hits:
             raise DemoError(f"{case}: {e.type} would publish outside links {hits}")
+        hidden = [x for x in _strings(data) if display_text(x) != x]
+        if hidden:
+            raise DemoError(f"{case}: {e.type} would publish hidden characters in {hidden[0]!r}")
     return stream
 
 
+def _strings(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        return [s for v in value.values() for s in _strings(v)]
+    if isinstance(value, list):
+        return [s for v in value for s in _strings(v)]
+    return []
+
+
 def tested() -> dict[str, Any]:
-    """The "How it's tested" tab, from committed evidence only: nothing hand-typed."""
+    """The "How it's tested" tab's numbers, from committed evidence: the README headline, the
+    held-out run's history entry, the gate receipt, the baseline, the flakiness study and the
+    gate's own constants. (The tab's sentences are fixed text in Tested.tsx.)"""
     readme = (REPO / "README.md").read_text(encoding="utf-8")
     m = HEADLINE.search(readme)
     if not m:
         raise DemoError("README's held-out headline row wasn't found")
     passed, total, pct, lo, hi = map(int, m.groups())
+    history = [json.loads(line) for line in (REPO / "evals" / "history.jsonl").open()]
+    held_out = [h for h in history if h.get("split") == "test" and h.get("kind") == "transcripts"]
+    if not held_out:
+        raise DemoError("no held-out run in evals/history.jsonl")
     gate = json.loads((REPO / "evals" / "gate-result.json").read_text())
     base = json.loads((REPO / "evals" / "baseline.json").read_text())
+    study = json.loads((REPO / "evals" / "flakiness.json").read_text())
     return {
-        "held_out": {
-            "passed": passed,
-            "total": total,
-            "percent": pct,
-            "wilson": [lo, hi],
-            "release": "v1.0.0",
-        },
-        "gate": {
-            "model": gate["model"],
-            "k": gate["k"],
-            "passed": gate["passed"],
-            "mean_pass_rate": gate["mean_pass_rate"],
-            "cases": len(gate["cases"]),
-        },
-        "baseline": {
-            "model": base["model"],
-            "k": base["k"],
-            "mean_pass_rate": base["mean_pass_rate"],
-            "stable": len(base["stable"]),
-            "unstable": sorted(base["unstable"]),
-        },
-        "links": {
-            "repo": "https://github.com/gcode33/canada-data-agent",
-            "staged_gate_failure": "https://github.com/gcode33/canada-data-agent/pull/24",
-        },
-    }
+        "held_out": {"passed": passed, "total": total, "percent": pct, "wilson": [lo, hi],
+                     "release": "v1.0.0", "model": held_out[-1]["model"]},
+        "gate": {"model": gate["model"], "k": gate["k"], "passed": gate["passed"],
+                 "mean_pass_rate": gate["mean_pass_rate"], "cases": len(gate["cases"])},
+        # A flip is a stable case passing at most this many of K runs (gate.py: <= FLIP_TO + 1e-9).
+        "rules": {"k": K, "study_k": STUDY_K, "flip_max_passes": int(FLIP_TO * K + 1e-9),
+                  "max_mean_drop": MAX_MEAN_DROP, "max_usd": MAX_USD},
+        "baseline": {"model": base["model"], "k": base["k"],
+                     "mean_pass_rate": base["mean_pass_rate"], "stable": len(base["stable"]),
+                     "unstable": sorted(base["unstable"])},
+        "study": {"model": study["model"], "k": study["k"],
+                  "mean_pass_rate": study["mean_pass_rate"]},
+        "links": {"repo": REPO_URL,
+                  "staged_gate_failure": f"{REPO_URL}/pull/24",
+                  "headline": f"{REPO_URL}/blob/main/docs/FINDINGS.md#the-headline"},
+    }  # fmt: skip
 
 
 def dump(data: Any) -> str:
-    return json.dumps(data, sort_keys=True, ensure_ascii=False, separators=(",", ":")) + "\n"
+    text = json.dumps(
+        data, sort_keys=True, ensure_ascii=False, separators=(",", ":"), allow_nan=False
+    )
+    return text + "\n"
 
 
 def build(
     out: Path, allow: Path = ALLOWLIST, recorded: Path = RECORDED, grades: Path = GRADES
 ) -> list[Path]:
-    runs, commits = allowlist(allow)
+    runs, commits, pinned = allowlist(allow)
     if not grades.exists():
         raise DemoError(f"no pinned grader verdicts at {grades.name}")
     verdicts = json.loads(grades.read_text())
-    splits = {c["id"]: c["split"] for c in load(GOLDEN)}
-    (out / "replays").mkdir(parents=True, exist_ok=True)
+    golden = {c["id"]: c for c in load(GOLDEN)}
+    shutil.rmtree(out / "replays", ignore_errors=True)  # never publish a stale replay
+    (out / "replays").mkdir(parents=True)
     written, index = [], []
     for case, category in runs.items():
-        if splits.get(case) != "dev":  # before anything else: never even open a test recording
-            raise DemoError(f"{case}: not on the dev split ({splits.get(case)!r}); dev only")
+        split = golden.get(case, {}).get("split")
+        if split != "dev":  # before anything else: never even open a test recording
+            raise DemoError(f"{case}: not on the dev split ({split!r}); dev only")
         path = recorded / f"{case}.json"
         if not path.exists():
             raise DemoError(f"{case}: allow-listed but not recorded")
-        t = json.loads(path.read_text(encoding="utf-8"))
-        check(case, category, t, verdicts.get(case), splits.get(case))
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != pinned.get(case):
+            raise DemoError(f"{case}: the transcript isn't the one pinned in the allow-list")
+        t = json.loads(raw)
+        check(case, category, t, verdicts.get(case), golden[case])
         stream = replay(case, category, t, commits)
         target = out / "replays" / f"{case}.json"
         target.write_text(dump([e.model_dump(mode="json") for e in stream]), encoding="utf-8")
         written.append(target)
-        index.append({"case": case, "category": category, "question": t["question"]})
+        index.append({"case": case, "category": category, "question": display_text(t["question"])})
     for name, data in (("index.json", index), ("tested.json", tested())):
         (out / name).write_text(dump(data), encoding="utf-8")
         written.append(out / name)
+    shutil.copyfile(REPO / "docs" / "chart.svg", out / "chart.svg")  # the README's own chart
+    written.append(out / "chart.svg")
     return written

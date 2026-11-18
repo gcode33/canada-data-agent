@@ -1,12 +1,13 @@
 import type { Answer, Series } from "../events";
 import { hrefFor } from "../reducer";
-import { CHANGE_NOTE } from "../text";
+import { CHANGE_NOTE, NOTHING_CHECKED_NOTE } from "../text";
 import { Chart } from "./Chart";
 
 const LABELS = { level: "Level", change_abs: "Change", change_pct: "Change (%)", ratio: "Ratio" };
 
 export function AnswerCard({ answer, series }: { answer: Answer; series: Series[] }) {
   const hasChange = answer.answer_values.some((v) => v.label !== "level");
+  const hasLevel = answer.answer_values.some((v) => v.label === "level");
   return (
     <section className="card answer" aria-labelledby="answer-heading">
       <h2 id="answer-heading" tabIndex={-1}>
@@ -38,7 +39,9 @@ export function AnswerCard({ answer, series }: { answer: Answer; series: Series[
           </tbody>
         </table>
       ) : null}
-      {hasChange ? <p className="muted small">{CHANGE_NOTE}</p> : null}
+      {hasChange ? (
+        <p className="muted small check-note">{hasLevel ? CHANGE_NOTE : NOTHING_CHECKED_NOTE}</p>
+      ) : null}
       {series.map((s, i) => (
         <Chart key={`${s.step_id}-${s.vector_id}`} series={s} index={i} />
       ))}

@@ -207,7 +207,8 @@ Everything else proceeds.
   - P5: the cancel watcher, tested by `test_cancel_kills_process_group` with a silent stub that has a child process;
   - P8: `migrations/` added to `INPUTS`, `config/` moved to `JUDGING`, and one `claude_version` required per receipt; CI's "flag changes to eval inputs" step covers both paths;
   - P9: `--` before the question, plus the `question="--version"` test;
-  - P10: every `AskError` coded, with an AST test.
+  - P10: every `AskError` coded, with an AST test;
+  - **P11 (added by the U1 security review):** `links.normalise` drops every format character (Unicode category Cf: soft hyphens, zero-width and bidi controls) and default-ignorable code points, maps look-alike dots (`ꓸ ⸱ ・ ･ ۔ । ᐧ`) to ".", and reads `{dot}` and `%2e` as dots. Today `evil\u00ad.com` or `evilꓸcom` passes `foreign_links` and the graders. U1 guards the public page in `web/` (`display_text`); this closes it in the agent and the graders, with each payload as a test.
 - **Checks before any recording:**
   - `make bench REF=main` shows improvements whose intervals exclude 0 for the P1 and P2 measurements;
   - all 418 existing tests, plus `canada-grade --check` for dev and test, plus the fresh-clone offline replay, still pass;

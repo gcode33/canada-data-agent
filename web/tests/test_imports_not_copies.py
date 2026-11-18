@@ -6,23 +6,18 @@ by its syntax tree, so keyword arguments don't count; JS/TS by pattern), any Sta
 
 import ast
 import re
+import unicodedata
 from pathlib import Path
 
 import pytest
 
 WEB = Path(__file__).resolve().parents[1]
 # `public/` holds build-demo's generated output (gitignored), which quotes StatCan links on purpose.
-SKIP = {
-    "tests",
-    ".venv",
-    "node_modules",
-    "dist",
-    "schema",
-    "public",
-    ".pytest_cache",
-    "__pycache__",
-}
-SUFFIXES = {".py", ".ts", ".tsx", ".js", ".mjs", ".cjs", ".toml", ".json", ".html"}
+# `e2e/` and `tests/` are test code that exercises sinks on purpose; neither ships to the site.
+SKIP = {"tests", "e2e", ".venv", "node_modules", "dist", "schema", "public", ".pytest_cache",
+        "__pycache__", "test-results"}  # fmt: skip
+SUFFIXES = {".py", ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", ".cts", ".toml", ".json",
+            ".html"}  # fmt: skip
 NAMES = {
     "run_events", "check_answer", "check_grounded", "foreign_links", "untrusted_text",
     "series_values", "contains_canary", "table_url", "ErrorCode", "CITABLE_URL",
@@ -39,8 +34,17 @@ JS_DEFINES = re.compile(
 # Raw-HTML sinks and code-from-strings: banned in the front end (this replaces the ESLint rules
 # PLAN U1.2 named; typescript-eslint doesn't support TypeScript 7).
 SINKS = re.compile(
-    r"dangerouslySetInnerHTML|\.(inner|outer)HTML\b|insertAdjacentHTML|document\.write"
-    r"|\beval\s*\(|\bnew\s+Function\b|\bsetTimeout\s*\(\s*[\"'`]"
+    r"dangerouslySetInnerHTML|(inner|outer)HTML\b|insertAdjacentHTML|document\.write"
+    r"|setHTMLUnsafe|createContextualFragment|\bsrcDoc\b|parseFromString"
+    r"|\beval\s*(\?\.\s*)?\(|\[\s*[\"'`]eval"
+    r"|\bFunction\s*\(|\bset(Timeout|Interval)\s*\(\s*[\"'`]|\blocation\.(assign|replace)\s*\("
+    r"|\.href\s*=(?!=)"
+)
+# Every link the app renders comes from one of these: a server-marked `linkable` URL (hrefFor),
+# a series' server-built table_url, the repo's own commit URL, or tested.json's links.
+HREF = re.compile(r"\bhref=\{(`[^`]*`|[^}]*)\}")
+ALLOWED_HREFS = re.compile(
+    r"^(href|series\.table_url|data\.links\.\w+|`\$\{REPO_URL\}/commit/\$\{prov\.commit\}`)$"
 )
 
 
@@ -70,6 +74,8 @@ def violations(text: str, python: bool = True) -> list[str]:
         except SyntaxError:
             pass
     hits += [m.group(0) for m in SINKS.finditer(text)]
+    hits += [f"href={{{m.group(1)}}}" for m in HREF.finditer(text)
+             if not ALLOWED_HREFS.match(m.group(1).strip())]  # fmt: skip
     return hits + [m.group(0) for m in JS_DEFINES.finditer(text)]
 
 
@@ -99,6 +105,18 @@ def sources() -> list[Path]:
         ("node.insertAdjacentHTML('beforeend', x)", False),
         ("const f = new Function('return 1');", False),
         ("eval(code)", False),
+        ('el["innerHTML"] = x', False),
+        ("Reflect.set(el, 'innerHTML', x)", False),
+        ("el.setHTMLUnsafe(x)", False),
+        ("range.createContextualFragment(x)", False),
+        ("<iframe srcDoc={x} />", False),
+        ("new DOMParser().parseFromString(x, 'text/html')", False),
+        ("Function('return 1')()", False),
+        ("globalThis.eval?.(x)", False),
+        ("setInterval('tick()', 10)", False),
+        ("location.href = l.url", False),
+        ("window.location.assign(l.url)", False),
+        ("<a href={l.url}>x</a>", False),
     ],
 )
 def test_the_scan_catches_known_copies(copy, python):
@@ -115,11 +133,29 @@ def test_the_scan_catches_known_copies(copy, python):
         ("# suppressed by StatCan, never zero", True),
         ("class Series(BaseModel):\n    table_url: str", True),
         ("const found = series.points.length;", False),
+        ("// the eval gate runs locally", False),
+        ("const url = new URL(window.location.href);", False),
         ("window.setTimeout(() => setState(next), at);", False),
+        ("<a href={href} rel='noopener'>x</a>", False),
+        ("<a href={series.table_url}>x</a>", False),
+        ("<a href={data.links.repo}>x</a>", False),
     ],
 )
 def test_the_scan_allows_imports_calls_and_keyword_arguments(fine, python):
     assert violations(fine, python) == []
+
+
+def test_no_source_hides_characters():
+    """No raw invisible or bidi-control character in any web source ("Trojan Source"): write
+    them as escapes (a raw one slipped into a test during U1 and was caught by this check)."""
+    hits = [
+        f"{p.relative_to(WEB)}:{n}: U+{ord(c):04X}"
+        for p in sources() + sorted((WEB / "tests").glob("*.py"))
+        for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
+        for c in line
+        if unicodedata.category(c) == "Cf"
+    ]
+    assert hits == []
 
 
 def test_web_sources_exist():

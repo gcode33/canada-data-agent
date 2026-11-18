@@ -4,7 +4,7 @@ import { delays } from "./pace";
 import { apply, EMPTY, replayAll, type RunState } from "./reducer";
 import { RunView } from "./components/RunView";
 import { Tested } from "./components/Tested";
-import { CATEGORY_NAMES, LIBRARY_HEADER } from "./text";
+import { CATEGORY_NAMES, libraryHeader } from "./text";
 
 const BASE = import.meta.env.BASE_URL;
 const FIRST = "multi-04"; // multi-step, with two 13-point series: steps and a chart at once
@@ -33,7 +33,11 @@ export function App() {
   useEffect(() => {
     fetch(`${BASE}index.json`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-      .then((data: IndexEntry[]) => setIndex(data))
+      .then((data: IndexEntry[]) => {
+        setIndex(data);
+        // An unknown ?case= falls back to the first-visit replay instead of an empty page.
+        setSelected((s) => (data.some((e) => e.case === s) ? s : FIRST));
+      })
       .catch(() => setError("The replay list couldn't be loaded."));
   }, []);
 
@@ -49,6 +53,7 @@ export function App() {
     if (tab !== "replays" || !index.some((e) => e.case === selected)) return;
     stop();
     setState(EMPTY);
+    setError(null);
     let cancelled = false;
     fetch(`${BASE}replays/${encodeURIComponent(selected)}.json`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
@@ -67,7 +72,9 @@ export function App() {
           if (e) timers.current.push(window.setTimeout(() => setState((s) => apply(s, e)), at));
         });
       })
-      .catch(() => setError("That replay couldn't be loaded."));
+      .catch(() => {
+        if (!cancelled) setError("That replay couldn't be loaded. Pick another run.");
+      });
     return () => {
       cancelled = true;
       stop();
@@ -79,6 +86,9 @@ export function App() {
     setState(replayAll(events.current));
   }, []);
 
+  const counts = Object.fromEntries(
+    Object.keys(CATEGORY_NAMES).map((c) => [c, index.filter((e) => e.category === c).length]),
+  );
   const groups = (Object.keys(CATEGORY_NAMES) as (keyof typeof CATEGORY_NAMES)[]).map((cat) => ({
     cat,
     entries: index.filter((e) => e.category === cat),
@@ -110,7 +120,7 @@ export function App() {
       ) : (
         <>
           <nav className="library" aria-label="Recorded runs">
-            <p className="small muted">{LIBRARY_HEADER}</p>
+            {index.length ? <p className="small muted library-header">{libraryHeader(counts)}</p> : null}
             {groups.map(({ cat, entries }) =>
               entries.length ? (
                 <section key={cat}>

@@ -59,3 +59,16 @@ describe("pacing", () => {
     expect(d.slice(1).every((x) => x >= MIN_MS && x <= MAX_MS)).toBe(true);
   });
 });
+
+describe("the reducer", () => {
+  it("closes a step that never finished when the run ends", () => {
+    const state = replayAll([
+      { type: "run_started", mode: "replay", category: "rejected", question: "q", model: "m",
+        prompt_version: "p", provenance: { source: "live" }, attack: null },
+      { type: "step_started", step_id: "s1", tool: "get_series", arguments_text: "{}" },
+      { type: "run_failed", code: "BUDGET_EXCEEDED", message: "over budget" },
+    ] as UiEvent[]);
+    expect(state.steps[0]?.done).toBe(true);
+    expect(state.steps[0]?.summary).toBe("stopped");
+  });
+});

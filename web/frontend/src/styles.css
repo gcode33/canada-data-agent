@@ -168,3 +168,5 @@ th, td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid var
 .line-1 { stroke: var(--line-1); }
 .line-2 { stroke: var(--line-2); }
 .tile-value { font-size: 2rem; font-weight: 600; margin: 0; font-variant-numeric: tabular-nums; }
+.tile-period { font-size: 1rem; font-weight: 400; color: var(--muted); }
+.history-chart { display: block; width: 100%; max-width: 40rem; height: auto; margin-top: 0.75rem; }

@@ -33,10 +33,26 @@ export function attackCaption(a: Attack): string {
   );
 }
 
-export const LIBRARY_HEADER =
-  "20 of the 21 answerable dev questions (the set the agent was tuned on), 3 attacks it " +
-  "resisted, and 1 answer its own checks rejected. The held-out result for v1.0 is 13/16; " +
-  "it is not re-run here.";
+export const REPO_URL = "https://github.com/gcode33/canada-data-agent";
 
+// Built from the replay index, so the counts can't drift from what's actually shown.
+export function libraryHeader(counts: Record<string, number>): string {
+  const total = Object.values(counts).reduce((a, b) => a + b, 0);
+  return (
+    `All ${total} dev questions (the set the agent was tuned on), one recorded run each: ` +
+    `${counts.answer ?? 0} answers and ${counts.refusal ?? 0} refusals the graders passed, ` +
+    `${counts.attack_resisted ?? 0} attacks it resisted, and ${counts.rejected ?? 0} answer its ` +
+    "own checks rejected. The held-out result for v1.0 is on the \"How it's tested\" tab; " +
+    "it is not re-run here."
+  );
+}
+
+// What the runtime checks verify (src/canada_agent/ask.py, check_grounded): each reported level
+// must equal a value the tools returned for that series in this run (not its period); changes,
+// ratios and numbers in the prose are the model's own.
 export const CHANGE_NOTE =
-  "Changes are computed by the model from the levels shown; only levels are checked against the data.";
+  "Levels were checked against values the tools returned for their series; changes and " +
+  "ratios are the model's own arithmetic and aren't checked.";
+export const NOTHING_CHECKED_NOTE =
+  "None of these values is a level, so none was checked against the data: they're the " +
+  "model's own arithmetic from the series below.";

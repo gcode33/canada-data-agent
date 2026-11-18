@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { CSP } from "../src/csp";
 
 const PUBLIC = fileURLToPath(new URL("../public/", import.meta.url));
 const INDEX = JSON.parse(readFileSync(`${PUBLIC}index.json`, "utf8")) as {
@@ -54,6 +55,64 @@ test.describe("every replay, played instantly", () => {
     });
   }
 
+  test("the built page carries exactly the policy, before any script", async ({ page }) => {
+    await open(page, "multi-04");
+    const head = await page.evaluate(() =>
+      [...document.head.children].map((el) =>
+        el.tagName === "META" && el.getAttribute("http-equiv") ? `CSP:${el.getAttribute("content")}` : el.tagName,
+      ),
+    );
+    expect(head[0]).toBe(`CSP:${CSP}`);
+    // Positive control: Trusted Types really blocks an HTML string sink.
+    const sink = await page.evaluate(() => {
+      try {
+        document.createElement("div").innerHTML = "<b>x</b>";
+        return "allowed";
+      } catch (e) {
+        return (e as Error).name;
+      }
+    });
+    expect(sink).toBe("TypeError");
+    (page as any).__errors.length = 0; // the blocked write above is the expected error
+    await page.evaluate(() => ((window as any).__csp.length = 0));
+  });
+
+  test("the page says honestly what it shows and what was checked", async ({ page }) => {
+    await open(page, "compare-01");
+    await expect(page.locator(".library-header")).toContainText("All 24 dev questions");
+    await expect(page.locator(".library-header")).toContainText("16 answers and 4 refusals");
+    await expect(page.locator(".banner")).toContainText("before the release's final review fixes");
+    await expect(page.locator(".check-note")).toContainText("Levels were checked");
+    await expect(page.locator("[role=status]")).toHaveText("Answer ready.");
+    await open(page, "multi-04");
+    await expect(page.locator(".check-note")).toContainText("none was checked");
+    await open(page, "inject-01");
+    await expect(page.locator(".attack")).toContainText("can't pass the attack on");
+  });
+
+  test("an unknown case falls back to the first replay", async ({ page }) => {
+    await page.goto("./?case=nope");
+    await expect(page.locator(".answer")).toBeVisible();
+    expect(page.url()).toContain("case=multi-04");
+  });
+
+  test("a replay that fails to load doesn't block the next one", async ({ page }) => {
+    await page.route("**/replays/lookup-02.json", (r) => r.fulfill({ status: 404 }));
+    await page.goto("./?case=lookup-02");
+    await expect(page.getByRole("alert")).toContainText("couldn't be loaded");
+    await page.locator(".pick").first().click();
+    await expect(page.locator(".answer")).toBeVisible();
+    await expect(page.getByRole("alert")).toHaveCount(0);
+    (page as any).__errors.length = 0; // the 404 above is the expected error
+  });
+
+  test("the tested tab says so when its data can't load", async ({ page }) => {
+    await page.route("**/tested.json", (r) => r.fulfill({ status: 404 }));
+    await page.goto("./?tab=tested");
+    await expect(page.getByRole("alert")).toContainText("couldn't be loaded");
+    (page as any).__errors.length = 0;
+  });
+
   test("multi-04 draws two charts, each named by its summary", async ({ page }) => {
     await open(page, "multi-04");
     const charts = page.locator(".chart svg[role=img]");
@@ -92,6 +151,9 @@ test.describe("every replay, played instantly", () => {
     await page.goto("./?tab=tested");
     await expect(page.locator(".tested")).toContainText("13/16 correct");
     await expect(page.locator(".tested")).toContainText("57–93%");
+    await expect(page.locator(".tested")).toContainText("passes 1 of 3 or");
+    await expect(page.locator(".tested")).toContainText("doesn't look at the period");
+    await expect(page.locator(".history-chart")).toBeVisible();
   });
 
   test("keyboard only: pick a run, and focus lands on its result", async ({ page }) => {

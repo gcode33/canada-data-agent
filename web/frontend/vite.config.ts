@@ -2,20 +2,7 @@ import react from "@vitejs/plugin-react";
 import type { Plugin } from "vite";
 import { defineConfig } from "vitest/config";
 
-// The policy from A8 §10/§11. Injected only into the built page: Vite's dev server needs an
-// inline script, and every CSP test runs against the build. `frame-ancestors` is left out
-// because browsers ignore it in a <meta> tag.
-export const CSP = [
-  "default-src 'none'",
-  "script-src 'self'",
-  "style-src 'self'",
-  "img-src 'self' data:",
-  "connect-src 'self'",
-  "base-uri 'none'",
-  "form-action 'self'",
-  "require-trusted-types-for 'script'",
-  "trusted-types 'none'",
-].join("; ");
+import { CSP } from "./src/csp";
 
 const csp = (): Plugin => ({
   name: "canada-csp",
