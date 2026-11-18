@@ -13,3 +13,5 @@ Each record states the context, the decision, and why the alternatives lost. A d
 | [0007](0007-deterministic-graders.md) | Deterministic graders | Rules tied to the golden series, period and scale; no LLM judge in v1.0 |
 | [0008](0008-gate-statistics.md) | The eval gate | Local dev × 3, baseline from a separate k=5 study, re-judged receipt in CI |
 | [0009](0009-agent-runs-on-the-claude-subscription.md) | Agent on the Claude subscription | `claude -p` with our MCP server as its only tools; no API billing, and no model in CI |
+| [0010](0010-web-ui-and-replay-only-demo.md) | Web UI, replay-only demo | One page in two modes: a static replay demo on Pages (no model calls) and a live mode on 127.0.0.1; `web/` imports every rule and sits outside the gate |
+| [0011](0011-stay-in-python.md) | Stay in Python | Waiting on Claude is ~92–95% of a question and our CPU is 1–4%; optimise in Python where `make bench` proves it, never rewrite |
